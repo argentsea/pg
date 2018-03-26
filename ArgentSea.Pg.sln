@@ -1,0 +1,31 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 15
+VisualStudioVersion = 15.0.27130.2027
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ArgentSea.Pg", "src\ArgentSea.Pg.csproj", "{F6C9C9BF-12DF-406A-929B-A4C0D6521C77}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ArgentSea.Pg.Test", "tests\ArgentSea.Pg.Test.csproj", "{2B1B60B6-40F6-4018-8012-B72918F9F535}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{F6C9C9BF-12DF-406A-929B-A4C0D6521C77}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F6C9C9BF-12DF-406A-929B-A4C0D6521C77}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F6C9C9BF-12DF-406A-929B-A4C0D6521C77}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F6C9C9BF-12DF-406A-929B-A4C0D6521C77}.Release|Any CPU.Build.0 = Release|Any CPU
+		{2B1B60B6-40F6-4018-8012-B72918F9F535}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2B1B60B6-40F6-4018-8012-B72918F9F535}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2B1B60B6-40F6-4018-8012-B72918F9F535}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2B1B60B6-40F6-4018-8012-B72918F9F535}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {2AC4A712-B9D4-4274-BFED-087ACED7E191}
+	EndGlobalSection
+EndGlobal
