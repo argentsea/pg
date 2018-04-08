@@ -15,4 +15,9 @@
     <PackageReference Include="xunit.runner.visualstudio" Version="2.3.1" />
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\ArgentSea.Shared\src\ArgentSea.csproj" />
+    <ProjectReference Include="..\src\ArgentSea.Pg.csproj" />
+  </ItemGroup>
+
 </Project>

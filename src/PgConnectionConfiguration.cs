@@ -8,7 +8,7 @@ using System.Collections;
 
 namespace ArgentSea.Pg
 {
-    public class PgConnectionConfiguration<TShard> : IConnectionConfiguration, IEnumerable<KeyValuePair<string, object>>
+    public class PgConnectionConfiguration : IConnectionConfiguration
     {
 
         private readonly NpgsqlConnectionStringBuilder csb = new NpgsqlConnectionStringBuilder();
@@ -27,14 +27,12 @@ namespace ArgentSea.Pg
             }
         }
 
+		public string ConnectionDescription
+		{
+			get => $"database {this.csb.Database} on host {this.csb.Host}, port {csb.Port}";
+		}
 
-        //public override DbCommand GetNewCommand(string procedureName, DbConnection connection)
-        //    => new NpgsqlCommand(procedureName, (NpgsqlConnection)connection);
-
-        //public override DbConnection GetNewConnection()
-        //    => new  NpgsqlConnection(this.GetConnectionString());
-
-        public string GetConnectionString()
+		public string GetConnectionString()
             => this.csb.ToString();
 
         /// <summary>
@@ -150,14 +148,6 @@ namespace ArgentSea.Pg
             set => this.csb.InternalCommandTimeout = value;
         }
         /// <summary>
-        /// Gets or sets the value associated with the specified key.
-        /// </summary>
-        public object this[string key] 
-        {
-            get => this.csb[key];
-            set => this.csb[key] = value;
-        }
-        /// <summary>
         /// The number of seconds of connection inactivity before Npgsql sends a keepalive query. Set to 0 (the default) to disable.
         /// </summary>
         public int KeepAlive
@@ -172,13 +162,6 @@ namespace ArgentSea.Pg
         {
             get => this.csb.KerberosServiceName;
             set => this.csb.KerberosServiceName = value;
-        }
-        /// <summary>
-        /// Gets an ICollection{string} containing the keys of this configuration.
-        /// </summary>
-        public ICollection<string> Keys
-        {
-            get => this.Keys;
         }
         /// <summary>
         /// The maximum number SQL statements that can be automatically prepared at any given point. Beyond this number the least-recently-used statement will be recycled. Zero (the default) disables automatic preparation.
@@ -335,13 +318,6 @@ namespace ArgentSea.Pg
         }
 
         /// <summary>
-        /// Gets an ICollection{string} containing the values in this configuration.
-        /// </summary>
-        public ICollection<object> Values
-        {
-            get => this.csb.Values;
-        }
-        /// <summary>
         /// Determines the size of the internal buffer Npgsql uses when writing. Increasing may improve performance if transferring large values to the database.
         /// </summary>
         public int WriteBufferSize
@@ -349,12 +325,6 @@ namespace ArgentSea.Pg
             get => this.csb.WriteBufferSize;
             set => this.csb.WriteBufferSize = value;
         }
-
-        public string ConnectionDescription
-        {
-            get => $"database {this.Database} on host {this.Host}";
-        }
-
 
         /// <summary>
         /// Adds an item to the configuration
@@ -379,15 +349,7 @@ namespace ArgentSea.Pg
             return this.csb.ContainsKey(key);
         }
 
-        public IEnumerator<KeyValuePair<string, object>> GetEnumerator()
-        {
-            return this.csb.GetEnumerator();
-        }
 
-        IEnumerator IEnumerable.GetEnumerator()
-        {
-            return this.csb.GetEnumerator();
-        }
         /// <summary>
         /// Removes the entry from the configuration instance.
         /// </summary>
@@ -408,91 +370,5 @@ namespace ArgentSea.Pg
         {
             return this.csb.TryGetValue(key, out value);
         }
-
-        //public string Server
-        //{
-        //    get { return csb.Host; }
-        //    set { csb.Host = value; }
-        //}
-
-        //public string Database
-        //{
-        //    get { return csb.Database; }
-        //    set { csb.Database = value; }
-        //}
-        //public int Port
-        //{
-        //    get { return csb.Port; }
-        //    set { csb.Port = value; }
-        //}
-        //public int CommandTimeout
-        //{
-        //    get { return csb.CommandTimeout; }
-        //    set { csb.CommandTimeout = value; }
-        //}
-        //public int ConnectionTimeout
-        //{
-        //    get { return csb.Timeout; }
-        //    set { csb.Timeout = value; }
-        //}
-        //public ServerCompatibilityMode Compatibility
-        //{
-        //    get { return csb.ServerCompatibilityMode; }
-        //    set { csb.ServerCompatibilityMode = value; }
-        //}
-        //public int MinPoolSize
-        //{
-        //    get { return csb.MinPoolSize; }
-        //    set { csb.MinPoolSize = value; }
-        //}
-        //public int MaxPoolSize
-        //{
-        //    get { return csb.MaxPoolSize; }
-        //    set { csb.MaxPoolSize = value; }
-        //}
-        //public string GetConnectionString(SecurityConfiguration security)
-        //{
-        //    if (!(security is null))
-        //    {
-        //        csb.Username = security.UserName;
-        //        csb.Password = security.Password;
-        //        csb.SslMode = SslMode.Require;
-        //    }
-        //    else
-        //    {
-        //        csb.IntegratedSecurity = true;
-        //    }
-        //    return csb.ConnectionString;
-        //}
-        //public override string GetConnectionString()
-        //{
-        //    return GetConnectionString(null);
-        //}
-
-        //public DbConnection GetConnection(SecurityConfiguration security)
-        //{
-        //    return new Npgsql.NpgsqlConnection(this.GetConnectionString(security));
-        //}
-        ///// <summary>
-        /////     Determines whether the specified exception represents a transient failure that can be compensated by a retry.
-        ///// </summary>
-        ///// <param name="exception">The exception object to be verified.</param>
-        ///// <returns>
-        /////     <c>true</c> if the specified exception is considered as transient, otherwise <c>false</c>.
-        ///// </returns>
-        //protected bool ShouldRetryOn(Exception ex)
-        //{
-        //    var sqlException = ex as NpgsqlException;
-        //    if (sqlException != null)
-        //    {
-        //        return false;
-        //    }
-
-        //    if (ex is TimeoutException)
-        //    {
-        //        return true;
-        //    }
-        //    return false;
-        //}
     }
 }
