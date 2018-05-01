@@ -7,9 +7,9 @@ using System.Threading;
 
 namespace ArgentSea.Pg
 {
-    public class DataProviderServices: IDataProviderServices
-    {
-        public bool GetIsErrorTransient(Exception exception)
+	public class DataProviderServiceFactory : IDataProviderServiceFactory
+	{
+		public bool GetIsErrorTransient(Exception exception)
         {
             if (exception is NpgsqlException)
             {
