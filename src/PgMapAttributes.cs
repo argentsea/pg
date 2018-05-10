@@ -16,6 +16,9 @@ namespace ArgentSea.Pg
 		public PgParameterMapAttribute(string parameterName, NpgsqlDbType pgType) : base(parameterName, (int)pgType)
 		{
 		}
+		public PgParameterMapAttribute(string parameterName, NpgsqlDbType pgType, bool isRequired) : base(parameterName, (int)pgType, isRequired)
+		{
+		}
 	}
 
 	#region String parameters
@@ -27,6 +30,10 @@ namespace ArgentSea.Pg
 		/// <param name="parameterName">The name of the parameter or column that contains the value. The system will automatically add or remove the prefix ':' as needed.</param>
 		/// <param name="length">The maximum length of the string.</param>
 		public MapToPgVarCharAttribute(string parameterName, int length) : base(parameterName, NpgsqlDbType.Varchar)
+		{
+			this.Length = length;
+		}
+		public MapToPgVarCharAttribute(string parameterName, int length, bool isRequired) : base(parameterName, NpgsqlDbType.Varchar, isRequired)
 		{
 			this.Length = length;
 		}
@@ -59,6 +66,10 @@ namespace ArgentSea.Pg
 		{
 			this.Length = length;
 		}
+		public MapToPgCharAttribute(string parameterName, int length, bool isRequired) : base(parameterName, NpgsqlDbType.Char, isRequired)
+		{
+			this.Length = length;
+		}
 		public int Length { get; private set; }
 
 		public override bool IsValidType(Type candidateType)
@@ -85,6 +96,10 @@ namespace ArgentSea.Pg
 		/// </summary>
 		/// <param name="parameterName">The name of the parameter or column that contains the value. The system will automatically add or remove the prefix ':' as needed.</param>
 		public MapToPgTextAttribute(string parameterName) : base(parameterName, NpgsqlDbType.Text)
+		{
+			//
+		}
+		public MapToPgTextAttribute(string parameterName, bool isRequired) : base(parameterName, NpgsqlDbType.Text, isRequired)
 		{
 			//
 		}
@@ -117,6 +132,10 @@ namespace ArgentSea.Pg
 		{
 			//
 		}
+		public MapToPgBigintAttribute(string parameterName, bool isRequired) : base(parameterName, NpgsqlDbType.Bigint, isRequired)
+		{
+			//
+		}
 
 		public override bool IsValidType(Type candidateType)
 			=> candidateType == typeof(long)
@@ -142,6 +161,10 @@ namespace ArgentSea.Pg
 		/// </summary>
 		/// <param name="parameterName">The name of the parameter or column that contains the value. The system will automatically add or remove the prefix '@' as needed.</param>
 		public MapToPgIntegerAttribute(string parameterName) : base(parameterName, NpgsqlDbType.Integer)
+		{
+			//
+		}
+		public MapToPgIntegerAttribute(string parameterName, bool isRequired) : base(parameterName, NpgsqlDbType.Integer, isRequired)
 		{
 			//
 		}
@@ -173,6 +196,10 @@ namespace ArgentSea.Pg
 		{
 			//
 		}
+		public MapToPgSmallintAttribute(string parameterName, bool isRequired) : base(parameterName, NpgsqlDbType.Smallint, isRequired)
+		{
+			//
+		}
 
 		public override bool IsValidType(Type candidateType)
 			=> candidateType == typeof(short)
@@ -198,6 +225,10 @@ namespace ArgentSea.Pg
 		/// </summary>
 		/// <param name="parameterName">The name of the parameter or column that contains the value. The system will automatically add or remove the prefix '@' as needed.</param>
 		public MapToPgInternalCharAttribute(string parameterName) : base(parameterName, NpgsqlDbType.InternalChar)
+		{
+			//
+		}
+		public MapToPgInternalCharAttribute(string parameterName, bool isRequired) : base(parameterName, NpgsqlDbType.InternalChar, isRequired)
 		{
 			//
 		}
@@ -229,6 +260,10 @@ namespace ArgentSea.Pg
 		{
 			//
 		}
+		public MapToPgBooleanAttribute(string parameterName, bool isRequired) : base(parameterName, NpgsqlDbType.Boolean, isRequired)
+		{
+			//
+		}
 
 		public override bool IsValidType(Type candidateType)
 			=> candidateType == typeof(bool) || (candidateType.IsGenericType && candidateType.GetGenericTypeDefinition() == typeof(Nullable<>) && Nullable.GetUnderlyingType(candidateType) == typeof(bool));
@@ -249,12 +284,6 @@ namespace ArgentSea.Pg
 	}
 	public class MapToPgNumericAttribute : PgParameterMapAttribute
 	{
-		// <summary>
-		// Map this property to the specified decimal database column.
-		// </summary>
-		// <param name="parameterName">The name of the parameter or column that contains the value. The system will automatically add or remove the prefix '@' as needed.</param>
-		// <param name="parameterName">The name of the parameter or column that contains the value. The system will automatically add or remove the prefix '@' as needed.</param>
-
 		/// <summary>
 		/// Map this property to the specified decimal database column.
 		/// </summary>
@@ -262,6 +291,11 @@ namespace ArgentSea.Pg
 		/// <param name="precision">The maximum number of digits in the database value.</param>
 		/// <param name="scale">The number of digits to the right of the decimal point.</param>
 		public MapToPgNumericAttribute(string parameterName, byte precision, byte scale) : base(parameterName, NpgsqlDbType.Numeric)
+		{
+			Precision = precision;
+			Scale = scale;
+		}
+		public MapToPgNumericAttribute(string parameterName, byte precision, byte scale, bool isRequired) : base(parameterName, NpgsqlDbType.Numeric, isRequired)
 		{
 			Precision = precision;
 			Scale = scale;
@@ -296,6 +330,10 @@ namespace ArgentSea.Pg
 		{
 			//
 		}
+		public MapToPgMoneyAttribute(string parameterName, bool isRequired) : base(parameterName, NpgsqlDbType.Money, isRequired)
+		{
+			//
+		}
 
 		public override bool IsValidType(Type candidateType)
 			=> candidateType == typeof(decimal) || (candidateType.IsGenericType && candidateType.GetGenericTypeDefinition() == typeof(Nullable<>) && Nullable.GetUnderlyingType(candidateType) == typeof(decimal));
@@ -319,6 +357,10 @@ namespace ArgentSea.Pg
 		/// </summary>
 		/// <param name="parameterName">The name of the parameter or column that contains the value. The system will automatically add or remove the prefix '@' as needed.</param>
 		public MapToPgDoubleAttribute(string parameterName) : base(parameterName, NpgsqlDbType.Double)
+		{
+			//
+		}
+		public MapToPgDoubleAttribute(string parameterName, bool isRequired) : base(parameterName, NpgsqlDbType.Double, isRequired)
 		{
 			//
 		}
@@ -346,6 +388,10 @@ namespace ArgentSea.Pg
 		/// </summary>
 		/// <param name="parameterName">The name of the parameter or column that contains the value. The system will automatically add or remove the prefix '@' as needed.</param>
 		public MapToPgRealAttribute(string parameterName) : base(parameterName, NpgsqlDbType.Real)
+		{
+			//
+		}
+		public MapToPgRealAttribute(string parameterName, bool isRequired) : base(parameterName, NpgsqlDbType.Real, isRequired)
 		{
 			//
 		}
@@ -377,6 +423,10 @@ namespace ArgentSea.Pg
 		{
 			//
 		}
+		public MapToPgTimestampAttribute(string parameterName, bool isRequired) : base(parameterName, NpgsqlDbType.Timestamp, isRequired)
+		{
+			//
+		}
 
 		public override bool IsValidType(Type candidateType)
 			=> candidateType == typeof(DateTime) 
@@ -396,13 +446,17 @@ namespace ArgentSea.Pg
 		protected override void AppendReaderExpressions(MemberExpression expProperty, IList<MethodCallExpression> columnLookupExpressions, IList<Expression> expressions, ParameterExpression prmSqlRdr, ParameterExpression expOrdinals, ParameterExpression expOrdinal, ref int propIndex, PropertyInfo propertyInfo, ParameterExpression expLogger, ILogger logger)
 			=> ExpressionHelpers.ReaderSimpleValueExpressions(this.ParameterName, expProperty, columnLookupExpressions, expressions, prmSqlRdr, expOrdinals, expOrdinal, ref propIndex, propertyInfo.PropertyType, expLogger, logger);
 	}
-	public class MapToPgTimestampTZAttribute : PgParameterMapAttribute
+	public class MapToPgTimestampTzAttribute : PgParameterMapAttribute
 	{
 		/// <summary>
 		/// Map this property to the specified Timestamp database column (with Timezone).
 		/// </summary>
 		/// <param name="parameterName">The name of the parameter or column that contains the value. The system will automatically add or remove the prefix '@' as needed.</param>
-		public MapToPgTimestampTZAttribute(string parameterName) : base(parameterName, NpgsqlDbType.TimestampTZ)
+		public MapToPgTimestampTzAttribute(string parameterName) : base(parameterName, NpgsqlDbType.TimestampTz)
+		{
+			//
+		}
+		public MapToPgTimestampTzAttribute(string parameterName, bool isRequired) : base(parameterName, NpgsqlDbType.TimestampTz, isRequired)
 		{
 			//
 		}
@@ -412,10 +466,10 @@ namespace ArgentSea.Pg
 				|| (candidateType.IsGenericType && candidateType.GetGenericTypeDefinition() == typeof(Nullable<>) && Nullable.GetUnderlyingType(candidateType) == typeof(DateTimeOffset));
 
 		protected override void AppendInParameterExpressions(IList<Expression> expressions, ParameterExpression prms, ParameterExpression expIgnoreParameters, HashSet<string> parameterNames, MemberExpression expProperty, Type propertyType, ParameterExpression expLogger, ILogger logger)
-			=> ExpressionHelpers.InParameterSimpleBuilder(this.ParameterName, propertyType, prms, expIgnoreParameters, expProperty, expressions, typeof(PgParameterCollectionExtensions), nameof(PgParameterCollectionExtensions.AddPgTimestampTZInParameter), null, null, parameterNames, expLogger, logger);
+			=> ExpressionHelpers.InParameterSimpleBuilder(this.ParameterName, propertyType, prms, expIgnoreParameters, expProperty, expressions, typeof(PgParameterCollectionExtensions), nameof(PgParameterCollectionExtensions.AddPgTimestampTzInParameter), null, null, parameterNames, expLogger, logger);
 
 		protected override void AppendSetOutParameterExpressions(IList<Expression> expressions, ParameterExpression prms, ParameterExpression expIgnoreParameters, HashSet<string> parameterNames, Type propertyType, ParameterExpression expLogger, ILogger logger)
-			=> ExpressionHelpers.OutParameterBuilder(this.ParameterName, prms, expressions, typeof(PgParameterCollectionExtensions), nameof(PgParameterCollectionExtensions.AddPgTimestampTZOutParameter), null, null, parameterNames, expIgnoreParameters, logger);
+			=> ExpressionHelpers.OutParameterBuilder(this.ParameterName, prms, expressions, typeof(PgParameterCollectionExtensions), nameof(PgParameterCollectionExtensions.AddPgTimestampTzOutParameter), null, null, parameterNames, expIgnoreParameters, logger);
 
 		protected override void AppendReadOutParameterExpressions(Expression expProperty, IList<Expression> expressions, ParameterExpression expPrms, ParameterExpression expPrm, PropertyInfo propertyInfo, ParameterExpression expLogger, ILogger logger)
 			=> ExpressionHelpers.ReadOutParameterSimpleValueExpressions(this.ParameterName, typeof(DbParameterCollectionExtensions), nameof(DbParameterCollectionExtensions.GetDateTimeOffset), nameof(DbParameterCollectionExtensions.GetNullableDateTimeOffset), expProperty, expressions, expPrms, expPrm, propertyInfo, expLogger, logger);
@@ -430,6 +484,10 @@ namespace ArgentSea.Pg
 		/// </summary>
 		/// <param name="parameterName">The name of the parameter or column that contains the value. The system will automatically add or remove the prefix '@' as needed.</param>
 		public MapToPgDateAttribute(string parameterName) : base(parameterName, NpgsqlDbType.Date)
+		{
+			//
+		}
+		public MapToPgDateAttribute(string parameterName, bool isRequired) : base(parameterName, NpgsqlDbType.Date, isRequired)
 		{
 			//
 		}
@@ -460,6 +518,10 @@ namespace ArgentSea.Pg
 		{
 			//
 		}
+		public MapToPgTimeAttribute(string parameterName, bool isRequired) : base(parameterName, NpgsqlDbType.Time, isRequired)
+		{
+			//
+		}
 
 		public override bool IsValidType(Type candidateType)
 			=> candidateType == typeof(TimeSpan) || (candidateType.IsGenericType && candidateType.GetGenericTypeDefinition() == typeof(Nullable<>) && Nullable.GetUnderlyingType(candidateType) == typeof(TimeSpan));
@@ -486,6 +548,10 @@ namespace ArgentSea.Pg
 		{
 			//
 		}
+		public MapToPgIntervalAttribute(string parameterName, bool isRequired) : base(parameterName, NpgsqlDbType.Interval, isRequired)
+		{
+			//
+		}
 
 		public override bool IsValidType(Type candidateType)
 			=> candidateType == typeof(TimeSpan) 
@@ -503,13 +569,17 @@ namespace ArgentSea.Pg
 		protected override void AppendReaderExpressions(MemberExpression expProperty, IList<MethodCallExpression> columnLookupExpressions, IList<Expression> expressions, ParameterExpression prmSqlRdr, ParameterExpression expOrdinals, ParameterExpression expOrdinal, ref int propIndex, PropertyInfo propertyInfo, ParameterExpression expLogger, ILogger logger)
 			=> ExpressionHelpers.ReaderSimpleValueExpressions(this.ParameterName, expProperty, columnLookupExpressions, expressions, prmSqlRdr, expOrdinals, expOrdinal, ref propIndex, propertyInfo.PropertyType, expLogger, logger);
 	}
-	public class MapToPgTimeTZAttribute : PgParameterMapAttribute
+	public class MapToPgTimeTzAttribute : PgParameterMapAttribute
 	{
 		/// <summary>
 		/// Map this property to the specified Time database column (without Timezone).
 		/// </summary>
 		/// <param name="parameterName">The name of the parameter or column that contains the value. The system will automatically add or remove the prefix '@' as needed.</param>
-		public MapToPgTimeTZAttribute(string parameterName) : base(parameterName, NpgsqlDbType.TimeTZ)
+		public MapToPgTimeTzAttribute(string parameterName) : base(parameterName, NpgsqlDbType.TimeTz)
+		{
+			//
+		}
+		public MapToPgTimeTzAttribute(string parameterName, bool isRequired) : base(parameterName, NpgsqlDbType.TimeTz, isRequired)
 		{
 			//
 		}
@@ -521,10 +591,10 @@ namespace ArgentSea.Pg
 			|| (candidateType.IsGenericType && candidateType.GetGenericTypeDefinition() == typeof(Nullable<>) && Nullable.GetUnderlyingType(candidateType) == typeof(DateTimeOffset));
 
 		protected override void AppendInParameterExpressions(IList<Expression> expressions, ParameterExpression prms, ParameterExpression expIgnoreParameters, HashSet<string> parameterNames, MemberExpression expProperty, Type propertyType, ParameterExpression expLogger, ILogger logger)
-			=> ExpressionHelpers.InParameterSimpleBuilder(this.ParameterName, propertyType, prms, expIgnoreParameters, expProperty, expressions, typeof(PgParameterCollectionExtensions), nameof(PgParameterCollectionExtensions.AddPgTimeTZInParameter), null, null, parameterNames, expLogger, logger);
+			=> ExpressionHelpers.InParameterSimpleBuilder(this.ParameterName, propertyType, prms, expIgnoreParameters, expProperty, expressions, typeof(PgParameterCollectionExtensions), nameof(PgParameterCollectionExtensions.AddPgTimeTzInParameter), null, null, parameterNames, expLogger, logger);
 
 		protected override void AppendSetOutParameterExpressions(IList<Expression> expressions, ParameterExpression prms, ParameterExpression expIgnoreParameters, HashSet<string> parameterNames, Type propertyType, ParameterExpression expLogger, ILogger logger)
-			=> ExpressionHelpers.OutParameterBuilder(this.ParameterName, prms, expressions, typeof(PgParameterCollectionExtensions), nameof(PgParameterCollectionExtensions.AddPgTimeTZOutParameter), null, null, parameterNames, expIgnoreParameters, logger);
+			=> ExpressionHelpers.OutParameterBuilder(this.ParameterName, prms, expressions, typeof(PgParameterCollectionExtensions), nameof(PgParameterCollectionExtensions.AddPgTimeTzOutParameter), null, null, parameterNames, expIgnoreParameters, logger);
 
 		protected override void AppendReadOutParameterExpressions(Expression expProperty, IList<Expression> expressions, ParameterExpression expPrms, ParameterExpression expPrm, PropertyInfo propertyInfo, ParameterExpression expLogger, ILogger logger)
 		{
@@ -554,6 +624,10 @@ namespace ArgentSea.Pg
 		{
 
 		}
+		public MapToPgArrayAttribute(string parameterName, bool isRequired) : base(parameterName, NpgsqlDbType.Array, isRequired)
+		{
+
+		}
 
 		public override bool IsValidType(Type candidateType)
 			=> candidateType.IsArray;
@@ -573,6 +647,10 @@ namespace ArgentSea.Pg
 	public class MapToPgByteaAttribute : PgParameterMapAttribute
 	{
 		public MapToPgByteaAttribute(string parameterName, int length) : base(parameterName, NpgsqlDbType.Bytea)
+		{
+			this.Length = length;
+		}
+		public MapToPgByteaAttribute(string parameterName, int length, bool isRequired) : base(parameterName, NpgsqlDbType.Bytea, isRequired)
 		{
 			this.Length = length;
 		}
@@ -596,6 +674,10 @@ namespace ArgentSea.Pg
 	public class MapToPgHstoreAttribute : PgParameterMapAttribute
 	{
 		public MapToPgHstoreAttribute(string parameterName, int length) : base(parameterName, NpgsqlDbType.Hstore)
+		{
+			this.Length = length;
+		}
+		public MapToPgHstoreAttribute(string parameterName, int length, bool isRequired) : base(parameterName, NpgsqlDbType.Hstore, isRequired)
 		{
 			this.Length = length;
 		}
@@ -626,6 +708,10 @@ namespace ArgentSea.Pg
 		{
 			//
 		}
+		public MapToPgUuidAttribute(string parameterName, bool isRequired) : base(parameterName, NpgsqlDbType.Uuid, isRequired)
+		{
+			//
+		}
 
 		public override bool IsValidType(Type candidateType)
 			=> candidateType == typeof(Guid) || (candidateType.IsGenericType && candidateType.GetGenericTypeDefinition() == typeof(Nullable<>) && Nullable.GetUnderlyingType(candidateType) == typeof(Guid));
@@ -642,34 +728,38 @@ namespace ArgentSea.Pg
 		protected override void AppendReaderExpressions(MemberExpression expProperty, IList<MethodCallExpression> columnLookupExpressions, IList<Expression> expressions, ParameterExpression prmSqlRdr, ParameterExpression expOrdinals, ParameterExpression expOrdinal, ref int propIndex, PropertyInfo propertyInfo, ParameterExpression expLogger, ILogger logger)
 			=> ExpressionHelpers.ReaderNullableValueTypeExpressions(this.ParameterName, expProperty, Expression.Constant(Guid.Empty, typeof(Guid)), columnLookupExpressions, expressions, prmSqlRdr, expOrdinals, expOrdinal, ref propIndex, propertyInfo.PropertyType, expLogger, logger);
 	}
-	public class MapToPgEnumAttribute : PgParameterMapAttribute
-	{
-		/// <summary>
-		/// Map this property to the specified Int (32-bit) database column.
-		/// </summary>
-		/// <param name="parameterName">The name of the parameter or column that contains the value. The system will automatically add or remove the prefix '@' as needed.</param>
-		public MapToPgEnumAttribute(string parameterName) : base(parameterName, NpgsqlDbType.Enum)
-		{
-			//
-		}
+	//public class MapToPgEnumAttribute : PgParameterMapAttribute
+	//{
+	//	/// <summary>
+	//	/// Map this property to the specified Int (32-bit) database column.
+	//	/// </summary>
+	//	/// <param name="parameterName">The name of the parameter or column that contains the value. The system will automatically add or remove the prefix '@' as needed.</param>
+	//	public MapToPgEnumAttribute(string parameterName) : base(parameterName, NpgsqlDbType.Enum)
+	//	{
+	//		//
+	//	}
+	//	public MapToPgEnumAttribute(string parameterName, bool isRequired) : base(parameterName, NpgsqlDbType.Enum, isRequired)
+	//	{
+	//		//
+	//	}
 
-		public override bool IsValidType(Type candidateType)
-			=> candidateType.IsEnum;
+	//	public override bool IsValidType(Type candidateType)
+	//		=> candidateType.IsEnum;
 
-		protected override void AppendInParameterExpressions(IList<Expression> expressions, ParameterExpression prms, ParameterExpression expIgnoreParameters, HashSet<string> parameterNames, MemberExpression expProperty, Type propertyType, ParameterExpression expLogger, ILogger logger)
-			=> ExpressionHelpers.InParameterSimpleBuilder(this.ParameterName, propertyType, prms, expIgnoreParameters, expProperty, expressions, typeof(PgParameterCollectionExtensions), nameof(PgParameterCollectionExtensions.AddPgEnumInParameter), null, null, parameterNames, expLogger, logger);
-			//=> ExpressionHelpers.InParameterEnumXIntExpressionBuilder(this.ParameterName, typeof(PgParameterCollectionExtensions), nameof(PgParameterCollectionExtensions.AddPgEnumInParameter), typeof(int?), expressions, prms, expIgnoreParameters, parameterNames, expProperty, propertyType, expLogger, logger);
+	//	protected override void AppendInParameterExpressions(IList<Expression> expressions, ParameterExpression prms, ParameterExpression expIgnoreParameters, HashSet<string> parameterNames, MemberExpression expProperty, Type propertyType, ParameterExpression expLogger, ILogger logger)
+	//		=> ExpressionHelpers.InParameterSimpleBuilder(this.ParameterName, propertyType, prms, expIgnoreParameters, expProperty, expressions, typeof(PgParameterCollectionExtensions), nameof(PgParameterCollectionExtensions.AddPgEnumInParameter), null, null, parameterNames, expLogger, logger);
+	//		//=> ExpressionHelpers.InParameterEnumXIntExpressionBuilder(this.ParameterName, typeof(PgParameterCollectionExtensions), nameof(PgParameterCollectionExtensions.AddPgEnumInParameter), typeof(int?), expressions, prms, expIgnoreParameters, parameterNames, expProperty, propertyType, expLogger, logger);
 
-		protected override void AppendSetOutParameterExpressions(IList<Expression> expressions, ParameterExpression prms, ParameterExpression expIgnoreParameters, HashSet<string> parameterNames, Type propertyType, ParameterExpression expLogger, ILogger logger)
-			=> ExpressionHelpers.OutParameterBuilder(this.ParameterName, prms, expressions, typeof(PgParameterCollectionExtensions), nameof(PgParameterCollectionExtensions.AddPgEnumOutParameter), null, null, parameterNames, expIgnoreParameters, logger);
+	//	protected override void AppendSetOutParameterExpressions(IList<Expression> expressions, ParameterExpression prms, ParameterExpression expIgnoreParameters, HashSet<string> parameterNames, Type propertyType, ParameterExpression expLogger, ILogger logger)
+	//		=> ExpressionHelpers.OutParameterBuilder(this.ParameterName, prms, expressions, typeof(PgParameterCollectionExtensions), nameof(PgParameterCollectionExtensions.AddPgEnumOutParameter), null, null, parameterNames, expIgnoreParameters, logger);
 
-		protected override void AppendReadOutParameterExpressions(Expression expProperty, IList<Expression> expressions, ParameterExpression expPrms, ParameterExpression expPrm, PropertyInfo propertyInfo, ParameterExpression expLogger, ILogger logger)
-			=> ExpressionHelpers.ReadOutParameterBinaryExpressions(this.ParameterName, typeof(Enum), nameof(PgParameterCollectionExtensions.GetEnum), expProperty, expressions, expPrms, expPrm, propertyInfo, expLogger, logger);
-			//=> ExpressionHelpers.ReadOutParameterEnumXIntExpressions(this.ParameterName, typeof(DbParameterCollectionExtensions), nameof(PgParameterCollectionExtensions.GetEnum), nameof(DbParameterCollectionExtensions.GetNullableInteger), expProperty, expressions, expPrms, expPrm, propertyInfo, expLogger, logger);
+	//	protected override void AppendReadOutParameterExpressions(Expression expProperty, IList<Expression> expressions, ParameterExpression expPrms, ParameterExpression expPrm, PropertyInfo propertyInfo, ParameterExpression expLogger, ILogger logger)
+	//		=> ExpressionHelpers.ReadOutParameterBinaryExpressions(this.ParameterName, typeof(Enum), nameof(PgParameterCollectionExtensions.GetEnum), expProperty, expressions, expPrms, expPrm, propertyInfo, expLogger, logger);
+	//		//=> ExpressionHelpers.ReadOutParameterEnumXIntExpressions(this.ParameterName, typeof(DbParameterCollectionExtensions), nameof(PgParameterCollectionExtensions.GetEnum), nameof(DbParameterCollectionExtensions.GetNullableInteger), expProperty, expressions, expPrms, expPrm, propertyInfo, expLogger, logger);
 
-		protected override void AppendReaderExpressions(MemberExpression expProperty, IList<MethodCallExpression> columnLookupExpressions, IList<Expression> expressions, ParameterExpression prmSqlRdr, ParameterExpression expOrdinals, ParameterExpression expOrdinal, ref int propIndex, PropertyInfo propertyInfo, ParameterExpression expLogger, ILogger logger)
-			=> ExpressionHelpers.ReaderSimpleValueExpressions(this.ParameterName, expProperty, columnLookupExpressions, expressions, prmSqlRdr, expOrdinals, expOrdinal, ref propIndex, propertyInfo.PropertyType, expLogger, logger);
-	}
+	//	protected override void AppendReaderExpressions(MemberExpression expProperty, IList<MethodCallExpression> columnLookupExpressions, IList<Expression> expressions, ParameterExpression prmSqlRdr, ParameterExpression expOrdinals, ParameterExpression expOrdinal, ref int propIndex, PropertyInfo propertyInfo, ParameterExpression expLogger, ILogger logger)
+	//		=> ExpressionHelpers.ReaderSimpleValueExpressions(this.ParameterName, expProperty, columnLookupExpressions, expressions, prmSqlRdr, expOrdinals, expOrdinal, ref propIndex, propertyInfo.PropertyType, expLogger, logger);
+	//}
 	#endregion
 
 	/*
@@ -859,7 +949,7 @@ namespace ArgentSea.Pg
 		//
 		// Remarks:
 		//     See http://www.postgresql.org/docs/current/static/datatype-datetime.html
-		TimestampTZ = 26,
+		TimestampTz = 26,
 		//
 		// Summary:
 		//     Corresponds to the PostgreSQL "uuid" type.
@@ -894,7 +984,7 @@ namespace ArgentSea.Pg
 		//
 		// Remarks:
 		//     See http://www.postgresql.org/docs/current/static/datatype-datetime.html
-		TimeTZ = 31,
+		TimeTz = 31,
 		//
 		// Summary:
 		//     Corresponds to the PostgreSQL internal "name" type.
