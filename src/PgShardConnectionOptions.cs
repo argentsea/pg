@@ -20,12 +20,12 @@ namespace ArgentSea.Pg
 
 		public class PgShardConnectionConfiguration : IShardConnectionConfiguration<TShard>
 		{
-			public TShard ShardNumber { get; set; }
+			public TShard ShardId { get; set; }
 			public IConnectionConfiguration ReadConnectionInternal { get => ReadConnection; }
 			public IConnectionConfiguration WriteConnectionInternal { get => WriteConnection; }
 			public PgConnectionConfiguration ReadConnection { get; set; }
 			public PgConnectionConfiguration WriteConnection { get; set; }
-		}
+        }
 
 	}
 }
