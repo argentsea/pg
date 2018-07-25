@@ -3,6 +3,9 @@ using Microsoft.Extensions.Options;
 
 namespace ArgentSea.Pg
 {
+    /// <summary>
+    /// This class manages the non-sharded SQL database connections.
+    /// </summary>
     public class PgDatabases : DbDataStores<PgDbConnectionOptions>
 	{
 		public PgDatabases(

@@ -7,6 +7,9 @@ using System.Threading;
 
 namespace ArgentSea.Pg
 {
+    /// <summary>
+    /// This class is a provider-specific resouce to enable provider-neutral code to execute. It is unlikely that you would reference this in consumer code.
+    /// </summary>
 	public class DataProviderServiceFactory : IDataProviderServiceFactory
 	{
 		public bool GetIsErrorTransient(Exception exception)
@@ -33,16 +36,6 @@ namespace ArgentSea.Pg
             return new NpgsqlConnection(connectionString);
         }
 
-        //public string NormalizeFieldName(string fieldName)
-        //{
-        //    return fieldName.ToLower();
-        //}
-
-        //public string NormalizeParameterName(string parameterName)
-        //{
-        //    return parameterName.ToLower();
-        //}
-
         public void SetParameters(DbCommand cmd, DbParameterCollection parameters)
         {
             foreach (var sourcePrm in parameters)
@@ -50,6 +43,11 @@ namespace ArgentSea.Pg
                 var npgSourcePrm = (NpgsqlParameter)sourcePrm;
                 var targetPrm = npgSourcePrm.Clone();
                 cmd.Parameters.Add(targetPrm);
+            }
+            ((NpgsqlCommand)cmd).Prepare();
+            for (var i = 0; i < parameters.Count; i++)
+            {
+                cmd.Parameters[i].Value = parameters[i].Value;
             }
         }
 

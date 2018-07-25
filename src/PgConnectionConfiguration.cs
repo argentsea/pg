@@ -8,6 +8,11 @@ using System.Collections;
 
 namespace ArgentSea.Pg
 {
+    /// <summary>
+    /// This class represents is a (non-sharded) database connection.
+    /// Note that the SecurityKey must match a defined key in the DataSecurityOptions; likewise, a DataResilienceKey (if defined) must match as key in the DataResilienceOptions array.
+    /// If the DataResilienceKey is not defined, a default data resilience strategy will be used.
+    /// </summary>
     public class PgConnectionConfiguration : IConnectionConfiguration
     {
 

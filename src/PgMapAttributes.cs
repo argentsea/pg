@@ -11,6 +11,9 @@ using System.Reflection;
 
 namespace ArgentSea.Pg
 {
+    /// <summary>
+    /// This abstract class is a PostgreSQL-specific implementation of the ParameterMapAttribute class.
+    /// </summary>
 	public abstract class PgParameterMapAttribute : ParameterMapAttribute
 	{
 		public PgParameterMapAttribute(string parameterName, NpgsqlDbType pgType) : base(parameterName, (int)pgType)
@@ -21,8 +24,11 @@ namespace ArgentSea.Pg
 		}
 	}
 
-	#region String parameters
-	public class MapToPgVarCharAttribute : PgParameterMapAttribute
+    #region String parameters
+    /// <summary>
+    /// This attribute maps a model property to/from a PostgreSQL VarChar parameter or column.
+    /// </summary>
+    public class MapToPgVarCharAttribute : PgParameterMapAttribute
 	{
 		/// <summary>
 		/// Map this property to the specified Unicode database column, with a variable but maximum length.
@@ -55,6 +61,9 @@ namespace ArgentSea.Pg
 			=> ExpressionHelpers.ReaderStringExpressions(this.ParameterName, expProperty, columnLookupExpressions, expressions, prmSqlRdr, expOrdinals, expOrdinal, ref propIndex, propertyType, expLogger, logger);
 	}
 
+    /// <summary>
+    /// This attribute maps a model property to/from a PostgreSQL Char parameter or column.
+    /// </summary>
 	public class MapToPgCharAttribute : PgParameterMapAttribute
 	{
 		/// <summary>
@@ -89,6 +98,9 @@ namespace ArgentSea.Pg
 			=> ExpressionHelpers.ReaderStringExpressions(this.ParameterName, expProperty, columnLookupExpressions, expressions, prmSqlRdr, expOrdinals, expOrdinal, ref propIndex, propertyType, expLogger, logger);
 	}
 
+    /// <summary>
+    /// This attribute maps a model property to/from a PostgreSQL Text parameter or column.
+    /// </summary>
 	public class MapToPgTextAttribute : PgParameterMapAttribute
 	{
 		/// <summary>
@@ -120,9 +132,12 @@ namespace ArgentSea.Pg
 		protected override void AppendReaderExpressions(Expression expProperty, IList<MethodCallExpression> columnLookupExpressions, IList<Expression> expressions, ParameterExpression prmPgRdr, ParameterExpression expOrdinals, ParameterExpression expOrdinal, ref int propIndex, Type propertyType, ParameterExpression expLogger, ILogger logger)
 			=> ExpressionHelpers.ReaderStringExpressions(this.ParameterName, expProperty, columnLookupExpressions, expressions, prmPgRdr, expOrdinals, expOrdinal, ref propIndex, propertyType, expLogger, logger);
 	}
-	#endregion
-	#region Number parameters
-	public class MapToPgBigintAttribute : PgParameterMapAttribute
+    #endregion
+    #region Number parameters
+    /// <summary>
+    /// This attribute maps a model property to/from a PostgreSQL Bigint parameter or column.
+    /// </summary>
+    public class MapToPgBigintAttribute : PgParameterMapAttribute
 	{
 		/// <summary>
 		/// Map this property to the specified BigInt (64-bit) database column.
@@ -154,6 +169,10 @@ namespace ArgentSea.Pg
 		protected override void AppendReaderExpressions(Expression expProperty, IList<MethodCallExpression> columnLookupExpressions, IList<Expression> expressions, ParameterExpression prmSqlRdr, ParameterExpression expOrdinals, ParameterExpression expOrdinal, ref int propIndex, Type propertyType, ParameterExpression expLogger, ILogger logger)
 			=> ExpressionHelpers.ReaderEnumXIntExpressions(this.ParameterName, expProperty, typeof(long), columnLookupExpressions, expressions, prmSqlRdr, expOrdinals, expOrdinal, ref propIndex, propertyType, expLogger, logger);
 	}
+
+    /// <summary>
+    /// This attribute maps a model property to/from a PostgreSQL Integer parameter or column.
+    /// </summary>
 	public class MapToPgIntegerAttribute : PgParameterMapAttribute
 	{
 		/// <summary>
@@ -186,7 +205,11 @@ namespace ArgentSea.Pg
 		protected override void AppendReaderExpressions(Expression expProperty, IList<MethodCallExpression> columnLookupExpressions, IList<Expression> expressions, ParameterExpression prmSqlRdr, ParameterExpression expOrdinals, ParameterExpression expOrdinal, ref int propIndex, Type propertyType, ParameterExpression expLogger, ILogger logger)
 			=> ExpressionHelpers.ReaderEnumXIntExpressions(this.ParameterName, expProperty, typeof(int), columnLookupExpressions, expressions, prmSqlRdr, expOrdinals, expOrdinal, ref propIndex, propertyType, expLogger, logger);
 	}
-	public class MapToPgSmallintAttribute : PgParameterMapAttribute
+
+    /// <summary>
+    /// This attribute maps a model property to/from a PostgreSQL Smallint parameter or column.
+    /// </summary>
+    public class MapToPgSmallintAttribute : PgParameterMapAttribute
 	{
 		/// <summary>
 		/// Map this property to the specified SmallInt (16-bit) database column.
@@ -218,7 +241,11 @@ namespace ArgentSea.Pg
 		protected override void AppendReaderExpressions(Expression expProperty, IList<MethodCallExpression> columnLookupExpressions, IList<Expression> expressions, ParameterExpression prmSqlRdr, ParameterExpression expOrdinals, ParameterExpression expOrdinal, ref int propIndex, Type propertyType, ParameterExpression expLogger, ILogger logger)
 			=> ExpressionHelpers.ReaderEnumXIntExpressions(this.ParameterName, expProperty, typeof(short), columnLookupExpressions, expressions, prmSqlRdr, expOrdinals, expOrdinal, ref propIndex, propertyType, expLogger, logger);
 	}
-	public class MapToPgInternalCharAttribute : PgParameterMapAttribute
+
+    /// <summary>
+    /// This attribute maps a model property to/from a PostgreSQL InternalChar parameter or column.
+    /// </summary>
+    public class MapToPgInternalCharAttribute : PgParameterMapAttribute
 	{
 		/// <summary>
 		/// Map this property to the specified TinyInt (unsigned 8-bit) database column.
@@ -250,6 +277,10 @@ namespace ArgentSea.Pg
 		protected override void AppendReaderExpressions(Expression expProperty, IList<MethodCallExpression> columnLookupExpressions, IList<Expression> expressions, ParameterExpression prmSqlRdr, ParameterExpression expOrdinals, ParameterExpression expOrdinal, ref int propIndex, Type propertyType, ParameterExpression expLogger, ILogger logger)
 			=> ExpressionHelpers.ReaderEnumXIntExpressions(this.ParameterName, expProperty, typeof(byte), columnLookupExpressions, expressions, prmSqlRdr, expOrdinals, expOrdinal, ref propIndex, propertyType, expLogger, logger);
 	}
+
+    /// <summary>
+    /// This attribute maps a model property to/from a PostgreSQL Boolean parameter or column.
+    /// </summary>
 	public class MapToPgBooleanAttribute : PgParameterMapAttribute
 	{
 		/// <summary>
@@ -282,6 +313,10 @@ namespace ArgentSea.Pg
 
 
 	}
+
+    /// <summary>
+    /// This attribute maps a model property to/from a PostgreSQL Numeric parameter or column.
+    /// </summary>
 	public class MapToPgNumericAttribute : PgParameterMapAttribute
 	{
 		/// <summary>
@@ -320,7 +355,11 @@ namespace ArgentSea.Pg
 		protected override void AppendReaderExpressions(Expression expProperty, IList<MethodCallExpression> columnLookupExpressions, IList<Expression> expressions, ParameterExpression prmSqlRdr, ParameterExpression expOrdinals, ParameterExpression expOrdinal, ref int propIndex, Type propertyType, ParameterExpression expLogger, ILogger logger)
 			=> ExpressionHelpers.ReaderSimpleValueExpressions(this.ParameterName, expProperty, columnLookupExpressions, expressions, prmSqlRdr, expOrdinals, expOrdinal, ref propIndex, propertyType, expLogger, logger);
 	}
-	public class MapToPgMoneyAttribute : PgParameterMapAttribute
+
+    /// <summary>
+    /// This attribute maps a model property to/from a PostgreSQL Money parameter or column.
+    /// </summary>
+    public class MapToPgMoneyAttribute : PgParameterMapAttribute
 	{
 		/// <summary>
 		/// Map this property to the specified Money database column.
@@ -350,7 +389,11 @@ namespace ArgentSea.Pg
 		protected override void AppendReaderExpressions(Expression expProperty, IList<MethodCallExpression> columnLookupExpressions, IList<Expression> expressions, ParameterExpression prmSqlRdr, ParameterExpression expOrdinals, ParameterExpression expOrdinal, ref int propIndex, Type propertyType, ParameterExpression expLogger, ILogger logger)
 			=> ExpressionHelpers.ReaderSimpleValueExpressions(this.ParameterName, expProperty, columnLookupExpressions, expressions, prmSqlRdr, expOrdinals, expOrdinal, ref propIndex, propertyType, expLogger, logger);
 	}
-	public class MapToPgDoubleAttribute : PgParameterMapAttribute
+
+    /// <summary>
+    /// This attribute maps a model property to/from a PostgreSQL Double parameter or column.
+    /// </summary>
+    public class MapToPgDoubleAttribute : PgParameterMapAttribute
 	{
 		/// <summary>
 		/// Map this property to the specified Float (64-bit floating point or .NET double) database column.
@@ -381,6 +424,10 @@ namespace ArgentSea.Pg
 		protected override void AppendReaderExpressions(Expression expProperty, IList<MethodCallExpression> columnLookupExpressions, IList<Expression> expressions, ParameterExpression prmSqlRdr, ParameterExpression expOrdinals, ParameterExpression expOrdinal, ref int propIndex, Type propertyType, ParameterExpression expLogger, ILogger logger)
 			=> ExpressionHelpers.ReaderNullableValueTypeExpressions(this.ParameterName, expProperty, Expression.Constant(double.NaN, typeof(double)), columnLookupExpressions, expressions, prmSqlRdr, expOrdinals, expOrdinal, ref propIndex, propertyType, expLogger, logger);
 	}
+
+    /// <summary>
+    /// This attribute maps a model property to/from a PostgreSQL Real parameter or column.
+    /// </summary>
 	public class MapToPgRealAttribute : PgParameterMapAttribute
 	{
 		/// <summary>
@@ -411,9 +458,12 @@ namespace ArgentSea.Pg
 		protected override void AppendReaderExpressions(Expression expProperty, IList<MethodCallExpression> columnLookupExpressions, IList<Expression> expressions, ParameterExpression prmSqlRdr, ParameterExpression expOrdinals, ParameterExpression expOrdinal, ref int propIndex, Type propertyType, ParameterExpression expLogger, ILogger logger)
 			=> ExpressionHelpers.ReaderNullableValueTypeExpressions(this.ParameterName, expProperty, Expression.Constant(float.NaN, typeof(float)), columnLookupExpressions, expressions, prmSqlRdr, expOrdinals, expOrdinal, ref propIndex, propertyType, expLogger, logger);
 	}
-	#endregion
-	#region Temporal parameters
-	public class MapToPgTimestampAttribute : PgParameterMapAttribute
+    #endregion
+    #region Temporal parameters
+    /// <summary>
+    /// This attribute maps a model property to/from a PostgreSQL Timestamp parameter or column.
+    /// </summary>
+    public class MapToPgTimestampAttribute : PgParameterMapAttribute
 	{
 		/// <summary>
 		/// Map this property to the specified Timestamp database column (without Timezone).
@@ -446,6 +496,10 @@ namespace ArgentSea.Pg
 		protected override void AppendReaderExpressions(Expression expProperty, IList<MethodCallExpression> columnLookupExpressions, IList<Expression> expressions, ParameterExpression prmSqlRdr, ParameterExpression expOrdinals, ParameterExpression expOrdinal, ref int propIndex, Type propertyType, ParameterExpression expLogger, ILogger logger)
 			=> ExpressionHelpers.ReaderSimpleValueExpressions(this.ParameterName, expProperty, columnLookupExpressions, expressions, prmSqlRdr, expOrdinals, expOrdinal, ref propIndex, propertyType, expLogger, logger);
 	}
+
+    /// <summary>
+    /// This attribute maps a model property to/from a PostgreSQL TimestampTz parameter or column.
+    /// </summary>
 	public class MapToPgTimestampTzAttribute : PgParameterMapAttribute
 	{
 		/// <summary>
@@ -477,7 +531,11 @@ namespace ArgentSea.Pg
 		protected override void AppendReaderExpressions(Expression expProperty, IList<MethodCallExpression> columnLookupExpressions, IList<Expression> expressions, ParameterExpression prmSqlRdr, ParameterExpression expOrdinals, ParameterExpression expOrdinal, ref int propIndex, Type propertyType, ParameterExpression expLogger, ILogger logger)
 			=> ExpressionHelpers.ReaderSimpleValueExpressions(this.ParameterName, expProperty, columnLookupExpressions, expressions, prmSqlRdr, expOrdinals, expOrdinal, ref propIndex, propertyType, expLogger, logger);
 	}
-	public class MapToPgDateAttribute : PgParameterMapAttribute
+
+    /// <summary>
+    /// This attribute maps a model property to/from a PostgreSQL Date parameter or column.
+    /// </summary>
+    public class MapToPgDateAttribute : PgParameterMapAttribute
 	{
 		/// <summary>
 		/// Map this property to the specified Date database column.
@@ -508,7 +566,11 @@ namespace ArgentSea.Pg
 		protected override void AppendReaderExpressions(Expression expProperty, IList<MethodCallExpression> columnLookupExpressions, IList<Expression> expressions, ParameterExpression prmSqlRdr, ParameterExpression expOrdinals, ParameterExpression expOrdinal, ref int propIndex, Type propertyType, ParameterExpression expLogger, ILogger logger)
 			=> ExpressionHelpers.ReaderSimpleValueExpressions(this.ParameterName, expProperty, columnLookupExpressions, expressions, prmSqlRdr, expOrdinals, expOrdinal, ref propIndex, propertyType, expLogger, logger);
 	}
-	public class MapToPgTimeAttribute : PgParameterMapAttribute
+
+    /// <summary>
+    /// This attribute maps a model property to/from a PostgreSQL Time parameter or column.
+    /// </summary>
+    public class MapToPgTimeAttribute : PgParameterMapAttribute
 	{
 		/// <summary>
 		/// Map this property to the specified Time database column (without Timezone).
@@ -538,7 +600,11 @@ namespace ArgentSea.Pg
 		protected override void AppendReaderExpressions(Expression expProperty, IList<MethodCallExpression> columnLookupExpressions, IList<Expression> expressions, ParameterExpression prmSqlRdr, ParameterExpression expOrdinals, ParameterExpression expOrdinal, ref int propIndex, Type propertyType, ParameterExpression expLogger, ILogger logger)
 			=> ExpressionHelpers.ReaderSimpleValueExpressions(this.ParameterName, expProperty, columnLookupExpressions, expressions, prmSqlRdr, expOrdinals, expOrdinal, ref propIndex, propertyType, expLogger, logger);
 	}
-	public class MapToPgIntervalAttribute : PgParameterMapAttribute
+
+    /// <summary>
+    /// This attribute maps a model property to/from a PostgreSQL Interval parameter or column.
+    /// </summary>
+    public class MapToPgIntervalAttribute : PgParameterMapAttribute
 	{
 		/// <summary>
 		/// Map this property to the specified Time database column (without Timezone).
@@ -569,7 +635,11 @@ namespace ArgentSea.Pg
 		protected override void AppendReaderExpressions(Expression expProperty, IList<MethodCallExpression> columnLookupExpressions, IList<Expression> expressions, ParameterExpression prmSqlRdr, ParameterExpression expOrdinals, ParameterExpression expOrdinal, ref int propIndex, Type propertyType, ParameterExpression expLogger, ILogger logger)
 			=> ExpressionHelpers.ReaderSimpleValueExpressions(this.ParameterName, expProperty, columnLookupExpressions, expressions, prmSqlRdr, expOrdinals, expOrdinal, ref propIndex, propertyType, expLogger, logger);
 	}
-	public class MapToPgTimeTzAttribute : PgParameterMapAttribute
+
+    /// <summary>
+    /// This attribute maps a model property to/from a PostgreSQL TimeTz parameter or column.
+    /// </summary>
+    public class MapToPgTimeTzAttribute : PgParameterMapAttribute
 	{
 		/// <summary>
 		/// Map this property to the specified Time database column (without Timezone).
@@ -611,16 +681,15 @@ namespace ArgentSea.Pg
 		protected override void AppendReaderExpressions(Expression expProperty, IList<MethodCallExpression> columnLookupExpressions, IList<Expression> expressions, ParameterExpression prmSqlRdr, ParameterExpression expOrdinals, ParameterExpression expOrdinal, ref int propIndex, Type propertyType, ParameterExpression expLogger, ILogger logger)
 			=> ExpressionHelpers.ReaderSimpleValueExpressions(this.ParameterName, expProperty, columnLookupExpressions, expressions, prmSqlRdr, expOrdinals, expOrdinal, ref propIndex, propertyType, expLogger, logger);
 	}
-	#endregion
-	#region Other parameters
-	/// <summary>
-	/// Map this property to the array database column.
-	/// </summary>
-	/// <param name="parameterName">The name of the parameter or column that contains the value. The system will automatically add or remove the prefix ':' as needed.</param>
-	/// <param name="length">The size of the binary value.</param>
-	public class MapToPgArrayAttribute : PgParameterMapAttribute
+    #endregion
+    #region Other parameters
+
+    /// <summary>
+    /// This attribute maps a model property to/from a PostgreSQL Array parameter or column.
+    /// </summary>
+    public class MapToPgArrayAttribute : PgParameterMapAttribute
 	{
-		public MapToPgArrayAttribute(string parameterName) : base(parameterName, NpgsqlDbType.Array)
+        public MapToPgArrayAttribute(string parameterName) : base(parameterName, NpgsqlDbType.Array)
 		{
 
 		}
@@ -644,7 +713,11 @@ namespace ArgentSea.Pg
 		protected override void AppendReaderExpressions(Expression expProperty, IList<MethodCallExpression> columnLookupExpressions, IList<Expression> expressions, ParameterExpression prmSqlRdr, ParameterExpression expOrdinals, ParameterExpression expOrdinal, ref int propIndex, Type propertyType, ParameterExpression expLogger, ILogger logger)
 			=> ExpressionHelpers.ReaderSimpleValueExpressions(this.ParameterName, expProperty, columnLookupExpressions, expressions, prmSqlRdr, expOrdinals, expOrdinal, ref propIndex, propertyType, expLogger, logger);
 	}
-	public class MapToPgByteaAttribute : PgParameterMapAttribute
+
+    /// <summary>
+    /// This attribute maps a model property to/from a PostgreSQL Byteea parameter or column.
+    /// </summary>
+    public class MapToPgByteaAttribute : PgParameterMapAttribute
 	{
 		public MapToPgByteaAttribute(string parameterName, int length) : base(parameterName, NpgsqlDbType.Bytea)
 		{
@@ -671,7 +744,11 @@ namespace ArgentSea.Pg
 		protected override void AppendReaderExpressions(Expression expProperty, IList<MethodCallExpression> columnLookupExpressions, IList<Expression> expressions, ParameterExpression prmSqlRdr, ParameterExpression expOrdinals, ParameterExpression expOrdinal, ref int propIndex, Type propertyType, ParameterExpression expLogger, ILogger logger)
 			=> ExpressionHelpers.ReaderSimpleValueExpressions(this.ParameterName, expProperty, columnLookupExpressions, expressions, prmSqlRdr, expOrdinals, expOrdinal, ref propIndex, propertyType, expLogger, logger);
 	}
-	public class MapToPgHstoreAttribute : PgParameterMapAttribute
+
+    /// <summary>
+    /// This attribute maps a model property to/from a PostgreSQL Hstore parameter or column.
+    /// </summary>
+    public class MapToPgHstoreAttribute : PgParameterMapAttribute
 	{
 		public MapToPgHstoreAttribute(string parameterName, int length) : base(parameterName, NpgsqlDbType.Hstore)
 		{
@@ -698,6 +775,10 @@ namespace ArgentSea.Pg
 		protected override void AppendReaderExpressions(Expression expProperty, IList<MethodCallExpression> columnLookupExpressions, IList<Expression> expressions, ParameterExpression prmSqlRdr, ParameterExpression expOrdinals, ParameterExpression expOrdinal, ref int propIndex, Type propertyType, ParameterExpression expLogger, ILogger logger)
 			=> ExpressionHelpers.ReaderSimpleValueExpressions(this.ParameterName, expProperty, columnLookupExpressions, expressions, prmSqlRdr, expOrdinals, expOrdinal, ref propIndex, propertyType, expLogger, logger);
 	}
+
+    /// <summary>
+    /// This attribute maps a model property to/from a PostgreSQL Uuid parameter or column.
+    /// </summary>
 	public class MapToPgUuidAttribute : PgParameterMapAttribute
 	{
 		/// <summary>

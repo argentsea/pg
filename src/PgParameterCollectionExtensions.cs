@@ -10,6 +10,9 @@ using ArgentSea;
 
 namespace ArgentSea.Pg
 {
+    /// <summary>
+    /// This class adds extension methods which simplify setting PostgreSQL parameter values from .NET types.
+    /// </summary>
 	public static class PgParameterCollectionExtensions
 	{
 

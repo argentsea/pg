@@ -7,14 +7,14 @@ using ArgentSea.Pg;
 
 namespace Microsoft.Extensions.DependencyInjection
 {
-
+    /// <summary>
+    /// This static class adds the injectable PostgreSQL data services into the services collection.
+    /// </summary>
 	public static class PgServiceBuilderExtensions
 	{
-		private const string cResilienceOptionName = "ResilienceConfig";
-		private const string cSecurityOptionName = "SecurityConfig";
-		private const string cDataOptionName = "PgConfig";
+        //private static IConfiguration _config;
 
-		/// <summary>
+        /// <summary>
 		/// Loads configuration into injectable Options and the DbDataStores service. This overload does not load ShardSets.  ILogger service should have already be created.
 		/// </summary>
 		/// <param name="services"></param>
@@ -25,19 +25,34 @@ namespace Microsoft.Extensions.DependencyInjection
 			IConfiguration config
 			)
 		{
-			//services.Configure<DataResilienceOptions>(cResilienceOptionName, config);
-			//services.Configure<DataSecurityOptions>(cSecurityOptionName, config);
-			//services.Configure<PgDbConnectionOptions>(cDataOptionName, config);
-
-			// even if these configs are already set by another provider, this will just overwrite with the same values.
-			services.Configure<DataResilienceOptions>(config); 
-			services.Configure<DataSecurityOptions>(config);
-			services.Configure<PgDbConnectionOptions>(config);
-
-			//services.AddSingleton<DbDataStores<PgDbConnectionOptions>, DbDataStores<PgDbConnectionOptions>>();
-			services.AddSingleton<PgDatabases>();
-			return services;
+            services.Configure<DataResilienceOptions>(config);
+            services.Configure<DataSecurityOptions>(config);
+            services.AddSingleton<PgDatabases>();
+            services.Configure<PgDbConnectionOptions>(config);
+            //_config = config;
+            //services.PostConfigure<PgDbConnectionOptions>(FixAnnoyingConfigBindingThatWontWorkNoMatterWhat);
+            return services;
 		}
+
+        //private static void FixAnnoyingConfigBindingThatWontWorkNoMatterWhat(PgDbConnectionOptions obj)
+        //{
+        //    var cfg = _config.GetSection("PgDbConnections");
+        //    for (var i = 0; i < obj.PgDbConnections.Length; i++)
+        //    {
+        //        if (obj.PgDbConnections[i] is null)
+        //        {
+        //            obj.PgDbConnections[i] = new PgDbConnectionConfiguration();
+        //            var cfgInstance = cfg.GetSection(i.ToString());
+        //            if (cfgInstance is null)
+        //            {
+        //                throw new Exception($"No config for PgDbConnections:{i.ToString()}");
+        //            }
+        //            ConfigurationBinder.Bind(cfgInstance, obj.PgDbConnections[i]);
+        //        }
+        //    }
+        //    _config = null;
+        //}
+
 
 		/// <summary>
 		/// Loads configuration into injectable Options and the DbDataStores and ShardDataStores services. ILogger service should have already be created.
@@ -52,7 +67,6 @@ namespace Microsoft.Extensions.DependencyInjection
 			) where TShard : IComparable
 		{
 			services.AddPgServices(config);
-			//services.Configure<PgShardConnectionOptions<TShard>>(cDataOptionName, config);
 			services.Configure<PgShardConnectionOptions<TShard>>(config);
 			services.AddSingleton<ShardDataStores<TShard, PgShardConnectionOptions<TShard>>, ShardDataStores<TShard, PgShardConnectionOptions<TShard>>>();
 			return services;
