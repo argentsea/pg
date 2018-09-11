@@ -16,9 +16,7 @@ namespace ArgentSea.Pg
 
 		public class PgShardConnectionsConfiguration : IShardConnectionsConfiguration<TShard>
         {
-            public string ShardSetKey { get; set; }
-			public string SecurityKey { get; set; }
-			public string DataResilienceKey { get; set; }
+            public string ShardSetName { get; set; }
 			public IShardConnectionConfiguration<TShard>[] ShardsInternal { get => Shards; }
 			public PgShardConnectionConfiguration[] Shards { get; set; }
 		}

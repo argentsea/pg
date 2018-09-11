@@ -21,7 +21,7 @@ namespace ArgentSea.Pg
     ///   }
     /// ]
     ///</code>
-    /// Note that the SecurityKey must match a defined key in the DataSecurityOptions; likewise, a DataResilienceKey (if defined) must match a key in the DataResilienceOptions array.
+    /// Note that the SecurityKey must match a defined key in the DataSecurityOptions; likewise, a ResilienceKey (if defined) must match a key in the DataResilienceOptions array.
     ///</example>
     /// </summary>
 	public class PgDbConnectionOptions : IDbDataConfigurationOptions
