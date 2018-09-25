@@ -12,10 +12,8 @@ namespace Microsoft.Extensions.DependencyInjection
     /// </summary>
 	public static class PgServiceBuilderExtensions
 	{
-        //private static IConfiguration _config;
-
         /// <summary>
-		/// Loads configuration into injectable Options and the DbDataStores service. This overload does not load ShardSets.  ILogger service should have already be created.
+		/// Loads configuration into injectable Options and the DbDataStores and ShardDataStores services. ILogger service should have already be created.
 		/// </summary>
 		/// <param name="services"></param>
 		/// <param name="config"></param>
@@ -25,34 +23,9 @@ namespace Microsoft.Extensions.DependencyInjection
 			IConfiguration config
 			)
 		{
-            services.Configure<DataResilienceOptions>(config);
-            services.Configure<DataSecurityOptions>(config);
-            services.AddSingleton<PgDatabases>();
-            services.Configure<PgDbConnectionOptions>(config);
-            //_config = config;
-            //services.PostConfigure<PgDbConnectionOptions>(FixAnnoyingConfigBindingThatWontWorkNoMatterWhat);
+            PgServiceBuilderExtensions.AddPgServices<short>(services, config);
             return services;
 		}
-
-        //private static void FixAnnoyingConfigBindingThatWontWorkNoMatterWhat(PgDbConnectionOptions obj)
-        //{
-        //    var cfg = _config.GetSection("PgDbConnections");
-        //    for (var i = 0; i < obj.PgDbConnections.Length; i++)
-        //    {
-        //        if (obj.PgDbConnections[i] is null)
-        //        {
-        //            obj.PgDbConnections[i] = new PgDbConnectionConfiguration();
-        //            var cfgInstance = cfg.GetSection(i.ToString());
-        //            if (cfgInstance is null)
-        //            {
-        //                throw new Exception($"No config for PgDbConnections:{i.ToString()}");
-        //            }
-        //            ConfigurationBinder.Bind(cfgInstance, obj.PgDbConnections[i]);
-        //        }
-        //    }
-        //    _config = null;
-        //}
-
 
 		/// <summary>
 		/// Loads configuration into injectable Options and the DbDataStores and ShardDataStores services. ILogger service should have already be created.
@@ -66,9 +39,13 @@ namespace Microsoft.Extensions.DependencyInjection
 			IConfiguration config
 			) where TShard : IComparable
 		{
-			services.AddPgServices(config);
-			services.Configure<PgShardConnectionOptions<TShard>>(config);
-			services.AddSingleton<ShardDataStores<TShard, PgShardConnectionOptions<TShard>>, ShardDataStores<TShard, PgShardConnectionOptions<TShard>>>();
+            services.Configure<DataResilienceOptions>(config);
+            services.Configure<DataSecurityOptions>(config);
+            services.Configure<PgDbConnectionOptions>(config);
+            services.AddSingleton<PgDatabases>();
+
+            services.Configure<PgShardConnectionOptions<TShard>>(config);
+			services.AddSingleton<ShardSetsBase<TShard, PgShardConnectionOptions<TShard>>>();
 			return services;
 		}
 	}

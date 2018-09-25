@@ -24,14 +24,14 @@ namespace ArgentSea.Pg
     /// Note that the SecurityKey must match a defined key in the DataSecurityOptions; likewise, a ResilienceKey (if defined) must match a key in the DataResilienceOptions array.
     ///</example>
     /// </summary>
-	public class PgDbConnectionOptions : IDbDataConfigurationOptions
+	public class PgDbConnectionOptions : IDatabaseConfigurationOptions
 	{
 		public PgDbConnectionConfiguration[] PgDbConnections { get; set; }
 
-        public IDbConnectionConfiguration[] DbConnectionsInternal { get => PgDbConnections; }
+        public IDatabaseConnectionConfiguration[] DbConnectionsInternal { get => PgDbConnections; }
 
 	}
-	public class PgDbConnectionConfiguration : IDbConnectionConfiguration
+	public class PgDbConnectionConfiguration : IDatabaseConnectionConfiguration
 	{
 		public string DatabaseKey { get; set; }
 

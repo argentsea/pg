@@ -6,10 +6,26 @@ using Microsoft.Extensions.Options;
 namespace ArgentSea.Pg
 {
     /// <summary>
-    /// This configuration class contains the configuration information for a shard set.
+    /// A collection of ShardSets (with a UInt16 shardId type).
     /// </summary>
-    /// <typeparam name="TShard"></typeparam>
-    public class PgShardSets<TShard> : ArgentSea.ShardDataStores<TShard, PgShardConnectionOptions<TShard>> where TShard : IComparable
+    public class PgShardSets : ArgentSea.ShardSetsBase<short, PgShardConnectionOptions<short>>
+    {
+        public PgShardSets(
+            IOptions<PgShardConnectionOptions<short>> configOptions,
+            IOptions<DataSecurityOptions> securityOptions,
+            IOptions<DataResilienceOptions> resilienceStrategiesOptions,
+            ILogger<PgShardSets<short>> logger
+            ) : base(configOptions, securityOptions, resilienceStrategiesOptions, new DataProviderServiceFactory(), logger)
+        {
+
+        }
+    }
+
+    /// <summary>
+    /// A collection of ShardSets.
+    /// </summary>
+    /// <typeparam name="TShard">The type of the shardId index value.</typeparam>
+    public class PgShardSets<TShard> : ArgentSea.ShardSetsBase<TShard, PgShardConnectionOptions<TShard>> where TShard : IComparable
 	{
 		public PgShardSets(
 			IOptions<PgShardConnectionOptions<TShard>> configOptions,

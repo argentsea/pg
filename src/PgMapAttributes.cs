@@ -14,7 +14,7 @@ namespace ArgentSea.Pg
     /// <summary>
     /// This abstract class is a PostgreSQL-specific implementation of the ParameterMapAttribute class.
     /// </summary>
-	public abstract class PgParameterMapAttribute : ParameterMapAttribute
+	public abstract class PgParameterMapAttribute : ParameterMapAttributeBase
 	{
 		public PgParameterMapAttribute(string parameterName, NpgsqlDbType pgType) : base(parameterName, (int)pgType)
 		{
@@ -22,7 +22,8 @@ namespace ArgentSea.Pg
 		public PgParameterMapAttribute(string parameterName, NpgsqlDbType pgType, bool isRequired) : base(parameterName, (int)pgType, isRequired)
 		{
 		}
-	}
+
+    }
 
     #region String parameters
     /// <summary>

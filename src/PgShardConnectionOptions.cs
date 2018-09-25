@@ -8,7 +8,7 @@ namespace ArgentSea.Pg
     /// This options class contains the shard dataset configuration information.
     /// </summary>
     /// <typeparam name="TShard"></typeparam>
-	public class PgShardConnectionOptions<TShard> : IShardDataConfigurationOptions<TShard>
+	public class PgShardConnectionOptions<TShard> : IShardSetConfigurationOptions<TShard>
             where TShard : IComparable
     {
         public IShardConnectionsConfiguration<TShard>[] ShardSetsInternal { get => PgShardSets; }

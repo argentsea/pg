@@ -4,6 +4,8 @@
     <TargetFramework>netstandard2.0</TargetFramework>
     <AssemblyName>ArgentSea.Pg</AssemblyName>
     <RootNamespace>ArgentSea.Pg</RootNamespace>
+    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+    <PackageProjectUrl>http://www.argentsea.com</PackageProjectUrl>
   </PropertyGroup>
 
   <ItemGroup>

@@ -14,7 +14,7 @@ namespace ArgentSea.Pg
     /// Note that the SecurityKey must match a defined key in the DataSecurityOptions; likewise, a ResilienceKey (if defined) must match as key in the DataResilienceOptions array.
     /// If the ResilienceKey is not defined, a default data resilience strategy will be used.
     /// </summary>
-    public class PgConnectionConfiguration :  DataConnectionConfiguration
+    public class PgConnectionConfiguration :  DataConnectionConfigurationBase
     {
 
         private readonly NpgsqlConnectionStringBuilder _csb = new NpgsqlConnectionStringBuilder();

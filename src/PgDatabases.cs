@@ -6,7 +6,7 @@ namespace ArgentSea.Pg
     /// <summary>
     /// This class manages the non-sharded SQL database connections.
     /// </summary>
-    public class PgDatabases : DbDataStores<PgDbConnectionOptions>
+    public class PgDatabases : DatabasesBase<PgDbConnectionOptions>
 	{
 		public PgDatabases(
 			IOptions<PgDbConnectionOptions> configOptions,
