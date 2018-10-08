@@ -36,12 +36,19 @@ namespace ArgentSea.Pg
             return new NpgsqlConnection(connectionString);
         }
 
-        public void SetParameters(DbCommand cmd, DbParameterCollection parameters)
+        public void SetParameters(DbCommand cmd, DbParameterCollection parameters, Dictionary<string, object> parameterValues)
         {
             foreach (var sourcePrm in parameters)
             {
                 var npgSourcePrm = (NpgsqlParameter)sourcePrm;
                 var targetPrm = npgSourcePrm.Clone();
+                if (!(parameterValues is null))
+                {
+                    if (parameterValues.TryGetValue(targetPrm.ParameterName, out var prmValue))
+                    {
+                        targetPrm.Value = prmValue;
+                    }
+                }
                 cmd.Parameters.Add(targetPrm);
             }
             ((NpgsqlCommand)cmd).Prepare();
