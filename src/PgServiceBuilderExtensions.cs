@@ -23,7 +23,11 @@ namespace Microsoft.Extensions.DependencyInjection
 			IConfiguration config
 			)
 		{
-            PgServiceBuilderExtensions.AddPgServices<short>(services, config);
+
+            services.Configure<DataResilienceOptions>(config);
+            services.Configure<DataSecurityOptions>(config);
+            services.Configure<PgDbConnectionOptions>(config);
+            services.AddSingleton<PgDatabases>();
             return services;
 		}
 
@@ -39,14 +43,11 @@ namespace Microsoft.Extensions.DependencyInjection
 			IConfiguration config
 			) where TShard : IComparable
 		{
-            services.Configure<DataResilienceOptions>(config);
-            services.Configure<DataSecurityOptions>(config);
-            services.Configure<PgDbConnectionOptions>(config);
-            services.AddSingleton<PgDatabases>();
 
+            services.AddPgServices(config);
             services.Configure<PgShardConnectionOptions<TShard>>(config);
-			services.AddSingleton<ShardSetsBase<TShard, PgShardConnectionOptions<TShard>>>();
-			return services;
+            services.AddSingleton<ShardSetsBase<TShard, PgShardConnectionOptions<TShard>>, PgShardSets<TShard>>();
+            return services;
 		}
 	}
 }

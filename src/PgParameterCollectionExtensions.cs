@@ -37,7 +37,7 @@ namespace ArgentSea.Pg
 		/// For nvarchar(max) parameters, specify -1. 
 		/// Setting the value correctly will help avoid plan cache pollution (when not using stored procedures) and minimize memory buffer allocations.</param>
 		/// <returns>The DbParameterCollection to which the parameter was appended.</returns>
-		public static DbParameterCollection AddPgVarcharInParameter(this DbParameterCollection prms, string parameterName, string value, int maxLength)
+		public static DbParameterCollection AddPgVarcharInputParameter(this DbParameterCollection prms, string parameterName, string value, int maxLength)
 		{
 			var prm = new NpgsqlParameter(NormalizeSqlParameterName(parameterName), NpgsqlDbType.Varchar, maxLength)
 			{
@@ -54,7 +54,7 @@ namespace ArgentSea.Pg
 		/// <param name="parameterName">The name of the parameter. If the name doesn’t start with “:”, it will be automatically pre-pended.</param>
 		/// <param name="length">Specifies the number of characters in the string. If the original string value is smaller than this length, the returned value will be padded with spaces.</param>
 		/// <returns>The DbParameterCollection to which the parameter was appended.</returns>
-		public static DbParameterCollection AddPgVarcharOutParameter(this DbParameterCollection prms, string parameterName, int maxLength)
+		public static DbParameterCollection AddPgVarcharOutputParameter(this DbParameterCollection prms, string parameterName, int maxLength)
 		{
 			var prm = new NpgsqlParameter(NormalizeSqlParameterName(parameterName), NpgsqlDbType.Varchar, maxLength)
 			{
@@ -72,7 +72,7 @@ namespace ArgentSea.Pg
 		/// <param name="value">An empty string will be saved as a zero-length string; a null string will be saved as a database null value.</param>
 		/// <param name="length">Specifies the number of characters in the string. If the original string value is smaller than this length, the returned value will be padded with spaces.</param>
 		/// <returns>The DbParameterCollection to which the parameter was appended.</returns>
-		public static DbParameterCollection AddPgCharInParameter(this DbParameterCollection prms, string parameterName, string value, int length)
+		public static DbParameterCollection AddPgCharInputParameter(this DbParameterCollection prms, string parameterName, string value, int length)
 		{
 			var prm = new NpgsqlParameter(NormalizeSqlParameterName(parameterName), NpgsqlDbType.Char, length)
 			{
@@ -89,7 +89,7 @@ namespace ArgentSea.Pg
 		/// <param name="parameterName">The name of the parameter. If the name doesn’t start with “:”, it will be automatically pre-pended.</param>
 		/// <param name="length">Specifies the number of characters in the string. If the original string value is smaller than this length, the returned value will be padded with spaces.</param>
 		/// <returns>The DbParameterCollection to which the parameter was appended.</returns>
-		public static DbParameterCollection AddPgCharOutParameter(this DbParameterCollection prms, string parameterName, int length)
+		public static DbParameterCollection AddPgCharOutputParameter(this DbParameterCollection prms, string parameterName, int length)
 		{
 			var prm = new NpgsqlParameter(NormalizeSqlParameterName(parameterName), NpgsqlDbType.Char, length)
 			{
@@ -106,7 +106,7 @@ namespace ArgentSea.Pg
 		/// <param name="parameterName">The name of the parameter. If the name doesn’t start with “:”, it will be automatically pre-pended.</param>
 		/// <param name="value">An empty string will be saved as a zero-length string; a null string will be saved as a database null value.</param>
 		/// <returns>The DbParameterCollection to which the parameter was appended.</returns>
-		public static DbParameterCollection AddPgTextInParameter(this DbParameterCollection prms, string parameterName, string value)
+		public static DbParameterCollection AddPgTextInputParameter(this DbParameterCollection prms, string parameterName, string value)
 		{
 			var prm = new NpgsqlParameter(NormalizeSqlParameterName(parameterName), NpgsqlDbType.Text)
 			{
@@ -122,7 +122,7 @@ namespace ArgentSea.Pg
 		/// <param name="prms">The existing parameter collection to which this output parameter should be added.</param>
 		/// <param name="parameterName">The name of the parameter. If the name doesn’t start with “:”, it will be automatically pre-pended.</param>
 		/// <returns>The DbParameterCollection to which the parameter was appended.</returns>
-		public static DbParameterCollection AddPgTextOutParameter(this DbParameterCollection prms, string parameterName)
+		public static DbParameterCollection AddPgTextOutputParameter(this DbParameterCollection prms, string parameterName)
 		{
 			var prm = new NpgsqlParameter(NormalizeSqlParameterName(parameterName), NpgsqlDbType.Text)
 			{
@@ -141,7 +141,7 @@ namespace ArgentSea.Pg
 		/// <param name="parameterName">The name of the parameter. If the name doesn’t start with “:”, it will be automatically pre-pended.</param>
 		/// <param name="value">A 64-bit signed integer value.</param>
 		/// <returns>The DbParameterCollection to which the parameter was appended.</returns>
-		public static DbParameterCollection AddPgBigintInParameter(this DbParameterCollection prms, string parameterName, long value)
+		public static DbParameterCollection AddPgBigintInputParameter(this DbParameterCollection prms, string parameterName, long value)
 		{
 			var prm = new NpgsqlParameter<long>(NormalizeSqlParameterName(parameterName), NpgsqlDbType.Bigint)
 			{
@@ -158,7 +158,7 @@ namespace ArgentSea.Pg
 		/// <param name="parameterName">The name of the parameter. If the name doesn’t start with “:”, it will be automatically pre-pended.</param>
 		/// <param name="value">A 64-bit signed integer value or null.</param>
 		/// <returns>The DbParameterCollection to which the parameter was appended.</returns>
-		public static DbParameterCollection AddPgBigintInParameter(this DbParameterCollection prms, string parameterName, long? value)
+		public static DbParameterCollection AddPgBigintInputParameter(this DbParameterCollection prms, string parameterName, long? value)
 		{
 			if (value.HasValue)
 			{
@@ -186,7 +186,7 @@ namespace ArgentSea.Pg
 		/// <param name="prms">The existing parameter collection to which this output parameter should be added.</param>
 		/// <param name="parameterName">The name of the parameter. If the name doesn’t start with “:”, it will be automatically pre-pended.</param>
 		/// <returns>The DbParameterCollection to which the parameter was appended.</returns>
-		public static DbParameterCollection AddPgBigintOutParameter(this DbParameterCollection prms, string parameterName)
+		public static DbParameterCollection AddPgBigintOutputParameter(this DbParameterCollection prms, string parameterName)
 		{
 			var prm = new NpgsqlParameter(NormalizeSqlParameterName(parameterName), NpgsqlDbType.Bigint)
 			{
@@ -203,7 +203,7 @@ namespace ArgentSea.Pg
 		/// <param name="parameterName">The name of the parameter. If the name doesn’t start with “:”, it will be automatically pre-pended.</param>
 		/// <param name="value">A 32-bit signed integer value.</param>
 		/// <returns>The DbParameterCollection to which the parameter was appended.</returns>
-		public static DbParameterCollection AddPgIntegerInParameter(this DbParameterCollection prms, string parameterName, int value)
+		public static DbParameterCollection AddPgIntegerInputParameter(this DbParameterCollection prms, string parameterName, int value)
 		{
 			var prm = new NpgsqlParameter<int>(NormalizeSqlParameterName(parameterName), NpgsqlDbType.Integer)
 			{
@@ -220,7 +220,7 @@ namespace ArgentSea.Pg
 		/// <param name="parameterName">The name of the parameter. If the name doesn’t start with “:”, it will be automatically pre-pended.</param>
 		/// <param name="value">A 32-bit signed integer value or null.</param>
 		/// <returns>The DbParameterCollection to which the parameter was appended.</returns>
-		public static DbParameterCollection AddPgIntegerInParameter(this DbParameterCollection prms, string parameterName, int? value)
+		public static DbParameterCollection AddPgIntegerInputParameter(this DbParameterCollection prms, string parameterName, int? value)
 		{
 			if (value.HasValue)
 			{
@@ -248,7 +248,7 @@ namespace ArgentSea.Pg
 		/// <param name="prms">The existing parameter collection to which this output parameter should be added.</param>
 		/// <param name="parameterName">The name of the parameter. If the name doesn’t start with “:”, it will be automatically pre-pended.</param>
 		/// <returns>The DbParameterCollection to which the parameter was appended.</returns>
-		public static DbParameterCollection AddPgIntegerOutParameter(this DbParameterCollection prms, string parameterName)
+		public static DbParameterCollection AddPgIntegerOutputParameter(this DbParameterCollection prms, string parameterName)
 		{
 			var prm = new NpgsqlParameter(NormalizeSqlParameterName(parameterName), NpgsqlDbType.Integer)
 			{
@@ -266,7 +266,7 @@ namespace ArgentSea.Pg
 		/// <param name="parameterName">The name of the parameter. If the name doesn’t start with “:”, it will be automatically pre-pended.</param>
 		/// <param name="value">A 16-bit signed integer value.</param>
 		/// <returns>The DbParameterCollection to which the parameter was appended.</returns>
-		public static DbParameterCollection AddPgSmallintInParameter(this DbParameterCollection prms, string parameterName, short value)
+		public static DbParameterCollection AddPgSmallintInputParameter(this DbParameterCollection prms, string parameterName, short value)
 		{
 			var prm = new NpgsqlParameter<short>(NormalizeSqlParameterName(parameterName), NpgsqlDbType.Smallint)
 			{
@@ -283,7 +283,7 @@ namespace ArgentSea.Pg
 		/// <param name="parameterName">The name of the parameter. If the name doesn’t start with “:”, it will be automatically pre-pended.</param>
 		/// <param name="value">A 16-bit signed integer value or null.</param>
 		/// <returns>The DbParameterCollection to which the parameter was appended.</returns>
-		public static DbParameterCollection AddPgSmallintInParameter(this DbParameterCollection prms, string parameterName, short? value)
+		public static DbParameterCollection AddPgSmallintInputParameter(this DbParameterCollection prms, string parameterName, short? value)
 		{
 			if (value.HasValue)
 			{
@@ -311,7 +311,7 @@ namespace ArgentSea.Pg
 		/// <param name="prms">The existing parameter collection to which this output parameter should be added.</param>
 		/// <param name="parameterName">The name of the parameter. If the name doesn’t start with “:”, it will be automatically pre-pended.</param>
 		/// <returns>The DbParameterCollection to which the parameter was appended.</returns>
-		public static DbParameterCollection AddPgSmallintOutParameter(this DbParameterCollection prms, string parameterName)
+		public static DbParameterCollection AddPgSmallintOutputParameter(this DbParameterCollection prms, string parameterName)
 		{
 			var prm = new NpgsqlParameter(NormalizeSqlParameterName(parameterName), NpgsqlDbType.Smallint)
 			{
@@ -328,7 +328,7 @@ namespace ArgentSea.Pg
 		/// <param name="parameterName">The name of the parameter. If the name doesn’t start with “:”, it will be automatically pre-pended.</param>
 		/// <param name="value">An unsigned 8-bit integer value.</param>
 		/// <returns>The DbParameterCollection to which the parameter was appended.</returns>
-		public static DbParameterCollection AddPgInternalCharInParameter(this DbParameterCollection prms, string parameterName, byte value)
+		public static DbParameterCollection AddPgInternalCharInputParameter(this DbParameterCollection prms, string parameterName, byte value)
 		{
 			var prm = new NpgsqlParameter<byte>(NormalizeSqlParameterName(parameterName), NpgsqlDbType.InternalChar)
 			{
@@ -345,7 +345,7 @@ namespace ArgentSea.Pg
 		/// <param name="parameterName">The name of the parameter. If the name doesn’t start with “:”, it will be automatically pre-pended.</param>
 		/// <param name="value">An unsigned 8-bit integer value or null.</param>
 		/// <returns>The DbParameterCollection to which the parameter was appended.</returns>
-		public static DbParameterCollection AddPgInternalCharInParameter(this DbParameterCollection prms, string parameterName, byte? value)
+		public static DbParameterCollection AddPgInternalCharInputParameter(this DbParameterCollection prms, string parameterName, byte? value)
 		{
 			if (value.HasValue)
 			{
@@ -373,7 +373,7 @@ namespace ArgentSea.Pg
 		/// <param name="prms">The existing parameter collection to which this output parameter should be added.</param>
 		/// <param name="parameterName">The name of the parameter. If the name doesn’t start with “:”, it will be automatically pre-pended.</param>
 		/// <returns>The DbParameterCollection to which the parameter was appended.</returns>
-		public static DbParameterCollection AddPgInternalCharOutParameter(this DbParameterCollection prms, string parameterName)
+		public static DbParameterCollection AddPgInternalCharOutputParameter(this DbParameterCollection prms, string parameterName)
 		{
 			var prm = new NpgsqlParameter(NormalizeSqlParameterName(parameterName), NpgsqlDbType.InternalChar)
 			{
@@ -390,7 +390,7 @@ namespace ArgentSea.Pg
 		/// <param name="parameterName">The name of the parameter. If the name doesn’t start with “:”, it will be automatically pre-pended.</param>
 		/// <param name="value">A boolean value.</param>
 		/// <returns>The DbParameterCollection to which the parameter was appended.</returns>
-		public static DbParameterCollection AddPgBooleanInParameter(this DbParameterCollection prms, string parameterName, bool value)
+		public static DbParameterCollection AddPgBooleanInputParameter(this DbParameterCollection prms, string parameterName, bool value)
 		{
 			var prm = new NpgsqlParameter<bool>(NormalizeSqlParameterName(parameterName), NpgsqlDbType.Boolean)
 			{
@@ -407,7 +407,7 @@ namespace ArgentSea.Pg
 		/// <param name="parameterName">The name of the parameter. If the name doesn’t start with “:”, it will be automatically pre-pended.</param>
 		/// <param name="value">A boolean value or null.</param>
 		/// <returns>The DbParameterCollection to which the parameter was appended.</returns>
-		public static DbParameterCollection AddPgBooleanInParameter(this DbParameterCollection prms, string parameterName, bool? value)
+		public static DbParameterCollection AddPgBooleanInputParameter(this DbParameterCollection prms, string parameterName, bool? value)
 		{
 			if (value.HasValue)
 			{
@@ -435,7 +435,7 @@ namespace ArgentSea.Pg
 		/// <param name="prms">The existing parameter collection to which this output parameter should be added.</param>
 		/// <param name="parameterName">The name of the parameter. If the name doesn’t start with “:”, it will be automatically pre-pended.</param>
 		/// <returns>The DbParameterCollection to which the parameter was appended.</returns>
-		public static DbParameterCollection AddPgBooleanOutParameter(this DbParameterCollection prms, string parameterName)
+		public static DbParameterCollection AddPgBooleanOutputParameter(this DbParameterCollection prms, string parameterName)
 		{
 			var prm = new NpgsqlParameter(NormalizeSqlParameterName(parameterName), NpgsqlDbType.Boolean)
 			{
@@ -452,7 +452,7 @@ namespace ArgentSea.Pg
 		/// <param name="parameterName">The name of the parameter. If the name doesn’t start with “:”, it will be automatically pre-pended.</param>
 		/// <param name="value">A decmial value .</param>
 		/// <returns>The DbParameterCollection to which the parameter was appended.</returns>
-		public static DbParameterCollection AddPgNumericInParameter(this DbParameterCollection prms, string parameterName, decimal value, byte precision, byte scale)
+		public static DbParameterCollection AddPgNumericInputParameter(this DbParameterCollection prms, string parameterName, decimal value, byte precision, byte scale)
 		{
 			var prm = new NpgsqlParameter<decimal>(NormalizeSqlParameterName(parameterName), NpgsqlDbType.Numeric)
 			{
@@ -471,7 +471,7 @@ namespace ArgentSea.Pg
 		/// <param name="parameterName">The name of the parameter. If the name doesn’t start with “:”, it will be automatically pre-pended.</param>
 		/// <param name="value">A decmial value or null.</param>
 		/// <returns>The DbParameterCollection to which the parameter was appended.</returns>
-		public static DbParameterCollection AddPgNumericInParameter(this DbParameterCollection prms, string parameterName, decimal? value, byte precision, byte scale)
+		public static DbParameterCollection AddPgNumericInputParameter(this DbParameterCollection prms, string parameterName, decimal? value, byte precision, byte scale)
 		{
 			if (value.HasValue)
 			{
@@ -505,7 +505,7 @@ namespace ArgentSea.Pg
 		/// <param name="precision">Specifies the maximum number of digits used to store the number (inclusive of both sides of the decimal point).</param>
 		/// <param name="scale">Specifies the number of digits used in the fractional portion of the number (i.e. digits to the right of the decimal point).</param>
 		/// <returns>The DbParameterCollection to which the parameter was appended.</returns>
-		public static DbParameterCollection AddPgNumericOutParameter(this DbParameterCollection prms, string parameterName, byte precision, byte scale)
+		public static DbParameterCollection AddPgNumericOutputParameter(this DbParameterCollection prms, string parameterName, byte precision, byte scale)
 		{
 			var prm = new NpgsqlParameter(NormalizeSqlParameterName(parameterName), NpgsqlDbType.Numeric)
 			{
@@ -524,7 +524,7 @@ namespace ArgentSea.Pg
 		/// <param name="parameterName">The name of the parameter. If the name doesn’t start with “:”, it will be automatically pre-pended.</param>
 		/// <param name="value">A decmial value .</param>
 		/// <returns>The DbParameterCollection to which the parameter was appended.</returns>
-		public static DbParameterCollection AddPgMoneyInParameter(this DbParameterCollection prms, string parameterName, decimal value)
+		public static DbParameterCollection AddPgMoneyInputParameter(this DbParameterCollection prms, string parameterName, decimal value)
 		{
 			var prm = new NpgsqlParameter<decimal>(NormalizeSqlParameterName(parameterName), NpgsqlDbType.Money)
 			{
@@ -541,7 +541,7 @@ namespace ArgentSea.Pg
 		/// <param name="parameterName">The name of the parameter. If the name doesn’t start with “:”, it will be automatically pre-pended.</param>
 		/// <param name="value">A decmial value or null.</param>
 		/// <returns>The DbParameterCollection to which the parameter was appended.</returns>
-		public static DbParameterCollection AddPgMoneyInParameter(this DbParameterCollection prms, string parameterName, decimal? value)
+		public static DbParameterCollection AddPgMoneyInputParameter(this DbParameterCollection prms, string parameterName, decimal? value)
 		{
 			if (value.HasValue)
 			{
@@ -571,7 +571,7 @@ namespace ArgentSea.Pg
 		/// <param name="precision">Specifies the maximum number of digits used to store the number (inclusive of both sides of the decimal point).</param>
 		/// <param name="scale">Specifies the number of digits used in the fractional portion of the number (i.e. digits to the right of the decimal point).</param>
 		/// <returns>The DbParameterCollection to which the parameter was appended.</returns>
-		public static DbParameterCollection AddPgMoneyOutParameter(this DbParameterCollection prms, string parameterName)
+		public static DbParameterCollection AddPgMoneyOutputParameter(this DbParameterCollection prms, string parameterName)
 		{
 			var prm = new NpgsqlParameter(NormalizeSqlParameterName(parameterName), NpgsqlDbType.Money)
 			{
@@ -588,7 +588,7 @@ namespace ArgentSea.Pg
 		/// <param name="parameterName">The name of the parameter. If the name doesn’t start with “:”, it will be automatically pre-pended.</param>
 		/// <param name="value">A 64-bit floating-point value.</param>
 		/// <returns>The DbParameterCollection to which the parameter was appended.</returns>
-		public static DbParameterCollection AddPgDoubleInParameter(this DbParameterCollection prms, string parameterName, double value)
+		public static DbParameterCollection AddPgDoubleInputParameter(this DbParameterCollection prms, string parameterName, double value)
 		{
 			if (double.IsNaN(value))
 			{
@@ -617,7 +617,7 @@ namespace ArgentSea.Pg
 		/// <param name="parameterName">The name of the parameter. If the name doesn’t start with “:”, it will be automatically pre-pended.</param>
 		/// <param name="value">A 64-bit floating-point value or null.</param>
 		/// <returns>The DbParameterCollection to which the parameter was appended.</returns>
-		public static DbParameterCollection AddPgDoubleInParameter(this DbParameterCollection prms, string parameterName, double? value)
+		public static DbParameterCollection AddPgDoubleInputParameter(this DbParameterCollection prms, string parameterName, double? value)
 		{
 			if (value.HasValue)
 			{
@@ -645,7 +645,7 @@ namespace ArgentSea.Pg
 		/// <param name="prms">The existing parameter collection to which this output parameter should be added.</param>
 		/// <param name="parameterName">The name of the parameter. If the name doesn’t start with “:”, it will be automatically pre-pended.</param>
 		/// <returns>The DbParameterCollection to which the parameter was appended.</returns>
-		public static DbParameterCollection AddPgDoubleOutParameter(this DbParameterCollection prms, string parameterName)
+		public static DbParameterCollection AddPgDoubleOutputParameter(this DbParameterCollection prms, string parameterName)
 		{
 			var prm = new NpgsqlParameter(NormalizeSqlParameterName(parameterName), NpgsqlDbType.Double)
 			{
@@ -662,7 +662,7 @@ namespace ArgentSea.Pg
 		/// <param name="parameterName">The name of the parameter. If the name doesn’t start with “:”, it will be automatically pre-pended.</param>
 		/// <param name="value">A 32-bit floating point value (float).</param>
 		/// <returns>The DbParameterCollection to which the parameter was appended.</returns>
-		public static DbParameterCollection AddPgRealInParameter(this DbParameterCollection prms, string parameterName, float value)
+		public static DbParameterCollection AddPgRealInputParameter(this DbParameterCollection prms, string parameterName, float value)
 		{
 			if (float.IsNaN(value))
 			{
@@ -691,7 +691,7 @@ namespace ArgentSea.Pg
 		/// <param name="parameterName">The name of the parameter. If the name doesn’t start with “:”, it will be automatically pre-pended.</param>
 		/// <param name="value">A 32-bit floating point value (float) or null.</param>
 		/// <returns>The DbParameterCollection to which the parameter was appended.</returns>
-		public static DbParameterCollection AddPgRealInParameter(this DbParameterCollection prms, string parameterName, float? value)
+		public static DbParameterCollection AddPgRealInputParameter(this DbParameterCollection prms, string parameterName, float? value)
 		{
 			if (value.HasValue)
 			{
@@ -719,7 +719,7 @@ namespace ArgentSea.Pg
 		/// <param name="prms">The existing parameter collection to which this output parameter should be added.</param>
 		/// <param name="parameterName">The name of the parameter. If the name doesn’t start with “:”, it will be automatically pre-pended.</param>
 		/// <returns>The DbParameterCollection to which the parameter was appended.</returns>
-		public static DbParameterCollection AddPgRealOutParameter(this DbParameterCollection prms, string parameterName)
+		public static DbParameterCollection AddPgRealOutputParameter(this DbParameterCollection prms, string parameterName)
 		{
 			var prm = new NpgsqlParameter(NormalizeSqlParameterName(parameterName), NpgsqlDbType.Real)
 			{
@@ -738,7 +738,7 @@ namespace ArgentSea.Pg
 		/// <param name="parameterName">The name of the parameter. If the name doesn’t start with “:”, it will be automatically pre-pended.</param>
 		/// <param name="value">A date and time value .</param>
 		/// <returns>The DbParameterCollection to which the parameter was appended.</returns>
-		public static DbParameterCollection AddPgTimestampInParameter(this DbParameterCollection prms, string parameterName, DateTime value)
+		public static DbParameterCollection AddPgTimestampInputParameter(this DbParameterCollection prms, string parameterName, DateTime value)
 		{
 			var prm = new NpgsqlParameter<DateTime>(NormalizeSqlParameterName(parameterName), NpgsqlDbType.Timestamp)
 			{
@@ -755,7 +755,7 @@ namespace ArgentSea.Pg
 		/// <param name="parameterName">The name of the parameter. If the name doesn’t start with “:”, it will be automatically pre-pended.</param>
 		/// <param name="value">A date and time value or null.</param>
 		/// <returns>The DbParameterCollection to which the parameter was appended.</returns>
-		public static DbParameterCollection AddPgTimestampInParameter(this DbParameterCollection prms, string parameterName, DateTime? value)
+		public static DbParameterCollection AddPgTimestampInputParameter(this DbParameterCollection prms, string parameterName, DateTime? value)
 		{
 			if (value.HasValue)
 			{
@@ -770,7 +770,7 @@ namespace ArgentSea.Pg
 			{
 				var prm = new NpgsqlParameter(NormalizeSqlParameterName(parameterName), NpgsqlDbType.Timestamp)
 				{
-					Value = value.Value,
+					Value = System.DBNull.Value,
 					Direction = ParameterDirection.Input
 				};
 				prms.Add(prm);
@@ -783,7 +783,7 @@ namespace ArgentSea.Pg
 		/// <param name="prms">The existing parameter collection to which this output parameter should be added.</param>
 		/// <param name="parameterName">The name of the parameter. If the name doesn’t start with “:”, it will be automatically pre-pended.</param>
 		/// <returns>The DbParameterCollection to which the parameter was appended.</returns>
-		public static DbParameterCollection AddPgTimestampOutParameter(this DbParameterCollection prms, string parameterName)
+		public static DbParameterCollection AddPgTimestampOutputParameter(this DbParameterCollection prms, string parameterName)
 		{
 			var prm = new NpgsqlParameter(NormalizeSqlParameterName(parameterName), NpgsqlDbType.Timestamp)
 			{
@@ -800,7 +800,7 @@ namespace ArgentSea.Pg
 		/// <param name="parameterName">The name of the parameter. If the name doesn’t start with “:”, it will be automatically pre-pended.</param>
 		/// <param name="value">A DateTimeOffset value.</param>
 		/// <returns>The DbParameterCollection to which the parameter was appended.</returns>
-		public static DbParameterCollection AddPgTimestampTZInParameter(this DbParameterCollection prms, string parameterName, DateTimeOffset value)
+		public static DbParameterCollection AddPgTimestampTZInputParameter(this DbParameterCollection prms, string parameterName, DateTimeOffset value)
 		{
 			var prm = new NpgsqlParameter<DateTimeOffset>(NormalizeSqlParameterName(parameterName), NpgsqlDbType.TimestampTz)
 			{
@@ -817,7 +817,7 @@ namespace ArgentSea.Pg
 		/// <param name="parameterName">The name of the parameter. If the name doesn’t start with “:”, it will be automatically pre-pended.</param>
 		/// <param name="value">A DateTimeOffset value or null.</param>
 		/// <returns>The DbParameterCollection to which the parameter was appended.</returns>
-		public static DbParameterCollection AddPgTimestampTzInParameter(this DbParameterCollection prms, string parameterName, DateTimeOffset? value)
+		public static DbParameterCollection AddPgTimestampTzInputParameter(this DbParameterCollection prms, string parameterName, DateTimeOffset? value)
 		{
 			if (value.HasValue)
 			{
@@ -845,7 +845,7 @@ namespace ArgentSea.Pg
 		/// <param name="prms">The existing parameter collection to which this output parameter should be added.</param>
 		/// <param name="parameterName">The name of the parameter. If the name doesn’t start with “:”, it will be automatically pre-pended.</param>
 		/// <returns>The DbParameterCollection to which the parameter was appended.</returns>
-		public static DbParameterCollection AddPgTimestampTzOutParameter(this DbParameterCollection prms, string parameterName)
+		public static DbParameterCollection AddPgTimestampTzOutputParameter(this DbParameterCollection prms, string parameterName)
 		{
 			var prm = new NpgsqlParameter(NormalizeSqlParameterName(parameterName), NpgsqlDbType.TimestampTz)
 			{
@@ -862,7 +862,7 @@ namespace ArgentSea.Pg
 		/// <param name="parameterName">The name of the parameter. If the name doesn’t start with “:”, it will be automatically pre-pended.</param>
 		/// <param name="value">A DateTime value.</param>
 		/// <returns>The DbParameterCollection to which the parameter was appended.</returns>
-		public static DbParameterCollection AddPgDateInParameter(this DbParameterCollection prms, string parameterName, DateTime value)
+		public static DbParameterCollection AddPgDateInputParameter(this DbParameterCollection prms, string parameterName, DateTime value)
 		{
 			var prm = new NpgsqlParameter<DateTime>(NormalizeSqlParameterName(parameterName), NpgsqlDbType.Date)
 			{
@@ -879,7 +879,7 @@ namespace ArgentSea.Pg
 		/// <param name="parameterName">The name of the parameter. If the name doesn’t start with “:”, it will be automatically pre-pended.</param>
 		/// <param name="value">A DateTime value or null.</param>
 		/// <returns>The DbParameterCollection to which the parameter was appended.</returns>
-		public static DbParameterCollection AddPgDateInParameter(this DbParameterCollection prms, string parameterName, DateTime? value)
+		public static DbParameterCollection AddPgDateInputParameter(this DbParameterCollection prms, string parameterName, DateTime? value)
 		{
 			if (value.HasValue)
 			{
@@ -907,7 +907,7 @@ namespace ArgentSea.Pg
 		/// <param name="prms">The existing parameter collection to which this output parameter should be added.</param>
 		/// <param name="parameterName">The name of the parameter. If the name doesn’t start with “:”, it will be automatically pre-pended.</param>
 		/// <returns>The DbParameterCollection to which the parameter was appended.</returns>
-		public static DbParameterCollection AddPgDateOutParameter(this DbParameterCollection prms, string parameterName)
+		public static DbParameterCollection AddPgDateOutputParameter(this DbParameterCollection prms, string parameterName)
 		{
 			var prm = new NpgsqlParameter(NormalizeSqlParameterName(parameterName), NpgsqlDbType.Date)
 			{
@@ -924,7 +924,7 @@ namespace ArgentSea.Pg
 		/// <param name="parameterName">The name of the parameter. If the name doesn’t start with “:”, it will be automatically pre-pended.</param>
 		/// <param name="value">A time value .</param>
 		/// <returns>The DbParameterCollection to which the parameter was appended.</returns>
-		public static DbParameterCollection AddPgTimeInParameter(this DbParameterCollection prms, string parameterName, TimeSpan value)
+		public static DbParameterCollection AddPgTimeInputParameter(this DbParameterCollection prms, string parameterName, TimeSpan value)
 		{
 			var prm = new NpgsqlParameter<TimeSpan>(NormalizeSqlParameterName(parameterName), NpgsqlDbType.Time)
 			{
@@ -941,7 +941,7 @@ namespace ArgentSea.Pg
 		/// <param name="parameterName">The name of the parameter. If the name doesn’t start with “:”, it will be automatically pre-pended.</param>
 		/// <param name="value">A time value or null.</param>
 		/// <returns>The DbParameterCollection to which the parameter was appended.</returns>
-		public static DbParameterCollection AddPgTimeInParameter(this DbParameterCollection prms, string parameterName, TimeSpan? value)
+		public static DbParameterCollection AddPgTimeInputParameter(this DbParameterCollection prms, string parameterName, TimeSpan? value)
 		{
 			if (value.HasValue)
 			{
@@ -969,7 +969,7 @@ namespace ArgentSea.Pg
 		/// <param name="prms">The existing parameter collection to which this output parameter should be added.</param>
 		/// <param name="parameterName">The name of the parameter. If the name doesn’t start with “:”, it will be automatically pre-pended.</param>
 		/// <returns>The DbParameterCollection to which the parameter was appended.</returns>
-		public static DbParameterCollection AddPgTimeOutParameter(this DbParameterCollection prms, string parameterName)
+		public static DbParameterCollection AddPgTimeOutputParameter(this DbParameterCollection prms, string parameterName)
 		{
 			var prm = new NpgsqlParameter(NormalizeSqlParameterName(parameterName), NpgsqlDbType.Time)
 			{
@@ -986,13 +986,14 @@ namespace ArgentSea.Pg
 		/// <param name="parameterName">The name of the parameter. If the name doesn’t start with “:”, it will be automatically pre-pended.</param>
 		/// <param name="value">A time value .</param>
 		/// <returns>The DbParameterCollection to which the parameter was appended.</returns>
-		public static DbParameterCollection AddPgIntervalInParameter(this DbParameterCollection prms, string parameterName, TimeSpan value)
+		public static DbParameterCollection AddPgIntervalInputParameter(this DbParameterCollection prms, string parameterName, TimeSpan value)
 		{
 			var prm = new NpgsqlParameter<TimeSpan>(NormalizeSqlParameterName(parameterName), NpgsqlDbType.Interval)
 			{
 				TypedValue = value,
 				Direction = ParameterDirection.Input
 			};
+            prm.NpgsqlDbType = NpgsqlDbType.Interval;
 			prms.Add(prm);
 			return prms;
 		}
@@ -1003,7 +1004,7 @@ namespace ArgentSea.Pg
 		/// <param name="parameterName">The name of the parameter. If the name doesn’t start with “:”, it will be automatically pre-pended.</param>
 		/// <param name="value">A time value or null.</param>
 		/// <returns>The DbParameterCollection to which the parameter was appended.</returns>
-		public static DbParameterCollection AddPgIntervalInParameter(this DbParameterCollection prms, string parameterName, TimeSpan? value)
+		public static DbParameterCollection AddPgIntervalInputParameter(this DbParameterCollection prms, string parameterName, TimeSpan? value)
 		{
 			if (value.HasValue)
 			{
@@ -1012,7 +1013,8 @@ namespace ArgentSea.Pg
 					TypedValue = value.Value,
 					Direction = ParameterDirection.Input
 				};
-				prms.Add(prm);
+                prm.NpgsqlDbType = NpgsqlDbType.Interval;
+                prms.Add(prm);
 			}
 			else
 			{
@@ -1031,7 +1033,7 @@ namespace ArgentSea.Pg
 		/// <param name="prms">The existing parameter collection to which this output parameter should be added.</param>
 		/// <param name="parameterName">The name of the parameter. If the name doesn’t start with “:”, it will be automatically pre-pended.</param>
 		/// <returns>The DbParameterCollection to which the parameter was appended.</returns>
-		public static DbParameterCollection AddPgIntervalOutParameter(this DbParameterCollection prms, string parameterName)
+		public static DbParameterCollection AddPgIntervalOutputParameter(this DbParameterCollection prms, string parameterName)
 		{
 			var prm = new NpgsqlParameter(NormalizeSqlParameterName(parameterName), NpgsqlDbType.Interval)
 			{
@@ -1048,7 +1050,7 @@ namespace ArgentSea.Pg
 		/// <param name="parameterName">The name of the parameter. If the name doesn’t start with “:”, it will be automatically pre-pended.</param>
 		/// <param name="value">A time value .</param>
 		/// <returns>The DbParameterCollection to which the parameter was appended.</returns>
-		public static DbParameterCollection AddPgTimeTzInParameter(this DbParameterCollection prms, string parameterName, TimeSpan value)
+		public static DbParameterCollection AddPgTimeTzInputParameter(this DbParameterCollection prms, string parameterName, TimeSpan value)
 		{
 			var prm = new NpgsqlParameter<TimeSpan>(NormalizeSqlParameterName(parameterName), NpgsqlDbType.TimeTz)
 			{
@@ -1065,7 +1067,7 @@ namespace ArgentSea.Pg
 		/// <param name="parameterName">The name of the parameter. If the name doesn’t start with “:”, it will be automatically pre-pended.</param>
 		/// <param name="value">A time value .</param>
 		/// <returns>The DbParameterCollection to which the parameter was appended.</returns>
-		public static DbParameterCollection AddPgTimeTzInParameter(this DbParameterCollection prms, string parameterName, DateTimeOffset value)
+		public static DbParameterCollection AddPgTimeTzInputParameter(this DbParameterCollection prms, string parameterName, DateTimeOffset value)
 		{
 			var prm = new NpgsqlParameter<DateTimeOffset>(NormalizeSqlParameterName(parameterName), NpgsqlDbType.TimeTz)
 			{
@@ -1082,7 +1084,7 @@ namespace ArgentSea.Pg
 		/// <param name="parameterName">The name of the parameter. If the name doesn’t start with “:”, it will be automatically pre-pended.</param>
 		/// <param name="value">A time value or null.</param>
 		/// <returns>The DbParameterCollection to which the parameter was appended.</returns>
-		public static DbParameterCollection AddPgTimeTzInParameter(this DbParameterCollection prms, string parameterName, TimeSpan? value)
+		public static DbParameterCollection AddPgTimeTzInputParameter(this DbParameterCollection prms, string parameterName, TimeSpan? value)
 		{
 			if (value.HasValue)
 			{
@@ -1111,7 +1113,7 @@ namespace ArgentSea.Pg
 		/// <param name="parameterName">The name of the parameter. If the name doesn’t start with “:”, it will be automatically pre-pended.</param>
 		/// <param name="value">A time value or null.</param>
 		/// <returns>The DbParameterCollection to which the parameter was appended.</returns>
-		public static DbParameterCollection AddPgTimeTzInParameter(this DbParameterCollection prms, string parameterName, DateTimeOffset? value)
+		public static DbParameterCollection AddPgTimeTzInputParameter(this DbParameterCollection prms, string parameterName, DateTimeOffset? value)
 		{
 			if (value.HasValue)
 			{
@@ -1139,7 +1141,7 @@ namespace ArgentSea.Pg
 		/// <param name="prms">The existing parameter collection to which this output parameter should be added.</param>
 		/// <param name="parameterName">The name of the parameter. If the name doesn’t start with “:”, it will be automatically pre-pended.</param>
 		/// <returns>The DbParameterCollection to which the parameter was appended.</returns>
-		public static DbParameterCollection AddPgTimeTzOutParameter(this DbParameterCollection prms, string parameterName)
+		public static DbParameterCollection AddPgTimeTzOutputParameter(this DbParameterCollection prms, string parameterName)
 		{
 			var prm = new NpgsqlParameter(NormalizeSqlParameterName(parameterName), NpgsqlDbType.TimeTz)
 			{
@@ -1159,9 +1161,9 @@ namespace ArgentSea.Pg
 		/// <param name="value">An array, or null.</param>
 		/// <param name="length">The maximum allowable number of bytes in the database column. Use -1 for varbinary(max).</param>
 		/// <returns>The DbParameterCollection to which the parameter was appended.</returns>
-		public static DbParameterCollection AddPgArrayInParameter<T>(this DbParameterCollection prms, string parameterName, Array value)
+		public static DbParameterCollection AddPgArrayInputParameter(this DbParameterCollection prms, string parameterName, Array value, NpgsqlDbType npgsqlDbType)
 		{
-			var prm = new NpgsqlParameter(NormalizeSqlParameterName(parameterName), NpgsqlDbType.Array)
+			var prm = new NpgsqlParameter(NormalizeSqlParameterName(parameterName), NpgsqlDbType.Array | npgsqlDbType)
 			{
 				Value = value ?? (dynamic)System.DBNull.Value,
 				Direction = ParameterDirection.Input
@@ -1176,9 +1178,9 @@ namespace ArgentSea.Pg
 		/// <param name="parameterName">The name of the parameter. If the name doesn’t start with “:”, it will be automatically pre-pended.</param>
 		/// <param name="length">The maximum allowable number of bytes in the database column. Use -1 for varbinary(max).</param>
 		/// <returns>The DbParameterCollection to which the parameter was appended.</returns>
-		public static DbParameterCollection AddPgArrayOutParameter(this DbParameterCollection prms, string parameterName)
+		public static DbParameterCollection AddPgArrayOutputParameter(this DbParameterCollection prms, string parameterName, NpgsqlDbType npgsqlDbType)
 		{
-			var prm = new NpgsqlParameter(NormalizeSqlParameterName(parameterName), NpgsqlDbType.Array)
+			var prm = new NpgsqlParameter(NormalizeSqlParameterName(parameterName), NpgsqlDbType.Array | npgsqlDbType)
 			{
 				Direction = ParameterDirection.Output
 			};
@@ -1194,7 +1196,7 @@ namespace ArgentSea.Pg
 		/// <param name="value">An array of bytes, or null.</param>
 		/// <param name="length">The maximum allowable number of bytes in the database column. Use -1 for varbinary(max).</param>
 		/// <returns>The DbParameterCollection to which the parameter was appended.</returns>
-		public static DbParameterCollection AddPgByteaInParameter(this DbParameterCollection prms, string parameterName, byte[] value, int length)
+		public static DbParameterCollection AddPgByteaInputParameter(this DbParameterCollection prms, string parameterName, byte[] value, int length)
 		{
 			var prm = new NpgsqlParameter(NormalizeSqlParameterName(parameterName), NpgsqlDbType.Bytea, length)
 			{
@@ -1211,7 +1213,7 @@ namespace ArgentSea.Pg
 		/// <param name="parameterName">The name of the parameter. If the name doesn’t start with “:”, it will be automatically pre-pended.</param>
 		/// <param name="length">The maximum allowable number of bytes in the database column. Use -1 for varbinary(max).</param>
 		/// <returns>The DbParameterCollection to which the parameter was appended.</returns>
-		public static DbParameterCollection AddPgByteaOutParameter(this DbParameterCollection prms, string parameterName, int length)
+		public static DbParameterCollection AddPgByteaOutputParameter(this DbParameterCollection prms, string parameterName, int length)
 		{
 			var prm = new NpgsqlParameter(NormalizeSqlParameterName(parameterName), NpgsqlDbType.Bytea, length)
 			{
@@ -1229,9 +1231,9 @@ namespace ArgentSea.Pg
 		/// <param name="value">An array of bytes, or null.</param>
 		/// <param name="length">The maximum allowable number of bytes in the database column. Use -1 for varbinary(max).</param>
 		/// <returns>The DbParameterCollection to which the parameter was appended.</returns>
-		public static DbParameterCollection AddPgHstoreInParameter(this DbParameterCollection prms, string parameterName, IDictionary<string, string> value, int length)
+		public static DbParameterCollection AddPgHstoreInputParameter(this DbParameterCollection prms, string parameterName, IDictionary<string, string> value)
 		{
-			var prm = new NpgsqlParameter(NormalizeSqlParameterName(parameterName), NpgsqlDbType.Hstore, length)
+			var prm = new NpgsqlParameter(NormalizeSqlParameterName(parameterName), NpgsqlDbType.Hstore)
 			{
 				Value = value ?? (dynamic)System.DBNull.Value,
 				Direction = ParameterDirection.Input
@@ -1246,24 +1248,25 @@ namespace ArgentSea.Pg
 		/// <param name="parameterName">The name of the parameter. If the name doesn’t start with “:”, it will be automatically pre-pended.</param>
 		/// <param name="length">The maximum allowable number of bytes in the database column. Use -1 for varbinary(max).</param>
 		/// <returns>The DbParameterCollection to which the parameter was appended.</returns>
-		public static DbParameterCollection AddPgHstoreOutParameter(this DbParameterCollection prms, string parameterName, int length)
+		public static DbParameterCollection AddPgHstoreOutputParameter(this DbParameterCollection prms, string parameterName)
 		{
-			var prm = new NpgsqlParameter(NormalizeSqlParameterName(parameterName), NpgsqlDbType.Bytea, length)
+			var prm = new NpgsqlParameter(NormalizeSqlParameterName(parameterName), NpgsqlDbType.Hstore)
 			{
 				Direction = ParameterDirection.Output
 			};
 			prms.Add(prm);
 			return prms;
 		}
-		//UUID
-		/// <summary>
-		/// Creates a parameter for providing a Guid or DBNull (via Guid.Empty) to a stored procedure.
-		/// </summary>
-		/// <param name="prms">The existing parameter collection to which this parameter should be added.</param>
-		/// <param name="parameterName">The name of the parameter. If the name doesn’t start with “:”, it will be automatically pre-pended.</param>
-		/// <param name="value">A Guid value. Will convert Guild.Empty to DBNull.</param>
-		/// <returns>The DbParameterCollection to which the parameter was appended.</returns>
-		public static DbParameterCollection AddPgUuidInParameter(this DbParameterCollection prms, string parameterName, Guid value)
+
+        //UUID
+        /// <summary>
+        /// Creates a parameter for providing a Guid or DBNull (via Guid.Empty) to a stored procedure.
+        /// </summary>
+        /// <param name="prms">The existing parameter collection to which this parameter should be added.</param>
+        /// <param name="parameterName">The name of the parameter. If the name doesn’t start with “:”, it will be automatically pre-pended.</param>
+        /// <param name="value">A Guid value. Will convert Guild.Empty to DBNull.</param>
+        /// <returns>The DbParameterCollection to which the parameter was appended.</returns>
+        public static DbParameterCollection AddPgUuidInputParameter(this DbParameterCollection prms, string parameterName, Guid value)
 		{
 			if (Guid.Empty.Equals(value))
 			{
@@ -1291,7 +1294,7 @@ namespace ArgentSea.Pg
 		/// <param name="prms">The existing parameter collection to which this parameter should be added.</param>
 		/// <param name="parameterName">The name of the parameter. If the name doesn’t start with “:”, it will be automatically pre-pended.</param>
 		/// <returns>The DbParameterCollection to which the parameter was appended.</returns>
-		public static DbParameterCollection AddPgUuidInParameter(this DbParameterCollection prms, string parameterName, Guid? value)
+		public static DbParameterCollection AddPgUuidInputParameter(this DbParameterCollection prms, string parameterName, Guid? value)
 		{
 			if (value.HasValue)
 			{
@@ -1319,7 +1322,7 @@ namespace ArgentSea.Pg
 		/// <param name="prms">The existing parameter collection to which this output parameter should be added.</param>
 		/// <param name="parameterName">The name of the parameter. If the name doesn’t start with “:”, it will be automatically pre-pended.</param>
 		/// <returns>The DbParameterCollection to which the parameter was appended.</returns>
-		public static DbParameterCollection AddPgUuidOutParameter(this DbParameterCollection prms, string parameterName)
+		public static DbParameterCollection AddPgUuidOutputParameter(this DbParameterCollection prms, string parameterName)
 		{
 			var prm = new NpgsqlParameter(NormalizeSqlParameterName(parameterName), NpgsqlDbType.Uuid)
 			{
@@ -1328,44 +1331,7 @@ namespace ArgentSea.Pg
 			prms.Add(prm);
 			return prms;
 		}
-		////ENUM
-		///// <summary>
-		///// Creates a parameter for providing a fixed-sized byte array to a stored procedure. A null reference will save DBNull.
-		///// </summary>
-		///// <param name="prms">The existing parameter collection to which this parameter should be added.</param>
-		///// <param name="parameterName">The name of the parameter. If the name doesn’t start with “:”, it will be automatically pre-pended.</param>
-		///// <param name="value">An array of bytes, or null.</param>
-		///// <param name="length">The fixed number of bytes in the database column.</param>
-		///// <returns>The DbParameterCollection to which the parameter was appended.</returns>
-		//public static DbParameterCollection AddPgEnumInParameter(this DbParameterCollection prms, string parameterName, Enum value)
-		//{
-		//	var prm = new NpgsqlParameter(NormalizeSqlParameterName(parameterName), NpgsqlDbType.Enum)
-		//	{
-		//		Value = value == null ? (dynamic)System.DBNull.Value : value,
-		//		Direction = ParameterDirection.Input
-		//	};
-		//	prms.Add(prm);
-		//	return prms;
-		//}
-		///// <summary>
-		///// Creates a parameter for obtaining a fixed-sized byte array from a stored procedure.
-		///// </summary>
-		///// <param name="prms">The existing parameter collection to which this output parameter should be added.</param>
-		///// <param name="parameterName">The name of the parameter. If the name doesn’t start with “:”, it will be automatically pre-pended.</param>
-		///// <param name="length">The fixed number of bytes in the database column.</param>
-		///// <returns>The DbParameterCollection to which the parameter was appended.</returns>
-		//public static DbParameterCollection AddPgEnumOutParameter(this DbParameterCollection prms, string parameterName)
-		//{
-		//	var prm = new NpgsqlParameter(NormalizeSqlParameterName(parameterName), NpgsqlDbType.Enum)
-		//	{
-		//		Direction = ParameterDirection.Output
-		//	};
-		//	prms.Add(prm);
-		//	return prms;
-		//}
 		#endregion
-		//public static Enum GetEnum(this DbParameter prm) 
-		//	=> (Enum)prm.Value;
 
 	}
 }
