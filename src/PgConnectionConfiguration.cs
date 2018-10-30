@@ -44,6 +44,7 @@ namespace ArgentSea.Pg
                     }
                 }
                 _connectionString = _csb.ToString();
+                hasConnectionPropertyChanged = false;
             }
             return _connectionString;
         }

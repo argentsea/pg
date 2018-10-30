@@ -75,6 +75,9 @@ namespace ArgentSea.Pg.Test
 
             var dbService = new PgDatabases(sqlDbOptions, securityOptions, resilienceOptions, dbLogger);
             dbService.Count.Should().Be(2, "two connections are defined in the configuration file");
+            dbService["MainDb"].ConnectionString.Should().Contain("webUser", "the configuration file specifies this credential key user");
+            dbService["MainDb"].ConnectionString.Should().Contain("user1234", "the configuration file specifies this credential key password");
+            dbService["OtherDb"].ConnectionString.Should().Contain("Integrated Security=True", "the configuration file specifies this credential key");
 
             var shardLogger = NSubstitute.Substitute.For<Microsoft.Extensions.Logging.ILogger<ArgentSea.Pg.PgShardSets<short>>>();
 
@@ -83,7 +86,8 @@ namespace ArgentSea.Pg.Test
             shardService.Count.Should().Be(2, "two shard sets are defined in the configuration file");
             shardService["Set1"].Count.Should().Be(2, "the configuration file has two shard connections defined on shard set Set1");
             shardService["Set2"].Count.Should().Be(2, "the configuration file has two shard connections defined on shard set Set2");
-            shardService["Set1"][0].Read.ConnectionString.Should().Contain("webUser", "the configuration file specifies this credential key");
+            shardService["Set1"][0].Read.ConnectionString.Should().Contain("webUser", "the configuration file specifies this credential key user");
+            shardService["Set1"][0].Read.ConnectionString.Should().Contain("user1234", "the configuration file specifies this credential key password");
             shardService["Set2"][0].Read.ConnectionString.Should().Contain("Integrated Security=True", "the configuration file specifies this credential key");
         }
     }
