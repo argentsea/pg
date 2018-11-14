@@ -16,8 +16,9 @@ namespace ArgentSea.Pg
     /// "PgDbConnections": [
     ///   {
     ///     "DatabaseKey": "MyDatabase",
-    ///     "SecurityKey": "SecKey1",
     ///       "DataConnection": {
+    ///         "UserName": "webUser",
+    ///         "Password": "pwd1234",
     ///         "Host": "localhost",
     ///         "Database": "MyDb"
     ///     }
@@ -38,7 +39,7 @@ namespace ArgentSea.Pg
 	{
 		public string DatabaseKey { get; set; }
 
-		public IConnectionConfiguration DataConnectionInternal { get => DataConnection; }
+		public IDataConnection DataConnectionInternal { get => DataConnection; }
 
         public PgConnectionConfiguration DataConnection { get; set; }
 	}

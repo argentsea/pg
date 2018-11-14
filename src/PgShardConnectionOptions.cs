@@ -11,26 +11,26 @@ namespace ArgentSea.Pg
     /// This options class contains the shard dataset configuration information.
     /// </summary>
     /// <typeparam name="TShard"></typeparam>
-	public class PgShardConnectionOptions<TShard> : IShardSetConfigurationOptions<TShard>
+	public class PgShardConnectionOptions<TShard> : IShardSetsConfigurationOptions<TShard>
             where TShard : IComparable
     {
-        public IShardConnectionsConfiguration<TShard>[] ShardSetsInternal { get => PgShardSets; }
+        public IShardSetConnectionsConfiguration<TShard>[] ShardSetsInternal { get => PgShardSets; }
 		public PgShardConnectionsConfiguration[] PgShardSets { get; set; }
 
-		public class PgShardConnectionsConfiguration : IShardConnectionsConfiguration<TShard>
+		public class PgShardConnectionsConfiguration : PgConnectionPropertiesBase, IShardSetConnectionsConfiguration<TShard>
         {
             public string ShardSetName { get; set; }
 			public IShardConnectionConfiguration<TShard>[] ShardsInternal { get => Shards; }
 			public PgShardConnectionConfiguration[] Shards { get; set; }
 		}
 
-		public class PgShardConnectionConfiguration : IShardConnectionConfiguration<TShard>
+		public class PgShardConnectionConfiguration : PgConnectionPropertiesBase, IShardConnectionConfiguration<TShard>
 		{
 			public TShard ShardId { get; set; }
-			public IConnectionConfiguration ReadConnectionInternal { get => ReadConnection; }
-			public IConnectionConfiguration WriteConnectionInternal { get => WriteConnection; }
-			public PgConnectionConfiguration ReadConnection { get; set; }
-			public PgConnectionConfiguration WriteConnection { get; set; }
+			public IDataConnection ReadConnectionInternal { get => ReadConnection; }
+			public IDataConnection WriteConnectionInternal { get => WriteConnection; }
+            public PgConnectionConfiguration ReadConnection { get; set; } = new PgConnectionConfiguration();
+			public PgConnectionConfiguration WriteConnection { get; set; } = new PgConnectionConfiguration();
         }
 
 	}

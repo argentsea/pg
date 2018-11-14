@@ -7,16 +7,15 @@ using Microsoft.Extensions.Options;
 namespace ArgentSea.Pg
 {
     /// <summary>
-    /// This class manages the non-sharded SQL database connections.
+    /// This class manages the non-sharded PosgreSQL database connections.
     /// </summary>
     public class PgDatabases : DatabasesBase<PgDbConnectionOptions>
 	{
 		public PgDatabases(
 			IOptions<PgDbConnectionOptions> configOptions,
-			IOptions<DataSecurityOptions> securityOptions,
-			IOptions<DataResilienceOptions> resilienceStrategiesOptions,
+			IOptions<PgGlobalPropertiesOptions> globalOptions,
 			ILogger<PgDatabases> logger
-			) : base(configOptions, securityOptions, resilienceStrategiesOptions, (IDataProviderServiceFactory)new DataProviderServiceFactory(), logger)
+			) : base(configOptions, (IDataProviderServiceFactory)new DataProviderServiceFactory(), globalOptions?.Value, logger)
 		{
 
 		}

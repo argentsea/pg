@@ -26,9 +26,7 @@ namespace Microsoft.Extensions.DependencyInjection
 			IConfiguration config
 			)
 		{
-
-            services.Configure<DataResilienceOptions>(config);
-            services.Configure<DataSecurityOptions>(config);
+            services.Configure<PgGlobalPropertiesOptions>(config.GetSection("PgGlobalSettings"));
             services.Configure<PgDbConnectionOptions>(config);
             services.AddSingleton<PgDatabases>();
             return services;
