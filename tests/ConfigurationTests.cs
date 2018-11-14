@@ -37,8 +37,11 @@ namespace ArgentSea.Pg.Test
 
             var pgDbData = sqlDbOptions.Value;
             pgDbData.PgDbConnections.Length.Should().Be(2, "two conections are defined in the configuration file.");
-            pgDbData.PgDbConnections[0].DataConnection.GetConnectionString().Should().Contain("MyApp", "the the application name should be inherited from a the global value");
-            pgDbData.PgDbConnections[1].DataConnection.GetConnectionString().Should().Contain("MyOtherApp", "the the application name should be inherited from a the global value");
+            pgDbData.PgDbConnections[0].DataConnectionInternal.SetAmbientConfiguration(globalData, null, null);
+            pgDbData.PgDbConnections[1].DataConnectionInternal.SetAmbientConfiguration(globalData, null, null);
+
+            pgDbData.PgDbConnections[0].DataConnection.GetConnectionString().Should().Be("Application Name=MyApp;Use Perf Counters=False;Database=MainDb;Host=10.10.25.1", "this is the value inherited from global configuration settings.");
+            pgDbData.PgDbConnections[1].DataConnection.GetConnectionString().Should().Be("Application Name=MyOtherApp;Use Perf Counters=False;Database=OtherDb;Host=10.10.25.2", "this is the value that overrides the global setting");
 
             var pgShardData = sqlShardOptions.Value;
             pgShardData.PgShardSets.Length.Should().Be(2, "there are two shard sets defined");

@@ -28,11 +28,11 @@
   "PgShardSets": [
     {
       "ShardSetName": "Inherit",
-      "ShardId": 0,
       "ApplicationName": "Inheritance",
       "Host": "10.10.25.1",
       "Shards": [
         {
+          "ShardId": 0,
           "Host": "10.10.25.3"
         },
         {
