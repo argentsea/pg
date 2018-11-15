@@ -35,12 +35,13 @@ namespace ArgentSea.Pg
         public IDatabaseConnectionConfiguration[] DbConnectionsInternal { get => PgDbConnections; }
 
 	}
-	public class PgDbConnectionConfiguration : IDatabaseConnectionConfiguration
-	{
+	public class PgDbConnectionConfiguration : PgConnectionPropertiesBase, IDatabaseConnectionConfiguration
+    {
 		public string DatabaseKey { get; set; }
 
-		public IDataConnection DataConnectionInternal { get => DataConnection; }
-
-        public PgConnectionConfiguration DataConnection { get; set; }
-	}
+        public IDataConnection ReadConnectionInternal { get => ReadConnection; }
+        public IDataConnection WriteConnectionInternal { get => WriteConnection; }
+        public PgConnectionConfiguration ReadConnection { get; set; } = new PgConnectionConfiguration();
+        public PgConnectionConfiguration WriteConnection { get; set; } = new PgConnectionConfiguration();
+    }
 }

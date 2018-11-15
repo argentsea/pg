@@ -11,18 +11,14 @@
   "PgDbConnections": [
     {
       "DatabaseKey": "MainDb",
-      "DataConnection": {
-        "Host": "10.10.25.1",
-        "Database": "MainDb"
-      }
+      "Host": "10.10.25.1",
+      "Database": "MainDb"
     },
     {
       "DatabaseKey": "OtherDb",
-      "DataConnection": {
-        "ApplicationName": "MyOtherApp",
-        "Host": "10.10.25.2",
-        "Database": "OtherDb"
-      }
+      "ApplicationName": "MyOtherApp",
+      "Host": "10.10.25.2",
+      "Database": "OtherDb"
     }
   ],
   "PgShardSets": [

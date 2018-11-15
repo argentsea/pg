@@ -37,11 +37,15 @@ namespace ArgentSea.Pg.Test
 
             var pgDbData = sqlDbOptions.Value;
             pgDbData.PgDbConnections.Length.Should().Be(2, "two conections are defined in the configuration file.");
-            pgDbData.PgDbConnections[0].DataConnectionInternal.SetAmbientConfiguration(globalData, null, null);
-            pgDbData.PgDbConnections[1].DataConnectionInternal.SetAmbientConfiguration(globalData, null, null);
+            pgDbData.PgDbConnections[0].ReadConnectionInternal.SetAmbientConfiguration(globalData, null, pgDbData.PgDbConnections[0]);
+            pgDbData.PgDbConnections[0].WriteConnectionInternal.SetAmbientConfiguration(globalData, null, pgDbData.PgDbConnections[0]);
+            pgDbData.PgDbConnections[1].ReadConnectionInternal.SetAmbientConfiguration(globalData, null, pgDbData.PgDbConnections[1]);
+            pgDbData.PgDbConnections[1].WriteConnectionInternal.SetAmbientConfiguration(globalData, null, pgDbData.PgDbConnections[1]);
 
-            pgDbData.PgDbConnections[0].DataConnection.GetConnectionString().Should().Be("Application Name=MyApp;Use Perf Counters=False;Database=MainDb;Host=10.10.25.1", "this is the value inherited from global configuration settings.");
-            pgDbData.PgDbConnections[1].DataConnection.GetConnectionString().Should().Be("Application Name=MyOtherApp;Use Perf Counters=False;Database=OtherDb;Host=10.10.25.2", "this is the value that overrides the global setting");
+            pgDbData.PgDbConnections[0].ReadConnection.GetConnectionString().Should().Be("Application Name=MyApp;Use Perf Counters=False;Database=MainDb;Host=10.10.25.1", "this is the value inherited from global configuration settings.");
+            pgDbData.PgDbConnections[0].WriteConnection.GetConnectionString().Should().Be("Application Name=MyApp;Use Perf Counters=False;Database=MainDb;Host=10.10.25.1", "this is the value inherited from global configuration settings.");
+            pgDbData.PgDbConnections[1].ReadConnection.GetConnectionString().Should().Be("Application Name=MyOtherApp;Use Perf Counters=False;Database=OtherDb;Host=10.10.25.2", "this is the value that overrides the global setting");
+            pgDbData.PgDbConnections[1].WriteConnection.GetConnectionString().Should().Be("Application Name=MyOtherApp;Use Perf Counters=False;Database=OtherDb;Host=10.10.25.2", "this is the value that overrides the global setting");
 
             var pgShardData = sqlShardOptions.Value;
             pgShardData.PgShardSets.Length.Should().Be(2, "there are two shard sets defined");
@@ -67,8 +71,8 @@ namespace ArgentSea.Pg.Test
 
             var dbService = new PgDatabases(pgDbOptions, globalOptions, dbLogger);
             dbService.Count.Should().Be(2, "two connections are defined in the configuration file");
-            dbService["MainDb"].ConnectionString.Should().Be("Application Name=MyApp;Use Perf Counters=False;Database=MainDb;Host=10.10.25.1", "this is the value inherited from global configuratoin settings.");
-            dbService["OtherDb"].ConnectionString.Should().Be("Application Name=MyOtherApp;Use Perf Counters=False;Database=OtherDb;Host=10.10.25.2", "this is the value that overrides the global setting");
+            dbService["MainDb"].Read.ConnectionString.Should().Be("Application Name=MyApp;Use Perf Counters=False;Database=MainDb;Host=10.10.25.1", "this is the value inherited from global configuratoin settings.");
+            dbService["OtherDb"].Read.ConnectionString.Should().Be("Application Name=MyOtherApp;Use Perf Counters=False;Database=OtherDb;Host=10.10.25.2", "this is the value that overrides the global setting");
             var shardLogger = NSubstitute.Substitute.For<Microsoft.Extensions.Logging.ILogger<ArgentSea.Pg.PgShardSets<short>>>();
 
             var shardService = new ArgentSea.Pg.PgShardSets<short>(pgShardOptions, globalOptions, shardLogger);
@@ -85,62 +89,6 @@ namespace ArgentSea.Pg.Test
             shardService["Explicit"][0].Write.ConnectionString.Should().Be(shardService["Explicit"][0].Read.ConnectionString, "the read and write connections should be the same");
             shardService["Explicit"][1].Read.ConnectionString.Should().Be("Application Name=MyWebApp3;Use Perf Counters=True;Password=pwd2345;Username=user1;Integrated Security=True;Auto Prepare Min Usages=6;Check Certificate Revocation=True;Client Encoding=UTF16;Command Timeout=301;Connection Pruning Interval=11;Convert Infinity DateTime=True;Database=MyDb1;Encoding=UTF16;Enlist=False;Host=10.10.25.6;Include Realm=False;Internal Command Timeout=100;Keepalive=30;Kerberos Service Name=test;Load Table Composites=True;Max Auto Prepare=1;Maximum Pool Size=99;Minimum Pool Size=2;No Reset On Close=True;Persist Security Info=False;Pooling=False;Port=5433;Read Buffer Size=4096;Search Path=;Server Compatibility Mode=NoTypeLoading;Socket Receive Buffer Size=4096;Socket Send Buffer Size=4096;SSL Mode=Disable;TCP Keepalive=False;Timeout=16;Timezone=America/Chicago;Trust Server Certificate=False;Use SSL Stream=True;Write Buffer Size=4096", "the configuration file builds this connection string");
             shardService["Explicit"][1].Write.ConnectionString.Should().Be("Application Name=MyWebApp5;Use Perf Counters=False;Password=pwd3456;Username=user2;Integrated Security=False;Auto Prepare Min Usages=7;Check Certificate Revocation=False;Client Encoding=UTF8;Command Timeout=302;Connection Pruning Interval=12;Convert Infinity DateTime=False;Database=MyDb3;Encoding=UTF8;Enlist=True;Host=10.10.25.7;Include Realm=True;Internal Command Timeout=101;Keepalive=20;Kerberos Service Name=test2;Load Table Composites=False;Max Auto Prepare=2;Maximum Pool Size=98;Minimum Pool Size=3;No Reset On Close=False;Persist Security Info=True;Pooling=True;Port=5434;Read Buffer Size=8192;Search Path=;Server Compatibility Mode=Redshift;Socket Receive Buffer Size=8192;Socket Send Buffer Size=8192;SSL Mode=Prefer;TCP Keepalive=True;Timeout=17;Timezone=America/Los_Angeles;Trust Server Certificate=True;Use SSL Stream=False;Write Buffer Size=8192", "the configuration file builds this connection string");
-        }
-        [Fact]
-        public void TestConfigurationInheritance()
-        {
-            /*
-            var t = new PgConnectionPropertiesBase();
-            t.ApplicationName = "";
-            t.AutoPrepareMinUsages = 15;
-            t.CheckCertificateRevocation = false;
-            t.CircuitBreakerFailureCount = 20;
-            t.CircuitBreakerTestInterval = 25;
-            t.ClientEncoding = "UTF8";
-            t.CommandTimeout = 15;
-            t.ConnectionIdleLifetime = 300;
-            t.ConnectionPruningInterval = 10;
-            t.ConvertInfinityDateTime = false;
-            t.Database = "";
-            t.Encoding = "";
-            t.Enlist = true;
-            t.Host = "";
-            t.IncludeRealm = false;
-            t.InternalCommandTimeout = -1;
-            t.KeepAlive = 30;
-            t.KerberosServiceName = "postgres";
-            t.LoadTableComposites = false;
-            t.MaxAutoPrepare = 0;
-            t.MaxPoolSize = 100;
-            t.MinPoolSize = 0;
-            t.NoResetOnClose = false;
-            t.Password = "";
-            t.PersistSecurityInfo = true;
-            t.Pooling = true;
-            t.Port = 432;
-            t.ReadBufferSize = 4096;
-            t.RetryCount = 15;
-            t.RetryInterval = 250;
-            t.RetryLengthening = SequenceLengthening.Fibonacci;
-            t.ServerCompatibilityMode = Npgsql.ServerCompatibilityMode.Redshift;
-            t.SocketReceiveBufferSize = 4096;
-            t.SocketSendBufferSize = 4096;
-            t.SslMode = Npgsql.SslMode.Prefer;
-            t.TcpKeepAlive = true;
-            t.TcpKeepAliveInterval = 100;
-            t.TcpKeepAliveTime = 100;
-            t.Timeout = 22;
-            t.Timezone = "";
-            t.TrustServerCertificate = false;
-            t.UsePerfCounters = false;
-            t.UserName = "";
-            t.UseSslStream = true;
-            t.WindowsAuth = false;
-            t.WriteBufferSize = 4096;
-            */
-            
-
-
         }
     }
 }
