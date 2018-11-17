@@ -20,7 +20,7 @@ namespace ArgentSea.Pg
         private PgConnectionPropertiesBase _shardSetProperties = null;
         private PgConnectionPropertiesBase _shardProperties = null;
 
-        private const int DefaultConnectTimeout = 5;
+        private const int DefaultConnectTimeout = 2;
 
         private void SetProperties(DataConnectionConfigurationBase properties)
         {
