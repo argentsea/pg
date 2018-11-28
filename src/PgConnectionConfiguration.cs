@@ -3,6 +3,7 @@
 
 using System.Collections.Generic;
 using Npgsql;
+using System.ComponentModel;
 
 namespace ArgentSea.Pg
 {
@@ -21,6 +22,11 @@ namespace ArgentSea.Pg
         private PgConnectionPropertiesBase _shardProperties = null;
 
         private const int DefaultConnectTimeout = 2;
+
+        private void HandlePropertyChanged(object sender, PropertyChangedEventArgs args)
+        {
+            _connectionString = null;
+        }
 
         private void SetProperties(DataConnectionConfigurationBase properties)
         {
@@ -214,6 +220,19 @@ namespace ArgentSea.Pg
             _globalProperties = globalProperties as PgConnectionPropertiesBase;
             _shardSetProperties = shardSetProperties as PgConnectionPropertiesBase;
             _shardProperties = shardProperties as PgConnectionPropertiesBase;
+
+            if (!(_globalProperties is null))
+            {
+                _globalProperties.PropertyChanged += HandlePropertyChanged;
+            }
+            if (!(_shardSetProperties is null))
+            {
+                _shardSetProperties.PropertyChanged += HandlePropertyChanged;
+            }
+            if (!(_shardProperties is null))
+            {
+                _shardProperties.PropertyChanged += HandlePropertyChanged;
+            }
         }
 
 
