@@ -803,7 +803,7 @@ namespace ArgentSea.Pg
 		/// <param name="parameterName">The name of the parameter. If the name doesn’t start with “:”, it will be automatically pre-pended.</param>
 		/// <param name="value">A DateTimeOffset value.</param>
 		/// <returns>The DbParameterCollection to which the parameter was appended.</returns>
-		public static DbParameterCollection AddPgTimestampTZInputParameter(this DbParameterCollection prms, string parameterName, DateTimeOffset value)
+		public static DbParameterCollection AddPgTimestampTzInputParameter(this DbParameterCollection prms, string parameterName, DateTimeOffset value)
 		{
 			var prm = new NpgsqlParameter<DateTimeOffset>(NormalizeSqlParameterName(parameterName), NpgsqlDbType.TimestampTz)
 			{
