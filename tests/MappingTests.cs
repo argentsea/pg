@@ -310,7 +310,7 @@ namespace ArgentSea.Pg.Test
             var dbLogger = Substitute.For<Microsoft.Extensions.Logging.ILogger>();
             var prms = new QueryParameterCollection();
 
-            prms.CreateOutputParameters(typeof(PgMapModel), dbLogger);
+            prms.CreateOutputParameters<PgMapModel>(dbLogger);
 
             ((NpgsqlParameter)prms["ArgentSeaTestDataId"]).NpgsqlDbType.Should().Be(NpgsqlTypes.NpgsqlDbType.Integer, "that is the correct data type");
             ((NpgsqlParameter)prms["ArgentSeaTestDataId"]).Direction.Should().Be(System.Data.ParameterDirection.Output, "this should be an output parameter");
