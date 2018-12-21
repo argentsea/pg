@@ -14,18 +14,23 @@ namespace ArgentSea.Pg
 	public class PgShardConnectionOptions<TShard> : IShardSetsConfigurationOptions<TShard>
             where TShard : IComparable
     {
-        public IShardSetConnectionsConfiguration<TShard>[] ShardSetsInternal { get => PgShardSets; }
+        public IShardSetConnectionsConfiguration<TShard>[] ShardSetsConfigInternal { get => PgShardSets; }
 		public PgShardConnectionsConfiguration[] PgShardSets { get; set; }
 
-		public class PgShardConnectionsConfiguration : PgConnectionPropertiesBase, IShardSetConnectionsConfiguration<TShard>
+        public class PgShardConnectionsConfiguration : PgConnectionPropertiesBase, IShardSetConnectionsConfiguration<TShard>
         {
             public string ShardSetName { get; set; }
             public TShard DefaultShardId { get; set; }
-            public IShardConnectionConfiguration<TShard>[] ShardsInternal { get => Shards; }
+            public IShardConnectionConfiguration<TShard>[] ShardsConfigInternal { get => Shards; }
 			public PgShardConnectionConfiguration[] Shards { get; set; }
-		}
 
-		public class PgShardConnectionConfiguration : PgConnectionPropertiesBase, IShardConnectionConfiguration<TShard>
+            public IShardConnectionConfiguration<TShard> ReadConfigInternal => Read;
+            public IShardConnectionConfiguration<TShard> WriteConfigInternal => Write;
+            public PgShardConnectionConfiguration Read { get; set; }
+            public PgShardConnectionConfiguration Write { get; set; }
+        }
+
+        public class PgShardConnectionConfiguration : PgConnectionPropertiesBase, IShardConnectionConfiguration<TShard>
 		{
 			public TShard ShardId { get; set; }
 			public IDataConnection ReadConnectionInternal { get => ReadConnection; }

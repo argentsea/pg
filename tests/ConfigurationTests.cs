@@ -37,10 +37,10 @@ namespace ArgentSea.Pg.Test
 
             var pgDbData = sqlDbOptions.Value;
             pgDbData.PgDbConnections.Length.Should().Be(2, "two conections are defined in the configuration file.");
-            pgDbData.PgDbConnections[0].ReadConnectionInternal.SetAmbientConfiguration(globalData, null, pgDbData.PgDbConnections[0]);
-            pgDbData.PgDbConnections[0].WriteConnectionInternal.SetAmbientConfiguration(globalData, null, pgDbData.PgDbConnections[0]);
-            pgDbData.PgDbConnections[1].ReadConnectionInternal.SetAmbientConfiguration(globalData, null, pgDbData.PgDbConnections[1]);
-            pgDbData.PgDbConnections[1].WriteConnectionInternal.SetAmbientConfiguration(globalData, null, pgDbData.PgDbConnections[1]);
+            pgDbData.PgDbConnections[0].ReadConnectionInternal.SetAmbientConfiguration(globalData, null, null, pgDbData.PgDbConnections[0]);
+            pgDbData.PgDbConnections[0].WriteConnectionInternal.SetAmbientConfiguration(globalData, null, null, pgDbData.PgDbConnections[0]);
+            pgDbData.PgDbConnections[1].ReadConnectionInternal.SetAmbientConfiguration(globalData, null, null, pgDbData.PgDbConnections[1]);
+            pgDbData.PgDbConnections[1].WriteConnectionInternal.SetAmbientConfiguration(globalData, null, null, pgDbData.PgDbConnections[1]);
 
             pgDbData.PgDbConnections[0].ReadConnection.GetConnectionString().Should().Be("Application Name=MyApp;Use Perf Counters=False;Database=MainDb;Host=10.10.25.1", "this is the value inherited from global configuration settings.");
             pgDbData.PgDbConnections[0].WriteConnection.GetConnectionString().Should().Be("Application Name=MyApp;Use Perf Counters=False;Database=MainDb;Host=10.10.25.1", "this is the value inherited from global configuration settings.");

@@ -19,6 +19,7 @@ namespace ArgentSea.Pg
         private string _connectionString = null;
         private PgConnectionPropertiesBase _globalProperties = null;
         private PgConnectionPropertiesBase _shardSetProperties = null;
+        private PgConnectionPropertiesBase _readWriteProperties = null;
         private PgConnectionPropertiesBase _shardProperties = null;
 
         private const int DefaultConnectTimeout = 2;
@@ -205,6 +206,10 @@ namespace ArgentSea.Pg
                 {
                     SetProperties(_shardSetProperties);
                 }
+                if (!(_readWriteProperties is null))
+                {
+                    SetProperties(_shardSetProperties);
+                }
                 if (!(_shardProperties is null))
                 {
                     SetProperties(_shardProperties);
@@ -215,10 +220,11 @@ namespace ArgentSea.Pg
             return _connectionString;
         }
 
-        public void SetAmbientConfiguration(DataConnectionConfigurationBase globalProperties, DataConnectionConfigurationBase shardSetProperties, DataConnectionConfigurationBase shardProperties)
+        public void SetAmbientConfiguration(DataConnectionConfigurationBase globalProperties, DataConnectionConfigurationBase shardSetProperties, DataConnectionConfigurationBase readWriteProperties, DataConnectionConfigurationBase shardProperties)
         {
             _globalProperties = globalProperties as PgConnectionPropertiesBase;
             _shardSetProperties = shardSetProperties as PgConnectionPropertiesBase;
+            _readWriteProperties = readWriteProperties as PgConnectionPropertiesBase;
             _shardProperties = shardProperties as PgConnectionPropertiesBase;
 
             if (!(_globalProperties is null))
@@ -228,6 +234,10 @@ namespace ArgentSea.Pg
             if (!(_shardSetProperties is null))
             {
                 _shardSetProperties.PropertyChanged += HandlePropertyChanged;
+            }
+            if (!(_readWriteProperties is null))
+            {
+                _readWriteProperties.PropertyChanged += HandlePropertyChanged;
             }
             if (!(_shardProperties is null))
             {
