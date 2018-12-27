@@ -208,7 +208,7 @@ namespace ArgentSea.Pg
                 }
                 if (!(_readWriteProperties is null))
                 {
-                    SetProperties(_shardSetProperties);
+                    SetProperties(_readWriteProperties);
                 }
                 if (!(_shardProperties is null))
                 {
