@@ -47,7 +47,7 @@ namespace Microsoft.Extensions.DependencyInjection
 
             services.AddPgServices(config);
             services.Configure<PgShardConnectionOptions<TShard>>(config);
-            services.AddSingleton<ShardSetsBase<TShard, PgShardConnectionOptions<TShard>>, PgShardSets<TShard>>();
+            //services.AddSingleton<ShardSetsBase<TShard, PgShardConnectionOptions<TShard>>, PgShardSets<TShard>>();
             return services;
 		}
 	}
