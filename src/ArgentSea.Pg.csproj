@@ -5,7 +5,12 @@
     <AssemblyName>ArgentSea.Pg</AssemblyName>
     <RootNamespace>ArgentSea.Pg</RootNamespace>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
-    <PackageProjectUrl>http://www.argentsea.com</PackageProjectUrl>
+    <PackageProjectUrl>https://www.argentsea.com</PackageProjectUrl>
+    <Version>0.1.0</Version>
+    <Authors>John Hicks</Authors>
+    <PackageLicenseUrl>https://opensource.org/licenses/MIT</PackageLicenseUrl>
+    <RepositoryUrl>https://github.com/argentsea/pg</RepositoryUrl>
+    <Description>PostgreSQL implementation of ArgentSea — a .NET open source framework for accessing databases, built for simplicity, high-performance and global scale.</Description>
   </PropertyGroup>
 
   <ItemGroup>
