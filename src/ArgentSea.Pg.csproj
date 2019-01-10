@@ -11,17 +11,14 @@
     <PackageLicenseUrl>https://opensource.org/licenses/MIT</PackageLicenseUrl>
     <RepositoryUrl>https://github.com/argentsea/pg</RepositoryUrl>
     <Description>PostgreSQL implementation of ArgentSea — a .NET open source framework for accessing databases, built for simplicity, high-performance and global scale.</Description>
+    <PackageIconUrl>https://www.argentsea.com/images/argentsea-logo.png</PackageIconUrl>
+    <Copyright>© John Hicks</Copyright>
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="ArgentSea" Version="0.6.0" />
     <PackageReference Include="Microsoft.Extensions.Configuration" Version="2.2.0" />
     <PackageReference Include="Npgsql" Version="4.0.4" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <ProjectReference Include="..\..\ArgentSea.Shared\src\ArgentSea.csproj">
-      <Private>true</Private>
-    </ProjectReference>
   </ItemGroup>
 
 </Project>
