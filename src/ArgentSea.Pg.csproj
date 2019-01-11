@@ -10,7 +10,7 @@
     <Authors>John Hicks</Authors>
     <PackageLicenseUrl>https://opensource.org/licenses/MIT</PackageLicenseUrl>
     <RepositoryUrl>https://github.com/argentsea/pg</RepositoryUrl>
-    <Description>PostgreSQL implementation of ArgentSea — a .NET open source framework for accessing databases, built for simplicity, high-performance and global scale.</Description>
+    <Description>PostgreSQL implementation of ArgentSea, a .NET open source framework for accessing databases, built for simplicity, high-performance and global scale.</Description>
     <PackageIconUrl>https://www.argentsea.com/images/argentsea-logo.png</PackageIconUrl>
     <Copyright>© John Hicks</Copyright>
   </PropertyGroup>
