@@ -53,7 +53,7 @@ namespace ArgentSea.Pg.Test
                 ChildShard2 = new ShardChild<short, int, string>('!', 255, 255, "testing123")
             };
             var dbLogger = Substitute.For<Microsoft.Extensions.Logging.ILogger>();
-            var prms = new QueryParameterCollection();
+            var prms = new ParameterCollection();
 
             prms.CreateInputParameters<PgMapModel>(smv, dbLogger);
 
@@ -170,7 +170,7 @@ namespace ArgentSea.Pg.Test
                 ChildShard2 = null
             };
             var dbLogger = Substitute.For<Microsoft.Extensions.Logging.ILogger>();
-            var prms = new QueryParameterCollection();
+            var prms = new ParameterCollection();
 
             prms.CreateInputParameters<PgMapModel>(smv, dbLogger);
             Assert.True(((NpgsqlParameter)prms["ArgentSeaTestDataId"]).NpgsqlDbType == NpgsqlTypes.NpgsqlDbType.Integer);
@@ -308,7 +308,7 @@ namespace ArgentSea.Pg.Test
                 GarbageCollectorNotificationStatus = GCNotificationStatus.Succeeded,
             };
             var dbLogger = Substitute.For<Microsoft.Extensions.Logging.ILogger>();
-            var prms = new QueryParameterCollection();
+            var prms = new ParameterCollection();
 
             prms.CreateOutputParameters<PgMapModel>(dbLogger);
 
@@ -508,7 +508,7 @@ namespace ArgentSea.Pg.Test
         {
 
             var dbLogger = Substitute.For<Microsoft.Extensions.Logging.ILogger>();
-            var prms = new QueryParameterCollection();
+            var prms = new ParameterCollection();
             var guid = Guid.NewGuid();
 
 

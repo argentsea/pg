@@ -13,7 +13,7 @@ namespace ArgentSea.Pg.Test
         [MapToPgInteger("ArgentSeaTestDataId")]
         public int ArgentSeaTestDataId { get; set; }
 
-        [MapToPgVarChar("Name", 255)]
+        [MapToPgVarchar("Name", 255)]
         public string Name { get; set; }
 
         [MapToPgChar("Iso3166", 2)]
@@ -85,13 +85,13 @@ namespace ArgentSea.Pg.Test
         [MapToPgMoney("Price")]
         public decimal? Price { get; set; }
 
-        [MapToPgVarChar("EnvironmentTarget", 7)]
+        [MapToPgVarchar("EnvironmentTarget", 7)]
         public System.EnvironmentVariableTarget EnvTarget { get; set; }
 
         [MapToPgSmallint("ConsoleColor")]
         public ConsoleColor Color { get; set; }
 
-        [MapToPgVarChar("ConsoleModifiers", 7)]
+        [MapToPgVarchar("ConsoleModifiers", 7)]
         public ConsoleModifiers Modifier { get; set; }
 
         //[MapToPgTinyInt("DayOfTheWeek")]
@@ -125,7 +125,7 @@ namespace ArgentSea.Pg.Test
         [MapShardChild('B', "ChildShard2", "ParentRecord2Id", "ChildRecord2Id")]
         [MapToPgSmallint("ChildShard2")]
         [MapToPgInteger("ParentRecord2Id")]
-        [MapToPgVarChar("ChildRecord2Id", 255)]
+        [MapToPgVarchar("ChildRecord2Id", 255)]
         public ShardChild<short, int, string>? ChildShard2 { get; set; } = null;
 
 

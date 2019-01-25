@@ -16,7 +16,7 @@ namespace ArgentSea.Pg.Test
         [InlineData(int.MinValue)]
         public void IntegerTests(int value)
         {
-            var prms = new QueryParameterCollection();
+            var prms = new ParameterCollection();
             prms.AddPgIntegerInputParameter("1", value);
             prms.AddPgIntegerInputParameter("2", (int?)value);
             prms["1"].GetInteger().Should().Be(value, "that was the integer value");
@@ -35,7 +35,7 @@ namespace ArgentSea.Pg.Test
         [InlineData(short.MinValue)]
         public void ShortTests(short value)
         {
-            var prms = new QueryParameterCollection();
+            var prms = new ParameterCollection();
             prms.AddPgSmallintInputParameter("1", value);
             prms.AddPgSmallintInputParameter("2", (short?)value);
             prms["1"].GetShort().Should().Be(value, "that was the short value");
@@ -53,7 +53,7 @@ namespace ArgentSea.Pg.Test
         [InlineData(long.MinValue)]
         public void LongTests(long value)
         {
-            var prms = new QueryParameterCollection();
+            var prms = new ParameterCollection();
             prms.AddPgBigintInputParameter("1", value);
             prms.AddPgBigintInputParameter("2", (long?)value);
             prms["1"].GetLong().Should().Be(value, "that was the long value");
@@ -71,7 +71,7 @@ namespace ArgentSea.Pg.Test
         [InlineData(byte.MaxValue)]
         public void ByteTests(byte value)
         {
-            var prms = new QueryParameterCollection();
+            var prms = new ParameterCollection();
             prms.AddPgInternalCharInputParameter("1", value);
             prms.AddPgInternalCharInputParameter("2", (byte?)value);
             prms["1"].GetByte().Should().Be(value, "that was the byte value");
@@ -89,7 +89,7 @@ namespace ArgentSea.Pg.Test
         [InlineData(false)]
         public void BooleanTests(bool value)
         {
-            var prms = new QueryParameterCollection();
+            var prms = new ParameterCollection();
             prms.AddPgBooleanInputParameter("1", value);
             prms.AddPgBooleanInputParameter("2", (bool?)value);
             prms["1"].GetBoolean().Should().Be(value, "that was the boolean value");
@@ -108,7 +108,7 @@ namespace ArgentSea.Pg.Test
         [InlineData(double.MinValue)]
         public void DoubleTests(double value)
         {
-            var prms = new QueryParameterCollection();
+            var prms = new ParameterCollection();
             prms.AddPgDoubleInputParameter("1", value);
             prms.AddPgDoubleInputParameter("2", (double?)value);
             prms["1"].GetDouble().Should().Be(value, "that was the double value");
@@ -128,7 +128,7 @@ namespace ArgentSea.Pg.Test
         [InlineData(float.MinValue)]
         public void FloatTests(float value)
         {
-            var prms = new QueryParameterCollection();
+            var prms = new ParameterCollection();
             prms.AddPgRealInputParameter("1", value);
             prms.AddPgRealInputParameter("2", (float?)value);
             prms["1"].GetFloat().Should().Be(value, "that was the single value");
@@ -148,7 +148,7 @@ namespace ArgentSea.Pg.Test
         [InlineData("Test", 25)]
         public void VarCharTests(string value, int length)
         {
-            var prms = new QueryParameterCollection();
+            var prms = new ParameterCollection();
             prms.AddPgVarcharInputParameter("1", value, length);
             if (value is null)
             {
@@ -162,7 +162,7 @@ namespace ArgentSea.Pg.Test
         [InlineData("Test", 25)]
         public void CharTests(string value, int length)
         {
-            var prms = new QueryParameterCollection();
+            var prms = new ParameterCollection();
             prms.AddPgCharInputParameter("1", value, length);
             if (value is null)
             {
@@ -177,7 +177,7 @@ namespace ArgentSea.Pg.Test
         [InlineData("Test")]
         public void TextTests(string value)
         {
-            var prms = new QueryParameterCollection();
+            var prms = new ParameterCollection();
             prms.AddPgTextInputParameter("1", value);
             if (value is null)
             {
@@ -197,7 +197,7 @@ namespace ArgentSea.Pg.Test
         [MemberData(nameof(BinaryTestData))]
         public void BinaryTests(byte[] value, int length)
         {
-            var prms = new QueryParameterCollection();
+            var prms = new ParameterCollection();
             prms.AddPgByteaInputParameter("1", value, length);
             prms["1"].Size.Should().Be(length, "that was the specified length");
             if (value is null)
@@ -227,7 +227,7 @@ namespace ArgentSea.Pg.Test
         [MemberData(nameof(DateTimeTestData))]
         public void TimestampTests(DateTime value)
         {
-            var prms = new QueryParameterCollection();
+            var prms = new ParameterCollection();
             prms.AddPgTimestampInputParameter("1", value);
             prms.AddPgTimestampInputParameter("2", (DateTime?)value);
             prms["1"].GetDateTime().Should().Be(value, "that was the datetime value");
@@ -244,7 +244,7 @@ namespace ArgentSea.Pg.Test
         [MemberData(nameof(DateTimeTestData))]
         public void DateTests(DateTime value)
         {
-            var prms = new QueryParameterCollection();
+            var prms = new ParameterCollection();
             prms.AddPgDateInputParameter("1", value);
             prms.AddPgDateInputParameter("2", (DateTime?)value);
             prms["1"].GetDateTime().Date.Should().Be(value.Date, "that was the date value");
@@ -255,7 +255,7 @@ namespace ArgentSea.Pg.Test
         [MemberData(nameof(DateTimeTestData))]
         public void TimeTests(DateTime value)
         {
-            var prms = new QueryParameterCollection();
+            var prms = new ParameterCollection();
             prms.AddPgTimeInputParameter("1", value.TimeOfDay);
             prms.AddPgTimeInputParameter("2", (TimeSpan?)value.TimeOfDay);
             prms["1"].GetTimeSpan().Should().Be(value.TimeOfDay, "that was the time value");
@@ -275,7 +275,7 @@ namespace ArgentSea.Pg.Test
         [MemberData(nameof(DateTimeOffsetTestData))]
         public void TimestampTzTests(DateTimeOffset value)
         {
-            var prms = new QueryParameterCollection();
+            var prms = new ParameterCollection();
             prms.AddPgTimestampTzInputParameter("1", value);
             prms.AddPgTimestampTzInputParameter("2", (DateTimeOffset?)value);
             prms["1"].GetDateTimeOffset().Should().Be(value, "that was the datetime offset value");
@@ -286,7 +286,7 @@ namespace ArgentSea.Pg.Test
         [MemberData(nameof(DateTimeOffsetTestData))]
         public void IntervalTests(DateTimeOffset value)
         {
-            var prms = new QueryParameterCollection();
+            var prms = new ParameterCollection();
             prms.AddPgIntervalInputParameter("1", value.TimeOfDay);
             prms.AddPgIntervalInputParameter("2", (TimeSpan?)value.TimeOfDay);
             prms["1"].GetTimeSpan().Should().Be(value.TimeOfDay, "that was the timespan value");
@@ -304,7 +304,7 @@ namespace ArgentSea.Pg.Test
         [MemberData(nameof(DateTimeOffsetTestData))]
         public void TimeTzTests(DateTimeOffset value)
         {
-            var prms = new QueryParameterCollection();
+            var prms = new ParameterCollection();
             prms.AddPgTimeTzInputParameter("1", value);
             prms.AddPgTimeTzInputParameter("2", (DateTimeOffset?)value);
             prms["1"].GetDateTimeOffset().Should().Be(value, "that was the time value");
@@ -323,7 +323,7 @@ namespace ArgentSea.Pg.Test
         [MemberData(nameof(DecimalTestData))]
         public void DecimalTests(decimal value, byte precision, byte scale)
         {
-            var prms = new QueryParameterCollection();
+            var prms = new ParameterCollection();
             prms.AddPgNumericInputParameter("1", value, precision, scale);
             prms.AddPgNumericInputParameter("2", (decimal?)value, precision, scale);
             prms["1"].GetDecimal().Should().Be(value, "that was the decimal value");
@@ -353,7 +353,7 @@ namespace ArgentSea.Pg.Test
         [MemberData(nameof(GuidTestData))]
         public void UuidTests(Guid value)
         {
-            var prms = new QueryParameterCollection();
+            var prms = new ParameterCollection();
             prms.AddPgUuidInputParameter("1", value);
             prms.AddPgUuidInputParameter("2", (Guid?)value);
             prms["1"].GetGuid().Should().Be(value, "that was the guid value");

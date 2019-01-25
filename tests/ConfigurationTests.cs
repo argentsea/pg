@@ -42,10 +42,10 @@ namespace ArgentSea.Pg.Test
             pgDbData.PgDbConnections[1].ReadConnectionInternal.SetAmbientConfiguration(globalData, null, null, pgDbData.PgDbConnections[1]);
             pgDbData.PgDbConnections[1].WriteConnectionInternal.SetAmbientConfiguration(globalData, null, null, pgDbData.PgDbConnections[1]);
 
-            pgDbData.PgDbConnections[0].ReadConnection.GetConnectionString().Should().Be("Application Name=MyApp;Use Perf Counters=False;Database=MainDb;Host=10.10.25.1", "this is the value inherited from global configuration settings.");
-            pgDbData.PgDbConnections[0].WriteConnection.GetConnectionString().Should().Be("Application Name=MyApp;Use Perf Counters=False;Database=MainDb;Host=10.10.25.1", "this is the value inherited from global configuration settings.");
-            pgDbData.PgDbConnections[1].ReadConnection.GetConnectionString().Should().Be("Application Name=MyOtherApp;Use Perf Counters=False;Database=OtherDb;Host=10.10.25.2", "this is the value that overrides the global setting");
-            pgDbData.PgDbConnections[1].WriteConnection.GetConnectionString().Should().Be("Application Name=MyOtherApp;Use Perf Counters=False;Database=OtherDb;Host=10.10.25.2", "this is the value that overrides the global setting");
+            pgDbData.PgDbConnections[0].ReadConnection.GetConnectionString(null).Should().Be("Application Name=MyApp;Use Perf Counters=False;Database=MainDb;Host=10.10.25.1", "this is the value inherited from global configuration settings.");
+            pgDbData.PgDbConnections[0].WriteConnection.GetConnectionString(null).Should().Be("Application Name=MyApp;Use Perf Counters=False;Database=MainDb;Host=10.10.25.1", "this is the value inherited from global configuration settings.");
+            pgDbData.PgDbConnections[1].ReadConnection.GetConnectionString(null).Should().Be("Application Name=MyOtherApp;Use Perf Counters=False;Database=OtherDb;Host=10.10.25.2", "this is the value that overrides the global setting");
+            pgDbData.PgDbConnections[1].WriteConnection.GetConnectionString(null).Should().Be("Application Name=MyOtherApp;Use Perf Counters=False;Database=OtherDb;Host=10.10.25.2", "this is the value that overrides the global setting");
 
             var pgShardData = sqlShardOptions.Value;
             pgShardData.PgShardSets.Length.Should().Be(2, "there are two shard sets defined");

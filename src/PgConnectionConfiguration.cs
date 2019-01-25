@@ -4,6 +4,7 @@
 using System.Collections.Generic;
 using Npgsql;
 using System.ComponentModel;
+using Microsoft.Extensions.Logging;
 
 namespace ArgentSea.Pg
 {
@@ -23,6 +24,10 @@ namespace ArgentSea.Pg
         private PgConnectionPropertiesBase _shardProperties = null;
 
         private const int DefaultConnectTimeout = 2;
+
+        public PgConnectionConfiguration()
+        {
+        }
 
         private void HandlePropertyChanged(object sender, PropertyChangedEventArgs args)
         {
@@ -194,7 +199,7 @@ namespace ArgentSea.Pg
             }
         }
 
-        public string GetConnectionString()
+        public string GetConnectionString(ILogger logger)
         {
             if (string.IsNullOrEmpty(_connectionString))
             {
@@ -216,6 +221,13 @@ namespace ArgentSea.Pg
                 }
                 SetProperties(this);
                 _connectionString = _csb.ToString();
+                var logCS = _connectionString;
+                var pwd = _csb.Password;
+                if (!string.IsNullOrEmpty(pwd))
+                {
+                    logCS = logCS.Replace(pwd, "********");
+                }
+                logger?.SqlConnectionStringBuilt(logCS);
             }
             return _connectionString;
         }

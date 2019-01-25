@@ -30,20 +30,20 @@ namespace ArgentSea.Pg
 
     #region String parameters
     /// <summary>
-    /// This attribute maps a model property to/from a PostgreSQL VarChar parameter or column.
+    /// This attribute maps a model property to/from a PostgreSQL Varchar parameter or column.
     /// </summary>
-    public class MapToPgVarCharAttribute : PgParameterMapAttribute
+    public class MapToPgVarcharAttribute : PgParameterMapAttribute
 	{
 		/// <summary>
 		/// Map this property to the specified Unicode database column, with a variable but maximum length.
 		/// </summary>
 		/// <param name="parameterName">The name of the parameter or column that contains the value. The system will automatically add or remove the prefix ':' as needed.</param>
 		/// <param name="length">The maximum length of the string.</param>
-		public MapToPgVarCharAttribute(string parameterName, int length) : base(parameterName, NpgsqlDbType.Varchar)
+		public MapToPgVarcharAttribute(string parameterName, int length) : base(parameterName, NpgsqlDbType.Varchar)
 		{
 			this.Length = length;
 		}
-		public MapToPgVarCharAttribute(string parameterName, int length, bool isRequired) : base(parameterName, NpgsqlDbType.Varchar, isRequired)
+		public MapToPgVarcharAttribute(string parameterName, int length, bool isRequired) : base(parameterName, NpgsqlDbType.Varchar, isRequired)
 		{
 			this.Length = length;
 		}
