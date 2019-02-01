@@ -7,6 +7,7 @@ using System.Text;
 using Microsoft.Extensions.Configuration;
 using ArgentSea;
 using ArgentSea.Pg;
+using System.IO;
 
 namespace Microsoft.Extensions.DependencyInjection
 {
@@ -26,7 +27,9 @@ namespace Microsoft.Extensions.DependencyInjection
 			IConfiguration config
 			)
 		{
-            services.Configure<PgGlobalPropertiesOptions>(config.GetSection("PgGlobalSettings"));
+            QueryStatement.Extension = "psql";
+            var global = config.GetSection("PgGlobalSettings");
+            services.Configure<PgGlobalPropertiesOptions>(global);
             services.Configure<PgDbConnectionOptions>(config);
             services.AddSingleton<PgDatabases>();
             return services;
