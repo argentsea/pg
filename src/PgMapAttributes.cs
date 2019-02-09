@@ -26,6 +26,8 @@ namespace ArgentSea.Pg
 		{
 		}
 
+        internal abstract string ColumnDefinition { get; }
+
     }
 
     #region String parameters
@@ -67,6 +69,8 @@ namespace ArgentSea.Pg
         public override string ParameterName { get => PgParameterCollectionExtensions.NormalizePgParameterName(base.Name); }
 
         public override string ColumnName { get => PgParameterCollectionExtensions.NormalizePgColumnName(base.Name); }
+
+        internal override string ColumnDefinition => $"\"{this.ColumnName}\" varchar({this.Length.ToString()})";
     }
 
     /// <summary>
@@ -108,6 +112,8 @@ namespace ArgentSea.Pg
         public override string ParameterName { get => PgParameterCollectionExtensions.NormalizePgParameterName(base.Name); }
 
         public override string ColumnName { get => PgParameterCollectionExtensions.NormalizePgColumnName(base.Name); }
+
+        internal override string ColumnDefinition => $"\"{this.ColumnName}\" char({this.Length.ToString()})";
     }
 
     /// <summary>
@@ -147,6 +153,8 @@ namespace ArgentSea.Pg
         public override string ParameterName { get => PgParameterCollectionExtensions.NormalizePgParameterName(base.Name); }
 
         public override string ColumnName { get => PgParameterCollectionExtensions.NormalizePgColumnName(base.Name); }
+
+        internal override string ColumnDefinition => $"\"{this.ColumnName}\" text";
     }
     #endregion
     #region Number parameters
@@ -188,6 +196,8 @@ namespace ArgentSea.Pg
         public override string ParameterName { get => PgParameterCollectionExtensions.NormalizePgParameterName(base.Name); }
 
         public override string ColumnName { get => PgParameterCollectionExtensions.NormalizePgColumnName(base.Name); }
+
+        internal override string ColumnDefinition => $"\"{this.ColumnName}\" bigint";
     }
 
     /// <summary>
@@ -228,6 +238,8 @@ namespace ArgentSea.Pg
         public override string ParameterName { get => PgParameterCollectionExtensions.NormalizePgParameterName(base.Name); }
 
         public override string ColumnName { get => PgParameterCollectionExtensions.NormalizePgColumnName(base.Name); }
+
+        internal override string ColumnDefinition => $"\"{this.ColumnName}\" integer";
     }
 
     /// <summary>
@@ -268,6 +280,8 @@ namespace ArgentSea.Pg
         public override string ParameterName { get => PgParameterCollectionExtensions.NormalizePgParameterName(base.Name); }
 
         public override string ColumnName { get => PgParameterCollectionExtensions.NormalizePgColumnName(base.Name); }
+
+        internal override string ColumnDefinition => $"\"{this.ColumnName}\" smallint";
     }
 
     /// <summary>
@@ -308,6 +322,8 @@ namespace ArgentSea.Pg
         public override string ParameterName { get => PgParameterCollectionExtensions.NormalizePgParameterName(base.Name); }
 
         public override string ColumnName { get => PgParameterCollectionExtensions.NormalizePgColumnName(base.Name); }
+
+        internal override string ColumnDefinition => $"\"{this.ColumnName}\" internal char";
     }
 
     /// <summary>
@@ -346,6 +362,7 @@ namespace ArgentSea.Pg
         public override string ParameterName { get => PgParameterCollectionExtensions.NormalizePgParameterName(base.Name); }
 
         public override string ColumnName { get => PgParameterCollectionExtensions.NormalizePgColumnName(base.Name); }
+        internal override string ColumnDefinition => $"\"{this.ColumnName}\" boolean";
     }
 
     /// <summary>
@@ -392,6 +409,7 @@ namespace ArgentSea.Pg
         public override string ParameterName { get => PgParameterCollectionExtensions.NormalizePgParameterName(base.Name); }
 
         public override string ColumnName { get => PgParameterCollectionExtensions.NormalizePgColumnName(base.Name); }
+        internal override string ColumnDefinition => $"\"{this.ColumnName}\" numeric({this.Precision.ToString()}, {this.Scale.ToString()})";
     }
 
     /// <summary>
@@ -430,6 +448,7 @@ namespace ArgentSea.Pg
         public override string ParameterName { get => PgParameterCollectionExtensions.NormalizePgParameterName(base.Name); }
 
         public override string ColumnName { get => PgParameterCollectionExtensions.NormalizePgColumnName(base.Name); }
+        internal override string ColumnDefinition => $"\"{this.ColumnName}\" money";
     }
 
     /// <summary>
@@ -469,6 +488,7 @@ namespace ArgentSea.Pg
         public override string ParameterName { get => PgParameterCollectionExtensions.NormalizePgParameterName(base.Name); }
 
         public override string ColumnName { get => PgParameterCollectionExtensions.NormalizePgColumnName(base.Name); }
+        internal override string ColumnDefinition => $"\"{this.ColumnName}\" double precision";
     }
 
     /// <summary>
@@ -507,6 +527,8 @@ namespace ArgentSea.Pg
         public override string ParameterName { get => PgParameterCollectionExtensions.NormalizePgParameterName(base.Name); }
 
         public override string ColumnName { get => PgParameterCollectionExtensions.NormalizePgColumnName(base.Name); }
+
+        internal override string ColumnDefinition => $"\"{this.ColumnName}\" real";
     }
     #endregion
     #region Temporal parameters
@@ -549,6 +571,8 @@ namespace ArgentSea.Pg
         public override string ParameterName { get => PgParameterCollectionExtensions.NormalizePgParameterName(base.Name); }
 
         public override string ColumnName { get => PgParameterCollectionExtensions.NormalizePgColumnName(base.Name); }
+
+        internal override string ColumnDefinition => $"\"{this.ColumnName}\" timestamp";
     }
 
     /// <summary>
@@ -588,6 +612,8 @@ namespace ArgentSea.Pg
         public override string ParameterName { get => PgParameterCollectionExtensions.NormalizePgParameterName(base.Name); }
 
         public override string ColumnName { get => PgParameterCollectionExtensions.NormalizePgColumnName(base.Name); }
+
+        internal override string ColumnDefinition => $"\"{this.ColumnName}\" timestamp with time zone";
     }
 
     /// <summary>
@@ -627,6 +653,8 @@ namespace ArgentSea.Pg
         public override string ParameterName { get => PgParameterCollectionExtensions.NormalizePgParameterName(base.Name); }
 
         public override string ColumnName { get => PgParameterCollectionExtensions.NormalizePgColumnName(base.Name); }
+
+        internal override string ColumnDefinition => $"\"{this.ColumnName}\" date";
     }
 
     /// <summary>
@@ -665,6 +693,8 @@ namespace ArgentSea.Pg
         public override string ParameterName { get => PgParameterCollectionExtensions.NormalizePgParameterName(base.Name); }
 
         public override string ColumnName { get => PgParameterCollectionExtensions.NormalizePgColumnName(base.Name); }
+
+        internal override string ColumnDefinition => $"\"{this.ColumnName}\" time";
     }
 
     /// <summary>
@@ -704,6 +734,8 @@ namespace ArgentSea.Pg
         public override string ParameterName { get => PgParameterCollectionExtensions.NormalizePgParameterName(base.Name); }
 
         public override string ColumnName { get => PgParameterCollectionExtensions.NormalizePgColumnName(base.Name); }
+
+        internal override string ColumnDefinition => $"\"{this.ColumnName}\" interval";
     }
 
     /// <summary>
@@ -754,6 +786,8 @@ namespace ArgentSea.Pg
         public override string ParameterName { get => PgParameterCollectionExtensions.NormalizePgParameterName(base.Name); }
 
         public override string ColumnName { get => PgParameterCollectionExtensions.NormalizePgColumnName(base.Name); }
+        internal override string ColumnDefinition => $"\"{this.ColumnName}\" time with time zone";
+
     }
     #endregion
     #region Other parameters
@@ -792,6 +826,9 @@ namespace ArgentSea.Pg
         public override string ParameterName { get => PgParameterCollectionExtensions.NormalizePgParameterName(base.Name); }
 
         public override string ColumnName { get => PgParameterCollectionExtensions.NormalizePgColumnName(base.Name); }
+
+        internal override string ColumnDefinition => $"\"{this.ColumnName}\" { _arrayType.ToString().ToLowerInvariant() }[]";
+        //
     }
 
     /// <summary>
@@ -827,6 +864,8 @@ namespace ArgentSea.Pg
         public override string ParameterName { get => PgParameterCollectionExtensions.NormalizePgParameterName(base.Name); }
 
         public override string ColumnName { get => PgParameterCollectionExtensions.NormalizePgColumnName(base.Name); }
+
+        internal override string ColumnDefinition => $"\"{this.ColumnName}\" bytea";
     }
 
     /// <summary>
@@ -861,6 +900,8 @@ namespace ArgentSea.Pg
         public override string ParameterName { get => PgParameterCollectionExtensions.NormalizePgParameterName(base.Name); }
 
         public override string ColumnName { get => PgParameterCollectionExtensions.NormalizePgColumnName(base.Name); }
+
+        internal override string ColumnDefinition => $"\"{this.ColumnName}\" hstore";
     }
 
     /// <summary>
@@ -899,7 +940,10 @@ namespace ArgentSea.Pg
         public override string ParameterName { get => PgParameterCollectionExtensions.NormalizePgParameterName(base.Name); }
 
         public override string ColumnName { get => PgParameterCollectionExtensions.NormalizePgColumnName(base.Name); }
+        internal override string ColumnDefinition => $"\"{this.ColumnName}\" uuid";
+
     }
+
     //public class MapToPgEnumAttribute : PgParameterMapAttribute
     //{
     //	/// <summary>
