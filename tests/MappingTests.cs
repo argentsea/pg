@@ -47,8 +47,8 @@ namespace ArgentSea.Pg.Test
               KeyValues = new Dictionary<string, string>() { { "one", "1" }, { "two", "2" } },
               CleanOutStuff = new TimeSpan(48, 0, 0),
                 GarbageCollectorNotificationStatus = GCNotificationStatus.NotApplicable,
-                RecordKey = new ShardKey<short, int>(new DataOrigin('x'), 2, 1234),
-                RecordChild = new ShardChild<short, int, long>(new DataOrigin('y'), 3, 4567, (short)-23456),
+                RecordKey = new ShardKey<short, int>('x', 2, 1234),
+                RecordChild = new ShardChild<short, int, long>('y', 3, 4567, (short)-23456),
                 DataShard2 = new ShardKey<short, long>('z', (short)22, 123432L),
                 ChildShard2 = new ShardChild<short, int, string>('!', 255, 255, "testing123")
             };
@@ -484,20 +484,20 @@ namespace ArgentSea.Pg.Test
             result.CleanOutStuff.Should().Be(new TimeSpan(3, 4, 5), "that was the output parameter value");
             result.GarbageCollectorNotificationStatus.Should().Be(GCNotificationStatus.Failed, "that was the output parameter value");
 
-            //result.RecordKey.Value.Origin.SourceIndicator.Should().Be('x', "that is the data origin value");
+            //result.RecordKey.Value.Origin.Should().Be('x', "that is the data origin value");
             //result.RecordKey.Value.ShardId.Should().Be(6, "that was the output parameter value");
             //result.RecordKey.Value.RecordId.Should().Be(4, "that was the output parameter value");
 
-            //result.RecordChild.Key.Origin.SourceIndicator.Should().Be('y', "that is the data origin value");
+            //result.RecordChild.Key.Origin.Should().Be('y', "that is the data origin value");
             //result.RecordChild.Key.ShardId.Should().Be(15, "that was the output parameter value");
             //result.RecordChild.Key.RecordId.Should().Be(5, "that was the output parameter value");
             //result.RecordChild.ChildId.Should().Be(6, "that was the output parameter value");
 
-            //result.DataShard2.Origin.SourceIndicator.Should().Be('A', "that is the data origin value");
+            //result.DataShard2.Origin.Should().Be('A', "that is the data origin value");
             //result.DataShard2.ShardId.Should().Be(5, "that is the value of the current shard");
             //result.DataShard2.RecordId.Should().Be(long.MaxValue, "that is the record id");
 
-            //result.ChildShard2.Value.Origin.SourceIndicator.Should().Be('B', "that is the data origin value");
+            //result.ChildShard2.Value.Origin.Should().Be('B', "that is the data origin value");
             //result.ChildShard2.Value.ShardId.Should().Be(255, "that is the value of the current shard");
             //result.ChildShard2.Value.RecordId.Should().Be(12345, "that is the record id");
             //result.ChildShard2.Value.ChildId.Should().Be("Test123", "that is the child id");
@@ -585,11 +585,11 @@ namespace ArgentSea.Pg.Test
             result.CleanOutStuff.Should().Be(new TimeSpan(5, 6, 7), "that was the output parameter value");
             result.GarbageCollectorNotificationStatus.HasValue.Should().BeFalse("the output parameter was set to DbNull");
             //result.RecordKey.HasValue.Should().BeFalse("because the input arguments are dbNull");
-            //result.RecordChild.Origin.SourceIndicator.Should().Be('0', "that is the empty data origin value");
+            //result.RecordChild.Origin.Should().Be('0', "that is the empty data origin value");
             //result.RecordChild.Key.ShardId.Should().Be(0, "that is the empty shardchild value");
             //result.RecordChild.Key.RecordId.Should().Be(0, "that is the empty shardchild value");
             //result.RecordChild.ChildId.Should().Be(0, "that is the empty shardchild value");
-            //result.DataShard2.Origin.SourceIndicator.Should().Be('0', "that is the empty data origin value");
+            //result.DataShard2.Origin.Should().Be('0', "that is the empty data origin value");
             //result.DataShard2.ShardId.Should().Be(0, "that is the empty shardKey value");
             //result.DataShard2.RecordId.Should().Be(0, "that is the empty shardKey value");
             //result.ChildShard2.Should().BeNull("because the data values are dbNull");
@@ -823,10 +823,10 @@ namespace ArgentSea.Pg.Test
                 KeyValues = new Dictionary<string, string>() { { "one", "1" }, { "two", "2" } },
                 CleanOutStuff = new TimeSpan(4,5,6),
                 GarbageCollectorNotificationStatus = GCNotificationStatus.NotApplicable,
-                RecordKey = new Nullable<ShardKey<short, int>>(new ShardKey<short, int>(new DataOrigin('x'), (short)2, 1234)),
-                RecordChild = new ShardChild<short, int, long>(new DataOrigin('y'), (short)3, 4567, -23456L),
-                DataShard2 = new ShardKey<short, long>(new DataOrigin('A'), (short)32, -1234L),
-                ChildShard2 = new ShardChild<short, int, string>(new DataOrigin('B'), (short)3, -4567, "testing...")
+                RecordKey = new Nullable<ShardKey<short, int>>(new ShardKey<short, int>('x', (short)2, 1234)),
+                RecordChild = new ShardChild<short, int, long>('y', (short)3, 4567, -23456L),
+                DataShard2 = new ShardKey<short, long>('A', (short)32, -1234L),
+                ChildShard2 = new ShardChild<short, int, string>('B', (short)3, -4567, "testing...")
             };
 
             var rdr = Substitute.For<System.Data.Common.DbDataReader>();
