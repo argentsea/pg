@@ -87,7 +87,7 @@ namespace ArgentSea.Pg
                     }
                     if (!found)
                     {
-                        throw new ParameterNotFoundException($"Expected parameter { queryParameterNames[i] }, but it was not found in the parameter list.");
+                        throw new ParameterNotFoundException(queryParameterNames[i]);
                     }
                 }
             }
@@ -97,6 +97,5 @@ namespace ArgentSea.Pg
                 cmd.Parameters[i].Value = parameters[ordinals[i]].Value;
             }
         }
-
     }
 }

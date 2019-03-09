@@ -23,34 +23,78 @@ namespace ArgentSea.Pg
     public static class CopyMapper
     {
         #region Extension methods
+        public static DatabaseBatch<TResult> Add<TShard, TModel, TResult>(this DatabaseBatch<TResult> batch, List<TModel> models, string tableName) where TModel : class, new()
+            => Add<TShard, TModel, TResult>(batch, (IList<TModel>)models, tableName);
+
+        public static DatabaseBatch<TResult> Add<TShard, TModel, TResult>(this DatabaseBatch<TResult> batch, IList<TModel> models, string tableName) where TModel : class, new()
+        {
+            batch.Add(new CopyModelStep<int, TModel, TResult>(models, tableName));
+            return batch;
+        }
+
         public static ShardBatch<TShard, TResult> Add<TShard, TModel, TResult>(this ShardBatch<TShard, TResult> batch, List<TModel> models, string tableName) where TShard : IComparable where TModel : class, new()
+            => Add<TShard, TModel, TResult>(batch, (IList<TModel>)models, tableName);
+
+        public static ShardBatch<TShard, TResult> Add<TShard, TModel, TResult>(this ShardBatch<TShard, TResult> batch, IList<TModel> models, string tableName) where TShard : IComparable where TModel : class, new()
         {
             batch.Add(new CopyModelStep<TShard, TModel, TResult>(models, tableName));
             return batch;
         }
 
         public static ShardBatch<TShard, TResult> Add<TShard, TRecord, TResult>(this ShardBatch<TShard, TResult> batch, List<ShardKey<TShard, TRecord>> keys, string tableName, PgParameterMapAttribute shardIdDefinition, PgParameterMapAttribute recordIdDefinition) where TShard : IComparable where TRecord : IComparable
+            => Add<TShard, TRecord, TResult>(batch, (IList<ShardKey<TShard, TRecord>>)keys, tableName, shardIdDefinition, recordIdDefinition);
+
+        public static ShardBatch<TShard, TResult> Add<TShard, TRecord, TResult>(this ShardBatch<TShard, TResult> batch, IList<ShardKey<TShard, TRecord>> keys, string tableName, PgParameterMapAttribute shardIdDefinition, PgParameterMapAttribute recordIdDefinition) where TShard : IComparable where TRecord : IComparable
         {
             batch.Add(new CopyKeysStep<TShard, TRecord, TResult>(keys, tableName, shardIdDefinition, recordIdDefinition));
             return batch;
         }
 
         public static ShardBatch<TShard, TResult> Add<TShard, TRecord, TChildId, TResult>(this ShardBatch<TShard, TResult> batch, List<ShardChild<TShard, TRecord, TChildId>> keys, string tableName, PgParameterMapAttribute shardIdDefinition, PgParameterMapAttribute recordIdDefinition, PgParameterMapAttribute childIdDefinition) where TShard : IComparable where TRecord : IComparable where TChildId : IComparable
+            => Add<TShard, TRecord, TChildId, TResult>(batch, (IList<ShardChild<TShard, TRecord, TChildId>>)keys, tableName, shardIdDefinition, recordIdDefinition, childIdDefinition);
+
+        public static ShardBatch<TShard, TResult> Add<TShard, TRecord, TChildId, TResult>(this ShardBatch<TShard, TResult> batch, IList<ShardChild<TShard, TRecord, TChildId>> keys, string tableName, PgParameterMapAttribute shardIdDefinition, PgParameterMapAttribute recordIdDefinition, PgParameterMapAttribute childIdDefinition) where TShard : IComparable where TRecord : IComparable where TChildId : IComparable
         {
             batch.Add(new CopyChildrenStep<TShard, TRecord, TChildId, TResult>(keys, tableName, shardIdDefinition, recordIdDefinition, childIdDefinition));
             return batch;
         }
 
+        public static ShardSetBatch<TShard> Add<TShard, TModel>(this ShardSetBatch<TShard> batch, List<TModel> models, string tableName) where TShard : IComparable where TModel : class, new()
+            => Add<TShard, TModel>(batch, (IList<TModel>)models, tableName);
+
+        public static ShardSetBatch<TShard> Add<TShard, TModel>(this ShardSetBatch<TShard> batch, IList<TModel> models, string tableName) where TShard : IComparable where TModel : class, new()
+        {
+            batch.Add(new CopyModelStep<TShard, TModel, object>(models, tableName));
+            return batch;
+        }
+
+        public static ShardSetBatch<TShard> Add<TShard, TRecord>(this ShardSetBatch<TShard> batch, List<ShardKey<TShard, TRecord>> keys, string tableName, PgParameterMapAttribute shardIdDefinition, PgParameterMapAttribute recordIdDefinition) where TShard : IComparable where TRecord : IComparable
+            => Add<TShard, TRecord>(batch, (IList<ShardKey<TShard, TRecord>>)keys, tableName, shardIdDefinition, recordIdDefinition);
+
+        public static ShardSetBatch<TShard> Add<TShard, TRecord>(this ShardSetBatch<TShard> batch, IList<ShardKey<TShard, TRecord>> keys, string tableName, PgParameterMapAttribute shardIdDefinition, PgParameterMapAttribute recordIdDefinition) where TShard : IComparable where TRecord : IComparable
+        {
+            batch.Add(new CopyKeysStep<TShard, TRecord, object>(keys, tableName, shardIdDefinition, recordIdDefinition));
+            return batch;
+        }
+
+        public static ShardSetBatch<TShard> Add<TShard, TRecord, TChildId>(this ShardSetBatch<TShard> batch, List<ShardChild<TShard, TRecord, TChildId>> keys, string tableName, PgParameterMapAttribute shardIdDefinition, PgParameterMapAttribute recordIdDefinition, PgParameterMapAttribute childIdDefinition) where TShard : IComparable where TRecord : IComparable where TChildId : IComparable
+            => Add<TShard, TRecord, TChildId>(batch, (IList<ShardChild<TShard, TRecord, TChildId>>)keys, tableName, shardIdDefinition, recordIdDefinition, childIdDefinition);
+
+        public static ShardSetBatch<TShard> Add<TShard, TRecord, TChildId>(this ShardSetBatch<TShard> batch, IList<ShardChild<TShard, TRecord, TChildId>> keys, string tableName, PgParameterMapAttribute shardIdDefinition, PgParameterMapAttribute recordIdDefinition, PgParameterMapAttribute childIdDefinition) where TShard : IComparable where TRecord : IComparable where TChildId : IComparable
+        {
+            batch.Add(new CopyChildrenStep<TShard, TRecord, TChildId, object>(keys, tableName, shardIdDefinition, recordIdDefinition, childIdDefinition));
+            return batch;
+        }
         #endregion
         #region Private classes
         private class CopyKeysStep<TShard, TRecord, TResult> : BatchStep<TShard, TResult> where TShard : IComparable where TRecord : IComparable
         {
-            private readonly List<ShardKey<TShard, TRecord>> _keys;
+            private readonly IList<ShardKey<TShard, TRecord>> _keys;
             private readonly string _tableName;
             private readonly PgParameterMapAttribute _shardIdDefinition;
             private readonly PgParameterMapAttribute _recordIdDefinition;
 
-            public CopyKeysStep(List<ShardKey<TShard, TRecord>> keys, string tableName, PgParameterMapAttribute shardIdDefinition, PgParameterMapAttribute recordIdDefinition)
+            public CopyKeysStep(IList<ShardKey<TShard, TRecord>> keys, string tableName, PgParameterMapAttribute shardIdDefinition, PgParameterMapAttribute recordIdDefinition)
             {
                 _keys = keys;
                 _tableName = tableName;
@@ -59,10 +103,7 @@ namespace ArgentSea.Pg
             }
             protected override async Task<TResult> Execute(TShard shardId, DbConnection connection, DbTransaction transaction, string connectionName, IDataProviderServiceFactory services, ILogger logger, CancellationToken cancellation)
             {
-                if (!_tableName.All((c) => { return char.IsLetterOrDigit(c) || c == '.'; }))
-                {
-                    throw new Exception("The table name can only contain letters or numbers, and optionally a “.” schema separator.");
-                }
+                CopyMapper.ValidatePgTableName(_tableName);
                 cancellation.ThrowIfCancellationRequested();
 
                 var cmd = connection.CreateCommand();
@@ -73,12 +114,12 @@ namespace ArgentSea.Pg
                 {
                     var parsedTableName = _tableName.Replace(".", "\".\"");
                     cmd.CommandText = $"CREATE TABLE IF NOT EXISTS \"{ parsedTableName }\" (\"{ _shardIdDefinition.ColumnDefinition }\", \"{ _recordIdDefinition.ColumnDefinition }\");";
-                    importDef = $"COPY \"{ parsedTableName } (\"{ _shardIdDefinition.ColumnName }\", \"{ _recordIdDefinition.ColumnName }\") FROM STDIN (FORMAT BINARY)";
+                    importDef = $"COPY \"{ parsedTableName }\" (\"{ _shardIdDefinition.ColumnName }\", \"{ _recordIdDefinition.ColumnName }\") FROM STDIN (FORMAT BINARY)";
                 }
                 else
                 {
-                    cmd.CommandText = $"CREATE TEMP TABLE IF NOT EXISTS \"{ _tableName }\" ({ _shardIdDefinition.ColumnDefinition}, { _recordIdDefinition.ColumnDefinition});";
-                    importDef = $"COPY { _tableName } (shardid, recordid) FROM STDIN (FORMAT BINARY)";
+                    cmd.CommandText = $"CREATE TEMP TABLE IF NOT EXISTS \"{ _tableName }\" ({ _shardIdDefinition.ColumnDefinition}, { _recordIdDefinition.ColumnDefinition}) ON COMMIT DROP;";
+                    importDef = $"COPY \"{ _tableName }\" (\"{ _shardIdDefinition.ColumnName }\", \"{ _recordIdDefinition.ColumnName }\") FROM STDIN (FORMAT BINARY)";
                 }
                 logger.CopySqlStatements(cmd.CommandText, importDef);
 
@@ -101,13 +142,13 @@ namespace ArgentSea.Pg
 
         private class CopyChildrenStep<TShard, TRecord, TChildId, TResult> : BatchStep<TShard, TResult> where TShard : IComparable where TRecord : IComparable where TChildId : IComparable
         {
-            private readonly List<ShardChild<TShard, TRecord, TChildId>> _keys;
+            private readonly IList<ShardChild<TShard, TRecord, TChildId>> _keys;
             private readonly string _tableName;
             private readonly PgParameterMapAttribute _shardIdDefinition;
             private readonly PgParameterMapAttribute _recordIdDefinition;
             private readonly PgParameterMapAttribute _childIdDefinition;
 
-            public CopyChildrenStep(List<ShardChild<TShard, TRecord, TChildId>> keys, string tableName, PgParameterMapAttribute shardIdDefinition, PgParameterMapAttribute recordIdDefinition, PgParameterMapAttribute childIdDefinition)
+            public CopyChildrenStep(IList<ShardChild<TShard, TRecord, TChildId>> keys, string tableName, PgParameterMapAttribute shardIdDefinition, PgParameterMapAttribute recordIdDefinition, PgParameterMapAttribute childIdDefinition)
             {
                 _keys = keys;
                 _tableName = tableName;
@@ -117,11 +158,7 @@ namespace ArgentSea.Pg
             }
             protected override async Task<TResult> Execute(TShard shardId, DbConnection connection, DbTransaction transaction, string connectionName, IDataProviderServiceFactory services, ILogger logger, CancellationToken cancellation)
             {
-                //await CopyMapper.CopyChildren<TShard, TRecord, TChildId>(_keys, _shardIdDefinition, _recordIdDefinition, _childIdDefinition, (NpgsqlConnection)connection, _tableName, logger, cancellationToken);
-                if (!_tableName.All((c) => { return char.IsLetterOrDigit(c) || c == '.'; }))
-                {
-                    throw new Exception("The table name can only contain letters or numbers, and optionally a “.” schema separator.");
-                }
+                ValidatePgTableName(_tableName);
                 cancellation.ThrowIfCancellationRequested();
 
                 var cmd = connection.CreateCommand();
@@ -132,12 +169,12 @@ namespace ArgentSea.Pg
                 {
                     var parsedTableName = _tableName.Replace(".", "\".\"");
                     cmd.CommandText = $"CREATE TABLE IF NOT EXISTS \"{ parsedTableName }\" (\"{ _shardIdDefinition.ColumnDefinition }\", \"{ _recordIdDefinition.ColumnDefinition }\", \"{ _childIdDefinition.ColumnDefinition }\");";
-                    importDef = $"COPY \"{ parsedTableName } ({ _shardIdDefinition.ColumnName }, { _recordIdDefinition.ColumnName }) FROM STDIN (FORMAT BINARY)";
+                    importDef = $"COPY \"{ parsedTableName }\" (\"{ _shardIdDefinition.ColumnName }\", \"{ _recordIdDefinition.ColumnName }\", \"{_childIdDefinition.ColumnName}\") FROM STDIN (FORMAT BINARY)";
                 }
                 else
                 {
-                    cmd.CommandText = $"CREATE TEMP TABLE IF NOT EXISTS \"{ _tableName }\" (\"{ _shardIdDefinition.ColumnDefinition}\", \"{ _recordIdDefinition.ColumnDefinition}\", \"{ _childIdDefinition.ColumnDefinition}\");";
-                    importDef = $"COPY { _tableName } (shardid, recordid) FROM STDIN (FORMAT BINARY)";
+                    cmd.CommandText = $"CREATE TEMP TABLE IF NOT EXISTS \"{ _tableName }\" (\"{ _shardIdDefinition.ColumnDefinition}\", \"{ _recordIdDefinition.ColumnDefinition}\", \"{ _childIdDefinition.ColumnDefinition}\") ON COMMIT DROP;";
+                    importDef = $"COPY \"{ _tableName }\" (\"{ _shardIdDefinition.ColumnName }\", \"{ _recordIdDefinition.ColumnName }\", \"{_childIdDefinition.ColumnName}\") FROM STDIN (FORMAT BINARY)";
                 }
                 logger.CopySqlStatements(cmd.CommandText, importDef);
 
@@ -161,21 +198,16 @@ namespace ArgentSea.Pg
 
         private class CopyModelStep<TShard, TModel, TResult> : BatchStep<TShard, TResult> where TShard : IComparable where TModel : class, new()
         {
-            private readonly List<TModel> _models;
+            private readonly IList<TModel> _models;
             private readonly string _tableName;
-            private readonly PgParameterMapAttribute _shardIdDefinition;
-            private readonly PgParameterMapAttribute _recordIdDefinition;
-            public CopyModelStep(List<TModel> models, string tableName)
+            public CopyModelStep(IList<TModel> models, string tableName)
             {
                 _models = models;
                 _tableName = tableName;
             }
             protected override async Task<TResult> Execute(TShard shardId, DbConnection connection, DbTransaction transaction, string connectionName, IDataProviderServiceFactory services, ILogger logger, CancellationToken cancellation)
             {
-                if (!_tableName.All((c) => { return char.IsLetterOrDigit(c) || c == '.'; }))
-                {
-                    throw new Exception("The table name can only contain letters or numbers, and optionally a “.” schema separator.");
-                }
+                ValidatePgTableName(_tableName);
                 var tModel = typeof(TModel);
                 var lazyCopyDelegate = _setCopyParamCache.GetOrAdd(tModel, new Lazy<(string tableDef, string importDef, Delegate setRow)>(()
                    => BuildCopyDelegateAndQuery<TModel>(logger), LazyThreadSafetyMode.ExecutionAndPublication));
@@ -196,12 +228,13 @@ namespace ArgentSea.Pg
                 {
                     var parsedTableName = _tableName.Replace(".", "\".\"");
                     tableDef = meta.tableDef.Replace("<<TABLEDEF>>", $"TABLE IF NOT EXISTS \"{ parsedTableName }\"");
-                    importDef = meta.tableDef.Replace("<<TABLEDEF>>", $"\"{ parsedTableName }\"");
+                    importDef = meta.importDef.Replace("<<TABLEDEF>>", $"\"{ parsedTableName }\"");
                 }
                 else
                 {
                     tableDef = meta.tableDef.Replace("<<TABLEDEF>>", $"TEMP TABLE  \"{ _tableName }\"");
-                    importDef = meta.tableDef.Replace("<<TABLEDEF>>", $"\"{ _tableName }\"");
+                    tableDef = tableDef.Replace(");", ") ON COMMIT DROP;");
+                    importDef = meta.importDef.Replace("<<TABLEDEF>>", $"\"{ _tableName }\"");
                 }
 
                 logger.CopySqlStatements(tableDef, importDef);
@@ -224,7 +257,27 @@ namespace ArgentSea.Pg
 
         #endregion
 
-        #region Private helper methods
+        #region Helper methods
+
+        private static void ValidatePgTableName(string tableName)
+        {
+            if (string.IsNullOrEmpty(tableName))
+            {
+                throw new Exception($"The table name was not defined.");
+            }
+            if (tableName.Length > 63)
+            {
+                throw new Exception($"The table name, “{ tableName }”, is not valid. PostgreSQL table names cannot exceed 63 characters.");
+            }
+            if (!char.IsLetter(tableName[0]) && tableName[0] != '_')
+            {
+                throw new Exception($"The table name, “{ tableName }”, is not valid. PostgreSQL table names must begin with a letter or underscore.");
+            }
+            if (!tableName.All((c) => { return char.IsLetterOrDigit(c) || c == '.' || c == '_' || c == '$'; }))
+            {
+                throw new Exception($"The table name, “{ tableName }”, can only contain letters, numbers, dollar signs, underscores, or a “.” schema separator.");
+            }
+        }
 
         private static ConcurrentDictionary<Type, Lazy<(string tableDef, string importDef, Delegate setRow)>> _setCopyParamCache = new ConcurrentDictionary<Type, Lazy<(string tableDef, string importDef, Delegate setRow)>>();
 
@@ -235,7 +288,7 @@ namespace ArgentSea.Pg
             var expressions = new List<Expression>();
 
             var prmModel = Expression.Parameter(tModel, "model");
-            var expImporter = Expression.Parameter(typeof(ILogger), "importer");
+            var expImporter = Expression.Parameter(typeof(NpgsqlBinaryImporter), "importer");
             var expLogger = Expression.Parameter(typeof(ILogger), "logger");
             var exprInPrms = new ParameterExpression[] { prmModel, expImporter, expLogger };
 
@@ -246,7 +299,8 @@ namespace ArgentSea.Pg
             tableSB.AppendLine("CREATE <<TABLEDEF>> (");
             insertSB.Append("COPY <<TABLEDEF>> (");
 
-            IterateCopyProperties(tModel, tableSB, insertSB, expressions, expImporter, prmModel, expLogger, variables, logger);
+            var isFirstColumn = true;
+            IterateCopyProperties(tModel, ref isFirstColumn, tableSB, insertSB, expressions, expImporter, prmModel, expLogger, variables, logger);
 
             tableSB.Append(");");
             insertSB.Append(") FROM STDIN BINARY;");
@@ -257,14 +311,21 @@ namespace ArgentSea.Pg
             return (tableSB.ToString(), insertSB.ToString(), lambda.Compile());
         }
 
-        private static void IterateCopyProperties(Type tModel, StringBuilder tableSB, StringBuilder insertSB, List<Expression> expressions, ParameterExpression expImporter, Expression prmModel, ParameterExpression expLogger, List<ParameterExpression> variables, ILogger logger)
+        private static void IterateCopyProperties(Type tModel, ref bool isFirstColumn, StringBuilder tableSB, StringBuilder insertSB, List<Expression> expressions, ParameterExpression expImporter, Expression prmModel, ParameterExpression expLogger, List<ParameterExpression> variables, ILogger logger)
         {
             var unorderedProps = tModel.GetProperties();
             var props = unorderedProps.OrderBy(prop => prop.MetadataToken);
             var miLogTrace = typeof(PgLoggingExtensions).GetMethod(nameof(PgLoggingExtensions.TraceCopyMapperProperty));
-            var miWrite = typeof(NpgsqlBinaryImporter).GetMethod(nameof(NpgsqlBinaryImporter.Write));
+
+            var miWrite = typeof(NpgsqlBinaryImporter).GetMethods().Single(
+                method =>
+                    method.Name == "Write" &&
+                    method.GetGenericArguments().Length == 1 &&
+                    method.GetParameters().Length == 2 &&
+                    method.GetParameters()[1].ParameterType == typeof(NpgsqlTypes.NpgsqlDbType)
+                );
+
             var miWriteNull = typeof(NpgsqlBinaryImporter).GetMethod(nameof(NpgsqlBinaryImporter.WriteNull));
-            var isFirstColumn = true;
             foreach (var prop in props)
             {
                 MemberExpression expOriginalProperty = Expression.Property(prmModel, prop);
@@ -323,8 +384,8 @@ namespace ArgentSea.Pg
 
                             expressions.Add(Expression.IfThenElse(
                                 expDetectNullOrEmpty, //if
-                                Expression.Call(miWriteNull), //then
-                                Expression.Call(expImporter, miWrite.MakeGenericMethod(new Type[] { expShardProperty.Type }), expShardProperty, Expression.Constant(attrPM.SqlType)) //else
+                                Expression.Call(expImporter, miWriteNull), //then
+                                Expression.Call(expImporter, miWrite.MakeGenericMethod(new Type[] { expShardProperty.Type }), expShardProperty, Expression.Constant((NpgsqlTypes.NpgsqlDbType)attrPM.SqlType)) //else
                                 ));
                             BuildQueryColumnText(ref isFirstColumn, tableSB, insertSB, attrPM.ColumnDefinition, attrPM.ColumnName);
                         }
@@ -339,8 +400,8 @@ namespace ArgentSea.Pg
                             var expRecordProperty = Expression.Property(expProperty, propType.GetProperty(nameof(ShardKey<int, int>.RecordId)));
                             expressions.Add(Expression.IfThenElse(
                                 expDetectNullOrEmpty, //if
-                                Expression.Call(miWriteNull), //then
-                                Expression.Call(expImporter, miWrite.MakeGenericMethod(new Type[] { expRecordProperty.Type }), expRecordProperty, Expression.Constant(attrPM.SqlType)) //else
+                                Expression.Call(expImporter, miWriteNull), //then
+                                Expression.Call(expImporter, miWrite.MakeGenericMethod(new Type[] { expRecordProperty.Type }), expRecordProperty, Expression.Constant((NpgsqlTypes.NpgsqlDbType)attrPM.SqlType)) //else
                                 ));
                             BuildQueryColumnText(ref isFirstColumn, tableSB, insertSB, attrPM.ColumnDefinition, attrPM.ColumnName);
                         }
@@ -355,8 +416,8 @@ namespace ArgentSea.Pg
                             var expChildProperty = Expression.Property(expProperty, propType.GetProperty(nameof(ShardChild<int, int, int>.ChildId)));
                             expressions.Add(Expression.IfThenElse(
                                 expDetectNullOrEmpty, //if
-                                Expression.Call(miWriteNull), //then
-                                Expression.Call(expImporter, miWrite.MakeGenericMethod(new Type[] { expChildProperty.Type }), expChildProperty, Expression.Constant(attrPM.SqlType)) //else
+                                Expression.Call(expImporter, miWriteNull), //then
+                                Expression.Call(expImporter, miWrite.MakeGenericMethod(new Type[] { expChildProperty.Type }), expChildProperty, Expression.Constant((NpgsqlTypes.NpgsqlDbType)attrPM.SqlType)) //else
                                 ));
                             BuildQueryColumnText(ref isFirstColumn, tableSB, insertSB, attrPM.ColumnDefinition, attrPM.ColumnName);
                         }
@@ -406,7 +467,18 @@ namespace ArgentSea.Pg
                             propType = Nullable.GetUnderlyingType(propType);
                             if (propType.IsEnum)
                             {
-                                expProperty = Expression.Convert(expProperty, propType);
+                                if (attrPM.SqlType == (int)NpgsqlTypes.NpgsqlDbType.Text
+                                    || attrPM.SqlType == (int)NpgsqlTypes.NpgsqlDbType.Char
+                                    || attrPM.SqlType == (int)NpgsqlTypes.NpgsqlDbType.Varchar)
+                                {
+                                    var miEnumToString = typeof(Enum).GetMethod(nameof(Enum.ToString), new Type[] { });
+                                    expProperty = Expression.Call(expProperty, miEnumToString);
+                                }
+                                else
+                                {
+                                    propType = Enum.GetUnderlyingType(propType);
+                                    expProperty = Expression.Convert(expProperty, propType);
+                                }
                             }
                             expIfNull = Expression.Property(expOriginalProperty, propType.GetProperty(nameof(Nullable<int>.HasValue)));
                         }
@@ -421,6 +493,7 @@ namespace ArgentSea.Pg
                             }
                             else
                             {
+                                propType = Enum.GetUnderlyingType(propType);
                                 expProperty = Expression.Convert(expProperty, propType);
                             }
 
@@ -431,15 +504,15 @@ namespace ArgentSea.Pg
                         }
                         if (expIfNull is null)
                         {
-                            expressions.Add(Expression.Call(expImporter, miWrite.MakeGenericMethod(new Type[] { propType }), expProperty, Expression.Constant(attrPM.SqlType)));
+                            expressions.Add(Expression.Call(expImporter, miWrite.MakeGenericMethod(new Type[] { propType }), expProperty, Expression.Constant((NpgsqlTypes.NpgsqlDbType)attrPM.SqlType)));
                             BuildQueryColumnText(ref isFirstColumn, tableSB, insertSB, attrPM.ColumnDefinition, attrPM.ColumnName);
                         }
                         else
                         {
                             expressions.Add(Expression.IfThenElse(
                                 expIfNull, //if
-                                Expression.Call(miWriteNull), //then
-                                Expression.Call(expImporter, miWrite.MakeGenericMethod(new Type[] { propType }), expProperty, Expression.Constant(attrPM.SqlType)) //else
+                                Expression.Call(expImporter, miWriteNull), //then
+                                Expression.Call(expImporter, miWrite.MakeGenericMethod(new Type[] { propType }), expProperty, Expression.Constant((NpgsqlTypes.NpgsqlDbType)attrPM.SqlType)) //else
                                 ));
                             BuildQueryColumnText(ref isFirstColumn, tableSB, insertSB, attrPM.ColumnDefinition, attrPM.ColumnName);
                         }
@@ -447,12 +520,12 @@ namespace ArgentSea.Pg
                 }
                 else if (prop.IsDefined(typeof(MapToModel)) && !propType.IsValueType)
                 {
-                    IterateCopyProperties(propType, tableSB, insertSB, expressions, expImporter, expProperty, expLogger, variables, logger);
+                    IterateCopyProperties(propType, ref isFirstColumn, tableSB, insertSB, expressions, expImporter, expProperty, expLogger, variables, logger);
                 }
             }
             if (isFirstColumn)
             {
-                throw new NoMappingAttributesFoundException();
+                throw new NoMappingAttributesFoundException($"No mapping attributes could be found on the “{ tModel.ToString() }” model class provided to the Mapper.");
             }
         }
 
@@ -462,6 +535,9 @@ namespace ArgentSea.Pg
             {
                 tableSB.AppendLine(",");
                 insertSB.Append(",");
+            }
+            else
+            {
                 isFirstColumn = false;
             }
             tableSB.Append("    ");

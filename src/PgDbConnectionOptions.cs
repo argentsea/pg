@@ -9,7 +9,7 @@ using ArgentSea;
 namespace ArgentSea.Pg
 {
     /// <summary>
-    /// This configuration class defines an array of database <see cref="SqlConnectionConfiguration">connection configurations</see>. 
+    /// This configuration class defines an array of database <see cref="PgConnectionConfiguration">connection configurations</see>. 
     /// <example>
     /// For example, you might configure your appsettings.json like this:
     /// <code>

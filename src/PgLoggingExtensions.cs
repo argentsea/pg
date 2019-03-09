@@ -26,7 +26,7 @@ namespace ArgentSea.Pg
             _pgCopyCacheHit = LoggerMessage.Define<Type>(LogLevel.Debug, new EventId((int)LoggingExtensions.EventIdentifier.MapperCacheStatus, nameof(PgCopyCacheHit)), "A cached delegate for mapping type {modelT} to Pg row metadata was found.");
             _pgMapperCopyTrace = LoggerMessage.Define<string>(LogLevel.Trace, new EventId((int)LoggingExtensions.EventIdentifier.MapperProcessTrace, nameof(TraceCopyMapperProperty)), "Copy mapper is now processing property {name}.");
             _pgGetInExpressionTreeCreation = LoggerMessage.Define<string, string>(LogLevel.Debug, new EventId((int)LoggingExtensions.EventIdentifier.ExpressionTreeCreation, nameof(CreatedExpressionTreeForCopy)), "Compiled code to map model {model} to input parameters as:\r\n{code}.");
-            _pgCopySqlStatements = LoggerMessage.Define<string, string>(LogLevel.Debug, new EventId((int)LoggingExtensions.EventIdentifier.CmdExecuted, nameof(CopySqlStatements)), "Copy mapper used a create table definition of “{tableDef}” and used the copy import statment of {copyDef}.");
+            _pgCopySqlStatements = LoggerMessage.Define<string, string>(LogLevel.Debug, new EventId((int)LoggingExtensions.EventIdentifier.CmdExecuted, nameof(CopySqlStatements)), "Copy mapper used a create table definition of: \r\n{tableDef} \r\n and used the copy import statment of:\r\n{copyDef}.");
 
         }
 
