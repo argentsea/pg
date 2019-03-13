@@ -343,16 +343,16 @@ namespace ArgentSea.Pg
                     string childIdPrm;
                     expressions.Add(Expression.Call(miLogTrace, expLogger, Expression.Constant(prop.Name)));
 
-                    Expression expDetectNullOrEmpty;
+                    Expression expIsNotNullOrEmpty;
                     if (propType.IsGenericType && propType.GetGenericTypeDefinition() == typeof(Nullable<>))
                     {
                         expProperty = Expression.Property(expProperty, propType.GetProperty(nameof(Nullable<int>.Value)));
                         propType = Nullable.GetUnderlyingType(propType);
-                        expDetectNullOrEmpty = Expression.Property(expOriginalProperty, propType.GetProperty(nameof(Nullable<int>.HasValue)));
+                        expIsNotNullOrEmpty = Expression.Property(expOriginalProperty, propType.GetProperty(nameof(Nullable<int>.HasValue)));
                     }
                     else
                     {
-                        expDetectNullOrEmpty = Expression.NotEqual(expOriginalProperty, Expression.Property(null, propType.GetProperty(nameof(ShardKey<int, int>.Empty))));
+                        expIsNotNullOrEmpty = Expression.NotEqual(expOriginalProperty, Expression.Property(null, propType.GetProperty(nameof(ShardKey<int, int>.Empty))));
                     }
 
                     if (isShardKey)
@@ -383,9 +383,9 @@ namespace ArgentSea.Pg
                             var expShardProperty = Expression.Property(expProperty, propType.GetProperty(nameof(ShardKey<int, int>.ShardId)));
 
                             expressions.Add(Expression.IfThenElse(
-                                expDetectNullOrEmpty, //if
-                                Expression.Call(expImporter, miWriteNull), //then
-                                Expression.Call(expImporter, miWrite.MakeGenericMethod(new Type[] { expShardProperty.Type }), expShardProperty, Expression.Constant((NpgsqlTypes.NpgsqlDbType)attrPM.SqlType)) //else
+                                expIsNotNullOrEmpty, //if
+                                Expression.Call(expImporter, miWrite.MakeGenericMethod(new Type[] { expShardProperty.Type }), expShardProperty, Expression.Constant((NpgsqlTypes.NpgsqlDbType)attrPM.SqlType)), //then
+                                Expression.Call(expImporter, miWriteNull) //else
                                 ));
                             BuildQueryColumnText(ref isFirstColumn, tableSB, insertSB, attrPM.ColumnDefinition, attrPM.ColumnName);
                         }
@@ -399,9 +399,9 @@ namespace ArgentSea.Pg
                             }
                             var expRecordProperty = Expression.Property(expProperty, propType.GetProperty(nameof(ShardKey<int, int>.RecordId)));
                             expressions.Add(Expression.IfThenElse(
-                                expDetectNullOrEmpty, //if
-                                Expression.Call(expImporter, miWriteNull), //then
-                                Expression.Call(expImporter, miWrite.MakeGenericMethod(new Type[] { expRecordProperty.Type }), expRecordProperty, Expression.Constant((NpgsqlTypes.NpgsqlDbType)attrPM.SqlType)) //else
+                                expIsNotNullOrEmpty, //if
+                                Expression.Call(expImporter, miWrite.MakeGenericMethod(new Type[] { expRecordProperty.Type }), expRecordProperty, Expression.Constant((NpgsqlTypes.NpgsqlDbType)attrPM.SqlType)), //then
+                                Expression.Call(expImporter, miWriteNull) //else
                                 ));
                             BuildQueryColumnText(ref isFirstColumn, tableSB, insertSB, attrPM.ColumnDefinition, attrPM.ColumnName);
                         }
@@ -415,9 +415,9 @@ namespace ArgentSea.Pg
                             }
                             var expChildProperty = Expression.Property(expProperty, propType.GetProperty(nameof(ShardChild<int, int, int>.ChildId)));
                             expressions.Add(Expression.IfThenElse(
-                                expDetectNullOrEmpty, //if
-                                Expression.Call(expImporter, miWriteNull), //then
-                                Expression.Call(expImporter, miWrite.MakeGenericMethod(new Type[] { expChildProperty.Type }), expChildProperty, Expression.Constant((NpgsqlTypes.NpgsqlDbType)attrPM.SqlType)) //else
+                                expIsNotNullOrEmpty, //if
+                                Expression.Call(expImporter, miWrite.MakeGenericMethod(new Type[] { expChildProperty.Type }), expChildProperty, Expression.Constant((NpgsqlTypes.NpgsqlDbType)attrPM.SqlType)), //then
+                                Expression.Call(expImporter, miWriteNull) //else
                                 ));
                             BuildQueryColumnText(ref isFirstColumn, tableSB, insertSB, attrPM.ColumnDefinition, attrPM.ColumnName);
                         }
