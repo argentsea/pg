@@ -1197,7 +1197,7 @@ namespace ArgentSea.Pg
 		/// <param name="prms">The existing parameter collection to which this parameter should be added.</param>
 		/// <param name="parameterName">The name of the parameter. If the name doesn’t start with “:”, it will be automatically pre-pended.</param>
 		/// <param name="value">An array of bytes, or null.</param>
-		/// <param name="length">The maximum allowable number of bytes in the database column. Use -1 for varbinary(max).</param>
+		/// <param name="length">This is NOT used by PostgreSQL to limit the input size, but it is used by Npgsql to determine buffer size. If this value is known, setting it may help performance.</param>
 		/// <returns>The DbParameterCollection to which the parameter was appended.</returns>
 		public static DbParameterCollection AddPgByteaInputParameter(this DbParameterCollection prms, string parameterName, byte[] value, int length)
 		{
@@ -1209,14 +1209,31 @@ namespace ArgentSea.Pg
 			prms.Add(prm);
 			return prms;
 		}
-		/// <summary>
-		/// Creates a parameter for obtaining a variable-sized byte array from a stored procedure.
-		/// </summary>
-		/// <param name="prms">The existing parameter collection to which this output parameter should be added.</param>
-		/// <param name="parameterName">The name of the parameter. If the name doesn’t start with “:”, it will be automatically pre-pended.</param>
-		/// <param name="length">The maximum allowable number of bytes in the database column. Use -1 for varbinary(max).</param>
-		/// <returns>The DbParameterCollection to which the parameter was appended.</returns>
-		public static DbParameterCollection AddPgByteaOutputParameter(this DbParameterCollection prms, string parameterName, int length)
+        /// <summary>
+        /// Creates a parameter for providing a variable-sized byte array to a stored procedure. A null reference will save DBNull.
+        /// </summary>
+        /// <param name="prms">The existing parameter collection to which this parameter should be added.</param>
+        /// <param name="parameterName">The name of the parameter. If the name doesn’t start with “:”, it will be automatically pre-pended.</param>
+        /// <param name="value">An array of bytes, or null.</param>
+        /// <returns>The DbParameterCollection to which the parameter was appended.</returns>
+        public static DbParameterCollection AddPgByteaInputParameter(this DbParameterCollection prms, string parameterName, byte[] value)
+        {
+            var prm = new NpgsqlParameter(NormalizePgParameterName(parameterName), NpgsqlDbType.Bytea)
+            {
+                Value = value ?? (dynamic)System.DBNull.Value,
+                Direction = ParameterDirection.Input
+            };
+            prms.Add(prm);
+            return prms;
+        }
+        /// <summary>
+        /// Creates a parameter for obtaining a variable-sized byte array from a stored procedure.
+        /// </summary>
+        /// <param name="prms">The existing parameter collection to which this output parameter should be added.</param>
+        /// <param name="parameterName">The name of the parameter. If the name doesn’t start with “:”, it will be automatically pre-pended.</param>
+        /// <param name="length">The maximum allowable number of bytes in the database column. Use -1 for varbinary(max).</param>
+        /// <returns>The DbParameterCollection to which the parameter was appended.</returns>
+        public static DbParameterCollection AddPgByteaOutputParameter(this DbParameterCollection prms, string parameterName, int length)
 		{
 			var prm = new NpgsqlParameter(NormalizePgParameterName(parameterName), NpgsqlDbType.Bytea, length)
 			{
