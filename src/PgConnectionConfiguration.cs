@@ -16,12 +16,12 @@ namespace ArgentSea.Pg
     public class PgConnectionConfiguration : PgConnectionPropertiesBase, IDataConnection
     {
 
-        private readonly NpgsqlConnectionStringBuilder _csb = new NpgsqlConnectionStringBuilder();
         private string _connectionString = null;
         private PgConnectionPropertiesBase _globalProperties = null;
         private PgConnectionPropertiesBase _shardSetProperties = null;
         private PgConnectionPropertiesBase _readWriteProperties = null;
         private PgConnectionPropertiesBase _shardProperties = null;
+        private string _connectionDescription = null;
 
         private const int DefaultConnectTimeout = 2;
 
@@ -34,168 +34,168 @@ namespace ArgentSea.Pg
             _connectionString = null;
         }
 
-        private void SetProperties(DataConnectionConfigurationBase properties)
+        private void SetProperties(NpgsqlConnectionStringBuilder csb, DataConnectionConfigurationBase properties)
         {
             if (!(properties.Password is null))
             {
-                _csb.Password = properties.Password;
+                csb.Password = properties.Password;
             }
             if (!(properties.UserName is null))
             {
-                _csb.Username = properties.UserName;
+                csb.Username = properties.UserName;
             }
             if (!(properties.WindowsAuth is null))
             {
-                _csb.IntegratedSecurity = properties.WindowsAuth.Value;
+                csb.IntegratedSecurity = properties.WindowsAuth.Value;
             }
             var props = (PgConnectionPropertiesBase)properties;
             if (!(props.ApplicationName is null))
             {
-                _csb.ApplicationName = props.ApplicationName;
+                csb.ApplicationName = props.ApplicationName;
             }
             if (!(props.AutoPrepareMinUsages is null))
             {
-                _csb.AutoPrepareMinUsages = props.AutoPrepareMinUsages.Value;
+                csb.AutoPrepareMinUsages = props.AutoPrepareMinUsages.Value;
             }
             if (!(props.CheckCertificateRevocation is null))
             {
-                _csb.CheckCertificateRevocation = props.CheckCertificateRevocation.Value;
+                csb.CheckCertificateRevocation = props.CheckCertificateRevocation.Value;
             }
             if (!(props.ClientEncoding is null))
             {
-                _csb.ClientEncoding = props.ClientEncoding;
+                csb.ClientEncoding = props.ClientEncoding;
             }
             if (!(props.CommandTimeout is null))
             {
-                _csb.CommandTimeout = props.CommandTimeout.Value;
+                csb.CommandTimeout = props.CommandTimeout.Value;
             }
             if (!(props.ConnectionIdleLifetime is null))
             {
-                _csb.CommandTimeout = props.ConnectionIdleLifetime.Value;
+                csb.CommandTimeout = props.ConnectionIdleLifetime.Value;
             }
             if (!(props.ConnectionPruningInterval is null))
             {
-                _csb.ConnectionPruningInterval = props.ConnectionPruningInterval.Value;
+                csb.ConnectionPruningInterval = props.ConnectionPruningInterval.Value;
             }
             if (!(props.ConvertInfinityDateTime is null))
             {
-                _csb.ConvertInfinityDateTime = props.ConvertInfinityDateTime.Value;
+                csb.ConvertInfinityDateTime = props.ConvertInfinityDateTime.Value;
             }
             if (!(props.Database is null))
             {
-                _csb.Database = props.Database;
+                csb.Database = props.Database;
             }
             if (!(props.Encoding is null))
             {
-                _csb.Encoding = props.Encoding;
+                csb.Encoding = props.Encoding;
             }
             if (!(props.Enlist is null))
             {
-                _csb.Enlist = props.Enlist.Value;
+                csb.Enlist = props.Enlist.Value;
             }
             if (!(props.Host is null))
             {
-                _csb.Host = props.Host;
+                csb.Host = props.Host;
             }
             if (!(props.IncludeRealm is null))
             {
-                _csb.IncludeRealm = props.IncludeRealm.Value;
+                csb.IncludeRealm = props.IncludeRealm.Value;
             }
             if (!(props.InternalCommandTimeout is null))
             {
-                _csb.InternalCommandTimeout = props.InternalCommandTimeout.Value;
+                csb.InternalCommandTimeout = props.InternalCommandTimeout.Value;
             }
             if (!(props.KeepAlive is null))
             {
-                _csb.KeepAlive = props.KeepAlive.Value;
+                csb.KeepAlive = props.KeepAlive.Value;
             }
             if (!(props.KerberosServiceName is null))
             {
-                _csb.KerberosServiceName = props.KerberosServiceName;
+                csb.KerberosServiceName = props.KerberosServiceName;
             }
             if (!(props.LoadTableComposites is null))
             {
-                _csb.LoadTableComposites = props.LoadTableComposites.Value;
+                csb.LoadTableComposites = props.LoadTableComposites.Value;
             }
             if (!(props.MaxAutoPrepare is null))
             {
-                _csb.MaxAutoPrepare = props.MaxAutoPrepare.Value;
+                csb.MaxAutoPrepare = props.MaxAutoPrepare.Value;
             }
             if (!(props.MaxPoolSize is null))
             {
-                _csb.MaxPoolSize = props.MaxPoolSize.Value;
+                csb.MaxPoolSize = props.MaxPoolSize.Value;
             }
             if (!(props.MinPoolSize is null))
             {
-                _csb.MinPoolSize = props.MinPoolSize.Value;
+                csb.MinPoolSize = props.MinPoolSize.Value;
             }
             if (!(props.NoResetOnClose is null))
             {
-                _csb.NoResetOnClose = props.NoResetOnClose.Value;
+                csb.NoResetOnClose = props.NoResetOnClose.Value;
             }
             if (!(props.PersistSecurityInfo is null))
             {
-                _csb.PersistSecurityInfo = props.PersistSecurityInfo.Value;
+                csb.PersistSecurityInfo = props.PersistSecurityInfo.Value;
             }
             if (!(props.Pooling is null))
             {
-                _csb.Pooling = props.Pooling.Value;
+                csb.Pooling = props.Pooling.Value;
             }
             if (!(props.Port is null))
             {
-                _csb.Port = props.Port.Value;
+                csb.Port = props.Port.Value;
             }
             if (!(props.ReadBufferSize is null))
             {
-                _csb.ReadBufferSize = props.ReadBufferSize.Value;
+                csb.ReadBufferSize = props.ReadBufferSize.Value;
             }
             if (!(props.SearchPath is null))
             {
-                _csb.SearchPath = props.SearchPath;
+                csb.SearchPath = props.SearchPath;
             }
             if (!(props.ServerCompatibilityMode is null))
             {
-                _csb.ServerCompatibilityMode = props.ServerCompatibilityMode.Value;
+                csb.ServerCompatibilityMode = props.ServerCompatibilityMode.Value;
             }
             if (!(props.SocketReceiveBufferSize is null))
             {
-                _csb.SocketReceiveBufferSize = props.SocketReceiveBufferSize.Value;
+                csb.SocketReceiveBufferSize = props.SocketReceiveBufferSize.Value;
             }
             if (!(props.SocketSendBufferSize is null))
             {
-                _csb.SocketSendBufferSize = props.SocketSendBufferSize.Value;
+                csb.SocketSendBufferSize = props.SocketSendBufferSize.Value;
             }
             if (!(props.SslMode is null))
             {
-                _csb.SslMode = props.SslMode.Value;
+                csb.SslMode = props.SslMode.Value;
             }
             if (!(props.TcpKeepAlive is null))
             {
-                _csb.TcpKeepAlive = props.TcpKeepAlive.Value;
+                csb.TcpKeepAlive = props.TcpKeepAlive.Value;
             }
             if (!(props.Timeout is null))
             {
-                _csb.Timeout = props.Timeout.Value;
+                csb.Timeout = props.Timeout.Value;
             }
             if (!(props.Timezone is null))
             {
-                _csb.Timezone = props.Timezone;
+                csb.Timezone = props.Timezone;
             }
             if (!(props.TrustServerCertificate is null))
             {
-                _csb.TrustServerCertificate = props.TrustServerCertificate.Value;
+                csb.TrustServerCertificate = props.TrustServerCertificate.Value;
             }
             if (!(props.UsePerfCounters is null))
             {
-                _csb.UsePerfCounters = props.UsePerfCounters.Value;
+                csb.UsePerfCounters = props.UsePerfCounters.Value;
             }
             if (!(props.UseSslStream is null))
             {
-                _csb.UseSslStream = props.UseSslStream.Value;
+                csb.UseSslStream = props.UseSslStream.Value;
             }
             if (!(props.WriteBufferSize is null))
             {
-                _csb.WriteBufferSize = props.WriteBufferSize.Value;
+                csb.WriteBufferSize = props.WriteBufferSize.Value;
             }
         }
 
@@ -203,26 +203,28 @@ namespace ArgentSea.Pg
         {
             if (string.IsNullOrEmpty(_connectionString))
             {
+                var csb = new NpgsqlConnectionStringBuilder();
                 if (!(_globalProperties is null))
                 {
-                    SetProperties(_globalProperties);
+                    SetProperties(csb, _globalProperties);
                 }
                 if (!(_shardSetProperties is null))
                 {
-                    SetProperties(_shardSetProperties);
+                    SetProperties(csb, _shardSetProperties);
                 }
                 if (!(_readWriteProperties is null))
                 {
-                    SetProperties(_readWriteProperties);
+                    SetProperties(csb, _readWriteProperties);
                 }
                 if (!(_shardProperties is null))
                 {
-                    SetProperties(_shardProperties);
+                    SetProperties(csb, _shardProperties);
                 }
-                SetProperties(this);
-                _connectionString = _csb.ToString();
+                SetProperties(csb, this);
+                _connectionString = csb.ToString();
+                _connectionDescription = $"database {csb.Database} on server {csb.Host}";
                 var logCS = _connectionString;
-                var pwd = _csb.Password;
+                var pwd = csb.Password;
                 if (!string.IsNullOrEmpty(pwd))
                 {
                     logCS = logCS.Replace(pwd, "********");
@@ -259,54 +261,52 @@ namespace ArgentSea.Pg
 
 
         public string ConnectionDescription
-		{
-			get => $"database {this._csb.Database} on host {this._csb.Host}, port {_csb.Port}";
-		}
-
-
-        /// <summary>
-        /// Adds an item to the configuration
-        /// </summary>
-        /// <param name="item"></param>
-        public void Add(KeyValuePair<string, object> item)
         {
-            this._csb.Add(item);
-        }
-        /// <summary>
-        /// Determines whether the configuration contains a specific key-value pair.
-        /// </summary>
-        public bool Contains(KeyValuePair<string, object> item)
-        {
-            return this._csb.Contains(item);
-        }
-        /// <summary>
-        /// Determines whether the configuration contains a specific key.
-        /// </summary>
-        public bool ContainsKey(string key)
-        {
-            return this._csb.ContainsKey(key);
-        }
+            get
+            {
+                if (string.IsNullOrEmpty(this._connectionDescription))
+                {
+                    string database = _globalProperties.Database;
+                    string host = _globalProperties.Host;
+                    if (!string.IsNullOrEmpty(_shardSetProperties.Database))
+                    {
+                        database = _shardSetProperties.Database;
+                    }
+                    if (!string.IsNullOrEmpty(_shardSetProperties.Host))
+                    {
+                        host = _shardSetProperties.Host;
+                    }
 
+                    if (!string.IsNullOrEmpty(_readWriteProperties.Database))
+                    {
+                        database = _readWriteProperties.Database;
+                    }
+                    if (!string.IsNullOrEmpty(_readWriteProperties.Host))
+                    {
+                        host = _readWriteProperties.Host;
+                    }
 
-        /// <summary>
-        /// Removes the entry from the configuration instance.
-        /// </summary>
-        public void Remove(KeyValuePair<string, object> item)
-        {
-            this._csb.Remove(item);
-        }
+                    if (!string.IsNullOrEmpty(_shardProperties.Database))
+                    {
+                        database = _shardProperties.Database;
+                    }
+                    if (!string.IsNullOrEmpty(_shardProperties.Host))
+                    {
+                        host = _shardProperties.Host;
+                    }
 
-        /// <summary>
-        /// Removes the entry from the configuration instance.
-        /// </summary>
-        public void Remove(string key)
-        {
-            this._csb.Remove(key);
-        }
-
-        public bool TryGetValue(string key, out object value)
-        {
-            return this._csb.TryGetValue(key, out value);
+                    if (!string.IsNullOrEmpty(this.Database))
+                    {
+                        database = this.Database;
+                    }
+                    if (!string.IsNullOrEmpty(this.Host))
+                    {
+                        host = this.Host;
+                    }
+                    _connectionDescription = $"database {database} on server {host}";
+                }
+                return this._connectionDescription;
+            }
         }
     }
 }
