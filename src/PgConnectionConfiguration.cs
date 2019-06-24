@@ -266,31 +266,31 @@ namespace ArgentSea.Pg
             {
                 if (string.IsNullOrEmpty(this._connectionDescription))
                 {
-                    string database = _globalProperties.Database;
-                    string host = _globalProperties.Host;
-                    if (!string.IsNullOrEmpty(_shardSetProperties.Database))
+                    string database = _globalProperties?.Database;
+                    string host = _globalProperties?.Host;
+                    if (!string.IsNullOrEmpty(_shardSetProperties?.Database))
                     {
                         database = _shardSetProperties.Database;
                     }
-                    if (!string.IsNullOrEmpty(_shardSetProperties.Host))
+                    if (!string.IsNullOrEmpty(_shardSetProperties?.Host))
                     {
                         host = _shardSetProperties.Host;
                     }
 
-                    if (!string.IsNullOrEmpty(_readWriteProperties.Database))
+                    if (!string.IsNullOrEmpty(_readWriteProperties?.Database))
                     {
                         database = _readWriteProperties.Database;
                     }
-                    if (!string.IsNullOrEmpty(_readWriteProperties.Host))
+                    if (!string.IsNullOrEmpty(_readWriteProperties?.Host))
                     {
                         host = _readWriteProperties.Host;
                     }
 
-                    if (!string.IsNullOrEmpty(_shardProperties.Database))
+                    if (!string.IsNullOrEmpty(_shardProperties?.Database))
                     {
                         database = _shardProperties.Database;
                     }
-                    if (!string.IsNullOrEmpty(_shardProperties.Host))
+                    if (!string.IsNullOrEmpty(_shardProperties?.Host))
                     {
                         host = _shardProperties.Host;
                     }
