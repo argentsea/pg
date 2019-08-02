@@ -28,6 +28,7 @@ namespace ArgentSea.Pg
 
         internal abstract string ColumnDefinition { get; }
 
+        public override string SqlTypeName => ((NpgsqlDbType)base.SqlType).ToString();
     }
 
     #region String parameters
