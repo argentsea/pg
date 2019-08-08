@@ -11,13 +11,12 @@ namespace ArgentSea.Pg
     /// <summary>
     /// A collection of ShardSets.
     /// </summary>
-    /// <typeparam name="TShard">The type of the shardId index value.</typeparam>
-    public class PgShardSets<TShard> : ArgentSea.ShardSetsBase<TShard, PgShardConnectionOptions<TShard>> where TShard : IComparable
+    public class PgShardSets : ArgentSea.ShardSetsBase<PgShardConnectionOptions>
 	{
 		public PgShardSets(
-			IOptions<PgShardConnectionOptions<TShard>> configOptions,
+			IOptions<PgShardConnectionOptions> configOptions,
             IOptions<PgGlobalPropertiesOptions> globalOptions,
-			ILogger<PgShardSets<TShard>> logger
+			ILogger<PgShardSets> logger
 			) : base(configOptions, new DataProviderServiceFactory(), globalOptions?.Value, logger)
 		{
 

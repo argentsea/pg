@@ -32,26 +32,10 @@ namespace Microsoft.Extensions.DependencyInjection
             services.Configure<PgGlobalPropertiesOptions>(global);
             services.Configure<PgDbConnectionOptions>(config);
             services.AddSingleton<PgDatabases>();
+            services.Configure<PgShardConnectionOptions>(config);
+            services.AddSingleton<ShardSetsBase<PgShardConnectionOptions>, PgShardSets>();
             return services;
 		}
 
-		/// <summary>
-		/// Loads configuration into injectable Options and the DbDataStores and ShardDataStores services. ILogger service should have already be created.
-		/// </summary>
-		/// <typeparam name="TShard"></typeparam>
-		/// <param name="services"></param>
-		/// <param name="config"></param>
-		/// <returns></returns>
-		public static IServiceCollection AddPgServices<TShard>(
-			this IServiceCollection services,
-			IConfiguration config
-			) where TShard : IComparable
-		{
-
-            services.AddPgServices(config);
-            services.Configure<PgShardConnectionOptions<TShard>>(config);
-            //services.AddSingleton<ShardSetsBase<TShard, PgShardConnectionOptions<TShard>>, PgShardSets<TShard>>();
-            return services;
-		}
 	}
 }

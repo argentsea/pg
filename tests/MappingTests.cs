@@ -47,10 +47,10 @@ namespace ArgentSea.Pg.Test
               KeyValues = new Dictionary<string, string>() { { "one", "1" }, { "two", "2" } },
               CleanOutStuff = new TimeSpan(48, 0, 0),
                 GarbageCollectorNotificationStatus = GCNotificationStatus.NotApplicable,
-                RecordKey = new ShardKey<short, int>('x', 2, 1234),
-                RecordChild = new ShardChild<short, int, long>('y', 3, 4567, (short)-23456),
-                DataShard2 = new ShardKey<short, long>('z', (short)22, 123432L),
-                ChildShard2 = new ShardChild<short, int, string>('!', 255, 255, "testing123")
+                RecordKey = new ShardKey<int>('x', (short)2, 1234),
+                RecordChild = new ShardChild<int, long>('y', (short)3, 4567, (short)-23456),
+                DataShard2 = new ShardKey<long>('z', (short)22, 123432L),
+                ChildShard2 = new ShardChild<int, string>('!', (short)255, 255, "testing123")
             };
             var dbLogger = Substitute.For<Microsoft.Extensions.Logging.ILogger>();
             var prms = new ParameterCollection();
@@ -165,8 +165,8 @@ namespace ArgentSea.Pg.Test
                 CleanOutStuff = TimeSpan.Zero,
                 GarbageCollectorNotificationStatus = GCNotificationStatus.Succeeded,
                 RecordKey = null,
-                RecordChild = ShardChild<short, int, long>.Empty,
-                DataShard2 = ShardKey<short, long>.Empty,
+                RecordChild = ShardChild<int, long>.Empty,
+                DataShard2 = ShardKey<long>.Empty,
                 ChildShard2 = null
             };
             var dbLogger = Substitute.For<Microsoft.Extensions.Logging.ILogger>();
@@ -451,7 +451,7 @@ namespace ArgentSea.Pg.Test
 
             var dbLogger2 = new Microsoft.Extensions.Logging.LoggerFactory();
             var dbLogger = dbLogger2.CreateLogger("");
-            var result = cmd.Parameters.ToModel<short, PgMapModel>((short)5, dbLogger);
+            var result = cmd.Parameters.ToModel<PgMapModel>((short)5, dbLogger);
             result.ArgentSeaTestDataId.Should().Be(10, "that was the output parameter value");
             result.Name.Should().Be("Test2", "that was the output parameter value");
             result.Iso3166.Should().Be("US", "that was the output parameter value");
@@ -552,7 +552,7 @@ namespace ArgentSea.Pg.Test
             prms.Add(new NpgsqlParameter("ParentRecord2Id", NpgsqlTypes.NpgsqlDbType.Integer) { Value = System.DBNull.Value, Direction = System.Data.ParameterDirection.Output });
             prms.Add(new NpgsqlParameter("ChildRecord2Id", NpgsqlTypes.NpgsqlDbType.Varchar, 255) { Value = System.DBNull.Value, Direction = System.Data.ParameterDirection.Output });
 
-            var result = Mapper.ToModel<short, PgMapModel>(prms, 16, dbLogger);
+            var result = Mapper.ToModel<PgMapModel>(prms, 16, dbLogger);
 
             result.ArgentSeaTestDataId.Should().Be(11, "that was the output parameter value");
             result.Name.Should().BeNull("the output parameter was set to DbNull");
@@ -823,10 +823,10 @@ namespace ArgentSea.Pg.Test
                 KeyValues = new Dictionary<string, string>() { { "one", "1" }, { "two", "2" } },
                 CleanOutStuff = new TimeSpan(4,5,6),
                 GarbageCollectorNotificationStatus = GCNotificationStatus.NotApplicable,
-                RecordKey = new Nullable<ShardKey<short, int>>(new ShardKey<short, int>('x', (short)2, 1234)),
-                RecordChild = new ShardChild<short, int, long>('y', (short)3, 4567, -23456L),
-                DataShard2 = new ShardKey<short, long>('A', (short)32, -1234L),
-                ChildShard2 = new ShardChild<short, int, string>('B', (short)3, -4567, "testing...")
+                RecordKey = new Nullable<ShardKey<int>>(new ShardKey<int>('x', (short)2, 1234)),
+                RecordChild = new ShardChild<int, long>('y', (short)3, 4567, -23456L),
+                DataShard2 = new ShardKey<long>('A', (short)32, -1234L),
+                ChildShard2 = new ShardChild<int, string>('B', (short)3, -4567, "testing...")
             };
 
             var rdr = Substitute.For<System.Data.Common.DbDataReader>();
@@ -965,7 +965,7 @@ namespace ArgentSea.Pg.Test
             rdr.GetName(38).Returns("ChildRecord2Id");
 
             var dbLogger = Substitute.For<Microsoft.Extensions.Logging.ILogger>();
-            var resultList = Mapper.ToList<short, PgMapModel>(rdr, (short)32, dbLogger);
+            var resultList = Mapper.ToList<PgMapModel>(rdr, (short)32, dbLogger);
             var result = resultList[0];
             result.ArgentSeaTestDataId.Should().Be(modelValues.ArgentSeaTestDataId, "that is the source value");
             result.Name.Should().Be(modelValues.Name, "that is the source value");
@@ -1043,10 +1043,10 @@ namespace ArgentSea.Pg.Test
                 KeyValues = null,
                 CleanOutStuff = TimeSpan.Zero,
                 GarbageCollectorNotificationStatus = GCNotificationStatus.Succeeded,
-                RecordKey = ShardKey<short, int>.Empty,
-                RecordChild = ShardChild<short, int, long>.Empty,
-                DataShard2 = ShardKey<short, long>.Empty,
-                ChildShard2 = ShardChild<short, int, string>.Empty
+                RecordKey = ShardKey<int>.Empty,
+                RecordChild = ShardChild<int, long>.Empty,
+                DataShard2 = ShardKey<long>.Empty,
+                ChildShard2 = ShardChild<int, string>.Empty
             };
 
 
@@ -1146,7 +1146,7 @@ namespace ArgentSea.Pg.Test
 
             var dbLogger = Substitute.For<Microsoft.Extensions.Logging.ILogger>();
 
-            var resultList = Mapper.ToList<short, PgMapModel>(rdr, 200, dbLogger);
+            var resultList = Mapper.ToList<PgMapModel>(rdr, 200, dbLogger);
 
             var result = resultList[0];
             result.ArgentSeaTestDataId.Should().Be(modelValues.ArgentSeaTestDataId, "that is the source value");
@@ -1180,8 +1180,8 @@ namespace ArgentSea.Pg.Test
             result.CleanOutStuff.Should().Be(modelValues.CleanOutStuff, "that is the source value");
             result.GarbageCollectorNotificationStatus.Should().BeNull("the reader value is DbNull");
             result.RecordKey.Should().BeNull("the input values are null");
-            result.RecordChild.Should().Be(ShardChild<short, int, long>.Empty, "the result should be empty");
-            result.DataShard2.Should().Be(ShardKey<short, long>.Empty, "the result should be empty");
+            result.RecordChild.Should().Be(ShardChild<int, long>.Empty, "the result should be empty");
+            result.DataShard2.Should().Be(ShardKey<long>.Empty, "the result should be empty");
             result.ChildShard2.Should().BeNull("the input values are null");
         }
     }

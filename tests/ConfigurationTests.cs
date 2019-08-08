@@ -24,13 +24,13 @@ namespace ArgentSea.Pg.Test
 
             services.Configure<PgGlobalPropertiesOptions>(config.GetSection("PgGlobalSettings"));
             services.Configure<PgDbConnectionOptions>(config);
-            services.Configure<PgShardConnectionOptions<int>>(config);
+            services.Configure<PgShardConnectionOptions>(config);
 
             var serviceProvider = services.BuildServiceProvider();
 
             var globalOptions = serviceProvider.GetService<IOptions<PgGlobalPropertiesOptions>>();
             var sqlDbOptions = serviceProvider.GetService<IOptions<PgDbConnectionOptions>>();
-            var sqlShardOptions = serviceProvider.GetService<IOptions<PgShardConnectionOptions<int>>>();
+            var sqlShardOptions = serviceProvider.GetService<IOptions<PgShardConnectionOptions>>();
 
             var globalData = globalOptions.Value;
             globalData.RetryCount.Should().Be(15, "that is the first value set in the configurationsettings.json configuration file");
@@ -61,21 +61,21 @@ namespace ArgentSea.Pg.Test
             services.AddOptions();
 
             services.AddLogging();
-            services.AddPgServices<short>(config);
+            services.AddPgServices(config);
 
             var serviceProvider = services.BuildServiceProvider();
             var globalOptions = serviceProvider.GetService<IOptions<PgGlobalPropertiesOptions>>();
             var pgDbOptions = serviceProvider.GetService<IOptions<PgDbConnectionOptions>>();
-            var pgShardOptions = serviceProvider.GetService<IOptions<PgShardConnectionOptions<short>>>();
+            var pgShardOptions = serviceProvider.GetService<IOptions<PgShardConnectionOptions>>();
             var dbLogger = NSubstitute.Substitute.For<Microsoft.Extensions.Logging.ILogger<PgDatabases>>();
 
             var dbService = new PgDatabases(pgDbOptions, globalOptions, dbLogger);
             dbService.Count.Should().Be(2, "two connections are defined in the configuration file");
             dbService["MainDb"].Read.ConnectionString.Should().Be("Application Name=MyApp;Use Perf Counters=False;Database=MainDb;Host=10.10.25.1", "this is the value inherited from global configuratoin settings.");
             dbService["OtherDb"].Read.ConnectionString.Should().Be("Application Name=MyOtherApp;Use Perf Counters=False;Database=OtherDb;Host=10.10.25.2", "this is the value that overrides the global setting");
-            var shardLogger = NSubstitute.Substitute.For<Microsoft.Extensions.Logging.ILogger<ArgentSea.Pg.PgShardSets<short>>>();
+            var shardLogger = NSubstitute.Substitute.For<Microsoft.Extensions.Logging.ILogger<ArgentSea.Pg.PgShardSets>>();
 
-            var shardService = new ArgentSea.Pg.PgShardSets<short>(pgShardOptions, globalOptions, shardLogger);
+            var shardService = new ArgentSea.Pg.PgShardSets(pgShardOptions, globalOptions, shardLogger);
 
             shardService.Count.Should().Be(2, "two shard sets are defined in the configuration file");
             shardService["Inherit"].Count.Should().Be(2, "the configuration file has two shard connections defined on shard set Set1");

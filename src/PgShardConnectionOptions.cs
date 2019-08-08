@@ -10,29 +10,27 @@ namespace ArgentSea.Pg
     /// <summary>
     /// This options class contains the shard dataset configuration information.
     /// </summary>
-    /// <typeparam name="TShard"></typeparam>
-	public class PgShardConnectionOptions<TShard> : IShardSetsConfigurationOptions<TShard>
-            where TShard : IComparable
+	public class PgShardConnectionOptions : IShardSetsConfigurationOptions
     {
-        public IShardSetConnectionsConfiguration<TShard>[] ShardSetsConfigInternal { get => PgShardSets; }
+        public IShardSetConnectionsConfiguration[] ShardSetsConfigInternal { get => PgShardSets; }
 		public PgShardConnectionsConfiguration[] PgShardSets { get; set; }
 
-        public class PgShardConnectionsConfiguration : PgConnectionPropertiesBase, IShardSetConnectionsConfiguration<TShard>
+        public class PgShardConnectionsConfiguration : PgConnectionPropertiesBase, IShardSetConnectionsConfiguration
         {
             public string ShardSetName { get; set; }
-            public TShard DefaultShardId { get; set; }
-            public IShardConnectionConfiguration<TShard>[] ShardsConfigInternal { get => Shards; }
+            public short DefaultShardId { get; set; }
+            public IShardConnectionConfiguration[] ShardsConfigInternal { get => Shards; }
 			public PgShardConnectionConfiguration[] Shards { get; set; }
 
-            public IShardConnectionConfiguration<TShard> ReadConfigInternal => Read;
-            public IShardConnectionConfiguration<TShard> WriteConfigInternal => Write;
+            public IShardConnectionConfiguration ReadConfigInternal => Read;
+            public IShardConnectionConfiguration WriteConfigInternal => Write;
             public PgShardConnectionConfiguration Read { get; set; }
             public PgShardConnectionConfiguration Write { get; set; }
         }
 
-        public class PgShardConnectionConfiguration : PgConnectionPropertiesBase, IShardConnectionConfiguration<TShard>
+        public class PgShardConnectionConfiguration : PgConnectionPropertiesBase, IShardConnectionConfiguration
 		{
-			public TShard ShardId { get; set; }
+			public short ShardId { get; set; }
 			public IDataConnection ReadConnectionInternal { get => ReadConnection; }
 			public IDataConnection WriteConnectionInternal { get => WriteConnection; }
             public PgConnectionConfiguration ReadConnection { get; set; } = new PgConnectionConfiguration();

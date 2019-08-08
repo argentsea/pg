@@ -109,24 +109,24 @@ namespace ArgentSea.Pg.Test
         [MapShardKey('x', "DataShard", "DataRecordId")]
         [MapToPgSmallint("DataShard")]
         [MapToPgInteger("DataRecordId")]
-        public ShardKey<short, int>? RecordKey { get; set; } = ShardKey<short, int>.Empty;
+        public ShardKey<int>? RecordKey { get; set; } = ShardKey<int>.Empty;
 
         [MapShardChild('y', "ChildShard", "ParentRecordId", "ChildRecordId")]
         [MapToPgSmallint("ChildShard")]
         [MapToPgInteger("ParentRecordId")]
         [MapToPgBigint("ChildRecordId")]
-        public ShardChild<short, int, long> RecordChild { get; set; } = ShardChild<short, int, long>.Empty;
+        public ShardChild<int, long> RecordChild { get; set; } = ShardChild<int, long>.Empty;
 
 
         [MapShardKey('A', "DataRecordId2")]
         [MapToPgBigint("DataRecordId2")]
-        public ShardKey<short, long> DataShard2 { get; set; } = new ShardKey<short, long>('A', 123, 54321);
+        public ShardKey<long> DataShard2 { get; set; } = new ShardKey<long>('A', 123, 54321);
 
         [MapShardChild('B', "ChildShard2", "ParentRecord2Id", "ChildRecord2Id")]
         [MapToPgSmallint("ChildShard2")]
         [MapToPgInteger("ParentRecord2Id")]
         [MapToPgVarchar("ChildRecord2Id", 255)]
-        public ShardChild<short, int, string>? ChildShard2 { get; set; } = null;
+        public ShardChild<int, string>? ChildShard2 { get; set; } = null;
 
 
 

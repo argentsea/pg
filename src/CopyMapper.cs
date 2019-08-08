@@ -23,85 +23,85 @@ namespace ArgentSea.Pg
     public static class CopyMapper
     {
         #region Extension methods
-        public static DatabaseBatch<TResult> Add<TShard, TModel, TResult>(this DatabaseBatch<TResult> batch, List<TModel> models, string tableName) where TModel : class, new()
-            => Add<TShard, TModel, TResult>(batch, (IList<TModel>)models, tableName);
+        public static DatabaseBatch<TResult> Add<TModel, TResult>(this DatabaseBatch<TResult> batch, List<TModel> models, string tableName) where TModel : class, new()
+            => Add<TModel, TResult>(batch, (IList<TModel>)models, tableName);
 
-        public static DatabaseBatch<TResult> Add<TShard, TModel, TResult>(this DatabaseBatch<TResult> batch, IList<TModel> models, string tableName) where TModel : class, new()
+        public static DatabaseBatch<TResult> Add<TModel, TResult>(this DatabaseBatch<TResult> batch, IList<TModel> models, string tableName) where TModel : class, new()
         {
-            batch.Add(new CopyModelStep<int, TModel, TResult>(models, tableName));
+            batch.Add(new CopyModelStep<TModel, TResult>(models, tableName));
             return batch;
         }
 
-        public static ShardBatch<TShard, TResult> Add<TShard, TModel, TResult>(this ShardBatch<TShard, TResult> batch, List<TModel> models, string tableName) where TShard : IComparable where TModel : class, new()
-            => Add<TShard, TModel, TResult>(batch, (IList<TModel>)models, tableName);
+        public static ShardBatch<TResult> Add<TModel, TResult>(this ShardBatch<TResult> batch, List<TModel> models, string tableName)where TModel : class, new()
+            => Add<TModel, TResult>(batch, (IList<TModel>)models, tableName);
 
-        public static ShardBatch<TShard, TResult> Add<TShard, TModel, TResult>(this ShardBatch<TShard, TResult> batch, IList<TModel> models, string tableName) where TShard : IComparable where TModel : class, new()
+        public static ShardBatch<TResult> Add<TModel, TResult>(this ShardBatch<TResult> batch, IList<TModel> models, string tableName)where TModel : class, new()
         {
-            batch.Add(new CopyModelStep<TShard, TModel, TResult>(models, tableName));
+            batch.Add(new CopyModelStep<TModel, TResult>(models, tableName));
             return batch;
         }
 
-        public static ShardBatch<TShard, TResult> Add<TShard, TRecord, TResult>(this ShardBatch<TShard, TResult> batch, List<ShardKey<TShard, TRecord>> keys, string tableName, PgParameterMapAttribute shardIdDefinition, PgParameterMapAttribute recordIdDefinition) where TShard : IComparable where TRecord : IComparable
-            => Add<TShard, TRecord, TResult>(batch, (IList<ShardKey<TShard, TRecord>>)keys, tableName, shardIdDefinition, recordIdDefinition);
+        public static ShardBatch<TResult> Add<TRecord, TResult>(this ShardBatch<TResult> batch, List<ShardKey<TRecord>> keys, string tableName, PgParameterMapAttribute shardIdDefinition, PgParameterMapAttribute recordIdDefinition)where TRecord : IComparable
+            => Add<TRecord, TResult>(batch, (IList<ShardKey<TRecord>>)keys, tableName, shardIdDefinition, recordIdDefinition);
 
-        public static ShardBatch<TShard, TResult> Add<TShard, TRecord, TResult>(this ShardBatch<TShard, TResult> batch, IList<ShardKey<TShard, TRecord>> keys, string tableName, PgParameterMapAttribute shardIdDefinition, PgParameterMapAttribute recordIdDefinition) where TShard : IComparable where TRecord : IComparable
+        public static ShardBatch<TResult> Add<TRecord, TResult>(this ShardBatch<TResult> batch, IList<ShardKey<TRecord>> keys, string tableName, PgParameterMapAttribute shardIdDefinition, PgParameterMapAttribute recordIdDefinition)where TRecord : IComparable
         {
-            batch.Add(new CopyKeysStep<TShard, TRecord, TResult>(keys, tableName, shardIdDefinition, recordIdDefinition));
+            batch.Add(new CopyKeysStep<TRecord, TResult>(keys, tableName, shardIdDefinition, recordIdDefinition));
             return batch;
         }
 
-        public static ShardBatch<TShard, TResult> Add<TShard, TRecord, TChildId, TResult>(this ShardBatch<TShard, TResult> batch, List<ShardChild<TShard, TRecord, TChildId>> keys, string tableName, PgParameterMapAttribute shardIdDefinition, PgParameterMapAttribute recordIdDefinition, PgParameterMapAttribute childIdDefinition) where TShard : IComparable where TRecord : IComparable where TChildId : IComparable
-            => Add<TShard, TRecord, TChildId, TResult>(batch, (IList<ShardChild<TShard, TRecord, TChildId>>)keys, tableName, shardIdDefinition, recordIdDefinition, childIdDefinition);
+        public static ShardBatch<TResult> Add<TRecord, TChildId, TResult>(this ShardBatch<TResult> batch, List<ShardChild<TRecord, TChildId>> keys, string tableName, PgParameterMapAttribute shardIdDefinition, PgParameterMapAttribute recordIdDefinition, PgParameterMapAttribute childIdDefinition)where TRecord : IComparable where TChildId : IComparable
+            => Add<TRecord, TChildId, TResult>(batch, (IList<ShardChild<TRecord, TChildId>>)keys, tableName, shardIdDefinition, recordIdDefinition, childIdDefinition);
 
-        public static ShardBatch<TShard, TResult> Add<TShard, TRecord, TChildId, TResult>(this ShardBatch<TShard, TResult> batch, IList<ShardChild<TShard, TRecord, TChildId>> keys, string tableName, PgParameterMapAttribute shardIdDefinition, PgParameterMapAttribute recordIdDefinition, PgParameterMapAttribute childIdDefinition) where TShard : IComparable where TRecord : IComparable where TChildId : IComparable
+        public static ShardBatch<TResult> Add<TRecord, TChildId, TResult>(this ShardBatch<TResult> batch, IList<ShardChild<TRecord, TChildId>> keys, string tableName, PgParameterMapAttribute shardIdDefinition, PgParameterMapAttribute recordIdDefinition, PgParameterMapAttribute childIdDefinition)where TRecord : IComparable where TChildId : IComparable
         {
-            batch.Add(new CopyChildrenStep<TShard, TRecord, TChildId, TResult>(keys, tableName, shardIdDefinition, recordIdDefinition, childIdDefinition));
+            batch.Add(new CopyChildrenStep<TRecord, TChildId, TResult>(keys, tableName, shardIdDefinition, recordIdDefinition, childIdDefinition));
             return batch;
         }
 
-        public static ShardSetBatch<TShard> Add<TShard, TModel>(this ShardSetBatch<TShard> batch, List<TModel> models, string tableName) where TShard : IComparable where TModel : class, new()
-            => Add<TShard, TModel>(batch, (IList<TModel>)models, tableName);
+        public static ShardSetBatch Add<TModel>(this ShardSetBatch batch, List<TModel> models, string tableName)where TModel : class, new()
+            => Add<TModel>(batch, (IList<TModel>)models, tableName);
 
-        public static ShardSetBatch<TShard> Add<TShard, TModel>(this ShardSetBatch<TShard> batch, IList<TModel> models, string tableName) where TShard : IComparable where TModel : class, new()
+        public static ShardSetBatch Add<TModel>(this ShardSetBatch batch, IList<TModel> models, string tableName)where TModel : class, new()
         {
-            batch.Add(new CopyModelStep<TShard, TModel, object>(models, tableName));
+            batch.Add(new CopyModelStep<TModel, object>(models, tableName));
             return batch;
         }
 
-        public static ShardSetBatch<TShard> Add<TShard, TRecord>(this ShardSetBatch<TShard> batch, List<ShardKey<TShard, TRecord>> keys, string tableName, PgParameterMapAttribute shardIdDefinition, PgParameterMapAttribute recordIdDefinition) where TShard : IComparable where TRecord : IComparable
-            => Add<TShard, TRecord>(batch, (IList<ShardKey<TShard, TRecord>>)keys, tableName, shardIdDefinition, recordIdDefinition);
+        public static ShardSetBatch Add<TRecord>(this ShardSetBatch batch, List<ShardKey<TRecord>> keys, string tableName, PgParameterMapAttribute shardIdDefinition, PgParameterMapAttribute recordIdDefinition)where TRecord : IComparable
+            => Add<TRecord>(batch, (IList<ShardKey<TRecord>>)keys, tableName, shardIdDefinition, recordIdDefinition);
 
-        public static ShardSetBatch<TShard> Add<TShard, TRecord>(this ShardSetBatch<TShard> batch, IList<ShardKey<TShard, TRecord>> keys, string tableName, PgParameterMapAttribute shardIdDefinition, PgParameterMapAttribute recordIdDefinition) where TShard : IComparable where TRecord : IComparable
+        public static ShardSetBatch Add<TRecord>(this ShardSetBatch batch, IList<ShardKey<TRecord>> keys, string tableName, PgParameterMapAttribute shardIdDefinition, PgParameterMapAttribute recordIdDefinition)where TRecord : IComparable
         {
-            batch.Add(new CopyKeysStep<TShard, TRecord, object>(keys, tableName, shardIdDefinition, recordIdDefinition));
+            batch.Add(new CopyKeysStep<TRecord, object>(keys, tableName, shardIdDefinition, recordIdDefinition));
             return batch;
         }
 
-        public static ShardSetBatch<TShard> Add<TShard, TRecord, TChildId>(this ShardSetBatch<TShard> batch, List<ShardChild<TShard, TRecord, TChildId>> keys, string tableName, PgParameterMapAttribute shardIdDefinition, PgParameterMapAttribute recordIdDefinition, PgParameterMapAttribute childIdDefinition) where TShard : IComparable where TRecord : IComparable where TChildId : IComparable
-            => Add<TShard, TRecord, TChildId>(batch, (IList<ShardChild<TShard, TRecord, TChildId>>)keys, tableName, shardIdDefinition, recordIdDefinition, childIdDefinition);
+        public static ShardSetBatch Add<TRecord, TChildId>(this ShardSetBatch batch, List<ShardChild<TRecord, TChildId>> keys, string tableName, PgParameterMapAttribute shardIdDefinition, PgParameterMapAttribute recordIdDefinition, PgParameterMapAttribute childIdDefinition)where TRecord : IComparable where TChildId : IComparable
+            => Add<TRecord, TChildId>(batch, (IList<ShardChild<TRecord, TChildId>>)keys, tableName, shardIdDefinition, recordIdDefinition, childIdDefinition);
 
-        public static ShardSetBatch<TShard> Add<TShard, TRecord, TChildId>(this ShardSetBatch<TShard> batch, IList<ShardChild<TShard, TRecord, TChildId>> keys, string tableName, PgParameterMapAttribute shardIdDefinition, PgParameterMapAttribute recordIdDefinition, PgParameterMapAttribute childIdDefinition) where TShard : IComparable where TRecord : IComparable where TChildId : IComparable
+        public static ShardSetBatch Add<TRecord, TChildId>(this ShardSetBatch batch, IList<ShardChild<TRecord, TChildId>> keys, string tableName, PgParameterMapAttribute shardIdDefinition, PgParameterMapAttribute recordIdDefinition, PgParameterMapAttribute childIdDefinition)where TRecord : IComparable where TChildId : IComparable
         {
-            batch.Add(new CopyChildrenStep<TShard, TRecord, TChildId, object>(keys, tableName, shardIdDefinition, recordIdDefinition, childIdDefinition));
+            batch.Add(new CopyChildrenStep<TRecord, TChildId, object>(keys, tableName, shardIdDefinition, recordIdDefinition, childIdDefinition));
             return batch;
         }
         #endregion
         #region Private classes
-        private class CopyKeysStep<TShard, TRecord, TResult> : BatchStep<TShard, TResult> where TShard : IComparable where TRecord : IComparable
+        private class CopyKeysStep<TRecord, TResult> : BatchStep<TResult>where TRecord : IComparable
         {
-            private readonly IList<ShardKey<TShard, TRecord>> _keys;
+            private readonly IList<ShardKey<TRecord>> _keys;
             private readonly string _tableName;
             private readonly PgParameterMapAttribute _shardIdDefinition;
             private readonly PgParameterMapAttribute _recordIdDefinition;
 
-            public CopyKeysStep(IList<ShardKey<TShard, TRecord>> keys, string tableName, PgParameterMapAttribute shardIdDefinition, PgParameterMapAttribute recordIdDefinition)
+            public CopyKeysStep(IList<ShardKey<TRecord>> keys, string tableName, PgParameterMapAttribute shardIdDefinition, PgParameterMapAttribute recordIdDefinition)
             {
                 _keys = keys;
                 _tableName = tableName;
                 _shardIdDefinition = shardIdDefinition;
                 _recordIdDefinition = recordIdDefinition;
             }
-            protected override async Task<TResult> Execute(TShard shardId, DbConnection connection, DbTransaction transaction, string connectionName, IDataProviderServiceFactory services, ILogger logger, CancellationToken cancellation)
+            protected override async Task<TResult> Execute(short shardId, DbConnection connection, DbTransaction transaction, string connectionName, IDataProviderServiceFactory services, ILogger logger, CancellationToken cancellation)
             {
                 CopyMapper.ValidatePgTableName(_tableName);
                 cancellation.ThrowIfCancellationRequested();
@@ -131,7 +131,7 @@ namespace ArgentSea.Pg
                     foreach (var key in _keys)
                     {
                         importer.StartRow();
-                        importer.Write<TShard>(key.ShardId);
+                        importer.Write(key.ShardId);
                         importer.Write<TRecord>(key.RecordId);
                     }
                     importer.Complete();
@@ -140,15 +140,15 @@ namespace ArgentSea.Pg
             }
         }
 
-        private class CopyChildrenStep<TShard, TRecord, TChildId, TResult> : BatchStep<TShard, TResult> where TShard : IComparable where TRecord : IComparable where TChildId : IComparable
+        private class CopyChildrenStep<TRecord, TChildId, TResult> : BatchStep<TResult>where TRecord : IComparable where TChildId : IComparable
         {
-            private readonly IList<ShardChild<TShard, TRecord, TChildId>> _keys;
+            private readonly IList<ShardChild<TRecord, TChildId>> _keys;
             private readonly string _tableName;
             private readonly PgParameterMapAttribute _shardIdDefinition;
             private readonly PgParameterMapAttribute _recordIdDefinition;
             private readonly PgParameterMapAttribute _childIdDefinition;
 
-            public CopyChildrenStep(IList<ShardChild<TShard, TRecord, TChildId>> keys, string tableName, PgParameterMapAttribute shardIdDefinition, PgParameterMapAttribute recordIdDefinition, PgParameterMapAttribute childIdDefinition)
+            public CopyChildrenStep(IList<ShardChild<TRecord, TChildId>> keys, string tableName, PgParameterMapAttribute shardIdDefinition, PgParameterMapAttribute recordIdDefinition, PgParameterMapAttribute childIdDefinition)
             {
                 _keys = keys;
                 _tableName = tableName;
@@ -156,7 +156,7 @@ namespace ArgentSea.Pg
                 _recordIdDefinition = recordIdDefinition;
                 _childIdDefinition = childIdDefinition;
             }
-            protected override async Task<TResult> Execute(TShard shardId, DbConnection connection, DbTransaction transaction, string connectionName, IDataProviderServiceFactory services, ILogger logger, CancellationToken cancellation)
+            protected override async Task<TResult> Execute(short shardId, DbConnection connection, DbTransaction transaction, string connectionName, IDataProviderServiceFactory services, ILogger logger, CancellationToken cancellation)
             {
                 ValidatePgTableName(_tableName);
                 cancellation.ThrowIfCancellationRequested();
@@ -186,7 +186,7 @@ namespace ArgentSea.Pg
                     foreach (var key in _keys)
                     {
                         importer.StartRow();
-                        importer.Write<TShard>(key.ShardId);
+                        importer.Write(key.ShardId);
                         importer.Write<TRecord>(key.RecordId);
                         importer.Write<TChildId>(key.ChildId);
                     }
@@ -196,7 +196,7 @@ namespace ArgentSea.Pg
             }
         }
 
-        private class CopyModelStep<TShard, TModel, TResult> : BatchStep<TShard, TResult> where TShard : IComparable where TModel : class, new()
+        private class CopyModelStep<TModel, TResult> : BatchStep<TResult>where TModel : class, new()
         {
             private readonly IList<TModel> _models;
             private readonly string _tableName;
@@ -205,7 +205,7 @@ namespace ArgentSea.Pg
                 _models = models;
                 _tableName = tableName;
             }
-            protected override async Task<TResult> Execute(TShard shardId, DbConnection connection, DbTransaction transaction, string connectionName, IDataProviderServiceFactory services, ILogger logger, CancellationToken cancellation)
+            protected override async Task<TResult> Execute(short shardId, DbConnection connection, DbTransaction transaction, string connectionName, IDataProviderServiceFactory services, ILogger logger, CancellationToken cancellation)
             {
                 ValidatePgTableName(_tableName);
                 var tModel = typeof(TModel);
@@ -352,7 +352,7 @@ namespace ArgentSea.Pg
                     }
                     else
                     {
-                        expIsNotNullOrEmpty = Expression.NotEqual(expOriginalProperty, Expression.Property(null, propType.GetProperty(nameof(ShardKey<int, int>.Empty))));
+                        expIsNotNullOrEmpty = Expression.NotEqual(expOriginalProperty, Expression.Property(null, propType.GetProperty(nameof(ShardKey<int>.Empty))));
                     }
 
                     if (isShardKey)
@@ -380,7 +380,7 @@ namespace ArgentSea.Pg
                             {
                                 throw new InvalidMapTypeException(prop, attrPM.SqlType);
                             }
-                            var expShardProperty = Expression.Property(expProperty, propType.GetProperty(nameof(ShardKey<int, int>.ShardId)));
+                            var expShardProperty = Expression.Property(expProperty, propType.GetProperty(nameof(ShardKey<int>.ShardId)));
 
                             expressions.Add(Expression.IfThenElse(
                                 expIsNotNullOrEmpty, //if
@@ -397,7 +397,7 @@ namespace ArgentSea.Pg
                             {
                                 throw new InvalidMapTypeException(prop, attrPM.SqlType);
                             }
-                            var expRecordProperty = Expression.Property(expProperty, propType.GetProperty(nameof(ShardKey<int, int>.RecordId)));
+                            var expRecordProperty = Expression.Property(expProperty, propType.GetProperty(nameof(ShardKey<int>.RecordId)));
                             expressions.Add(Expression.IfThenElse(
                                 expIsNotNullOrEmpty, //if
                                 Expression.Call(expImporter, miWrite.MakeGenericMethod(new Type[] { expRecordProperty.Type }), expRecordProperty, Expression.Constant((NpgsqlTypes.NpgsqlDbType)attrPM.SqlType)), //then
@@ -413,7 +413,7 @@ namespace ArgentSea.Pg
                             {
                                 throw new InvalidMapTypeException(prop, attrPM.SqlType);
                             }
-                            var expChildProperty = Expression.Property(expProperty, propType.GetProperty(nameof(ShardChild<int, int, int>.ChildId)));
+                            var expChildProperty = Expression.Property(expProperty, propType.GetProperty(nameof(ShardChild<int, int>.ChildId)));
                             expressions.Add(Expression.IfThenElse(
                                 expIsNotNullOrEmpty, //if
                                 Expression.Call(expImporter, miWrite.MakeGenericMethod(new Type[] { expChildProperty.Type }), expChildProperty, Expression.Constant((NpgsqlTypes.NpgsqlDbType)attrPM.SqlType)), //then
