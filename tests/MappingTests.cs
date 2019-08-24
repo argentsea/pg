@@ -6,6 +6,8 @@ using System.Data.SqlClient;
 using FluentAssertions;
 using NSubstitute;
 using Npgsql;
+using Microsoft.Extensions.Logging;
+
 namespace ArgentSea.Pg.Test
 {
     public class MappingTests
@@ -48,9 +50,9 @@ namespace ArgentSea.Pg.Test
               CleanOutStuff = new TimeSpan(48, 0, 0),
                 GarbageCollectorNotificationStatus = GCNotificationStatus.NotApplicable,
                 RecordKey = new ShardKey<int>('x', (short)2, 1234),
-                RecordChild = new ShardChild<int, long>('y', (short)3, 4567, (short)-23456),
+                RecordChild = new ShardKey<int, short>('y', (short)3, 4567, (short)-23456),
                 DataShard2 = new ShardKey<long>('z', (short)22, 123432L),
-                ChildShard2 = new ShardChild<int, string>('!', (short)255, 255, "testing123")
+                ChildShard2 = new ShardKey<int, string>('!', (short)255, 255, "testing123")
             };
             var dbLogger = Substitute.For<Microsoft.Extensions.Logging.ILogger>();
             var prms = new ParameterCollection();
@@ -165,7 +167,7 @@ namespace ArgentSea.Pg.Test
                 CleanOutStuff = TimeSpan.Zero,
                 GarbageCollectorNotificationStatus = GCNotificationStatus.Succeeded,
                 RecordKey = null,
-                RecordChild = ShardChild<int, long>.Empty,
+                RecordChild = ShardKey<int, short>.Empty,
                 DataShard2 = ShardKey<long>.Empty,
                 ChildShard2 = null
             };
@@ -263,6 +265,7 @@ namespace ArgentSea.Pg.Test
             ((NpgsqlParameter)prms["CleanOut"]).NpgsqlDbType.Should().Be(NpgsqlTypes.NpgsqlDbType.Interval, "that is the correct data type");
             ((NpgsqlParameter)prms["GCNotificationStatus"]).Value.Should().Be(GCNotificationStatus.Succeeded.ToString(), "that is the assigned value");
             ((NpgsqlParameter)prms["GCNotificationStatus"]).NpgsqlDbType.Should().Be(NpgsqlTypes.NpgsqlDbType.Char, "that is the correct data type");
+
             ((NpgsqlParameter)prms["DataRecordId"]).Value.Should().Be(System.DBNull.Value, "an empty value should create a db null parameter");
             ((NpgsqlParameter)prms["ParentRecordId"]).Value.Should().Be(System.DBNull.Value, "a null value should create a db null parameter");
             ((NpgsqlParameter)prms["ChildRecordId"]).Value.Should().Be(System.DBNull.Value, "a null value should create a db null parameter");
@@ -429,27 +432,25 @@ namespace ArgentSea.Pg.Test
             cmd.Parameters.Add(new NpgsqlParameter("EnvironmentTarget", NpgsqlTypes.NpgsqlDbType.Varchar) { Value = EnvironmentVariableTarget.Machine.ToString(), Direction = System.Data.ParameterDirection.Output });
             cmd.Parameters.Add(new NpgsqlParameter("ConsoleColor", NpgsqlTypes.NpgsqlDbType.Smallint) { Value = (short)ConsoleColor.Black, Direction = System.Data.ParameterDirection.Output });
             cmd.Parameters.Add(new NpgsqlParameter("ConsoleModifiers", NpgsqlTypes.NpgsqlDbType.Varchar) { Value = ConsoleModifiers.Control.ToString(), Direction = System.Data.ParameterDirection.Output });
-
             cmd.Parameters.Add(new NpgsqlParameter("KeyValues", NpgsqlTypes.NpgsqlDbType.Hstore) { Value = new Dictionary<string, string> { { "one", "1" }, { "two", "2" } }, Direction = System.Data.ParameterDirection.Output });
             cmd.Parameters.Add(new NpgsqlParameter("CleanOut", NpgsqlTypes.NpgsqlDbType.Interval) { Value = new TimeSpan(3, 4, 5), Direction = System.Data.ParameterDirection.Output });
-
             cmd.Parameters.Add(new NpgsqlParameter("GCNotificationStatus", NpgsqlTypes.NpgsqlDbType.Char) { Value = GCNotificationStatus.Failed.ToString(), Direction = System.Data.ParameterDirection.Output });
 
-            //cmd.Parameters.Add(new NpgsqlParameter("DataShard", NpgsqlTypes.NpgsqlDbType.TinyInt) { Value = (byte)6, Direction = System.Data.ParameterDirection.Output });
-            //cmd.Parameters.Add(new NpgsqlParameter("DataRecordId", NpgsqlTypes.NpgsqlDbType.Int) { Value = 4, Direction = System.Data.ParameterDirection.Output });
+            cmd.Parameters.Add(new NpgsqlParameter("DataShard", NpgsqlTypes.NpgsqlDbType.Smallint) { Value = (short)6, Direction = System.Data.ParameterDirection.Output });
+            cmd.Parameters.Add(new NpgsqlParameter("DataRecordId", NpgsqlTypes.NpgsqlDbType.Integer) { Value = 4, Direction = System.Data.ParameterDirection.Output });
 
-            //cmd.Parameters.Add(new NpgsqlParameter("ChildShard", NpgsqlTypes.NpgsqlDbType.TinyInt) { Value = (byte)15, Direction = System.Data.ParameterDirection.Output });
-            //cmd.Parameters.Add(new NpgsqlParameter("ParentRecordId", NpgsqlTypes.NpgsqlDbType.Int) { Value = 5, Direction = System.Data.ParameterDirection.Output });
-            //cmd.Parameters.Add(new NpgsqlParameter("ChildRecordId", NpgsqlTypes.NpgsqlDbType.SmallInt) { Value = (short)6, Direction = System.Data.ParameterDirection.Output });
+            cmd.Parameters.Add(new NpgsqlParameter("ChildShard", NpgsqlTypes.NpgsqlDbType.Smallint) { Value = (short)15, Direction = System.Data.ParameterDirection.Output });
+            cmd.Parameters.Add(new NpgsqlParameter("ParentRecordId", NpgsqlTypes.NpgsqlDbType.Integer) { Value = 5, Direction = System.Data.ParameterDirection.Output });
+            cmd.Parameters.Add(new NpgsqlParameter("ChildRecordId", NpgsqlTypes.NpgsqlDbType.Smallint) { Value = (short)6, Direction = System.Data.ParameterDirection.Output });
 
-            ////cmd.Parameters.Add(new NpgsqlParameter("DataShard2", NpgsqlTypes.NpgsqlDbType.TinyInt) { Value = (byte)17, Direction = System.Data.ParameterDirection.Output });
-            //cmd.Parameters.Add(new NpgsqlParameter("DataRecordId2", NpgsqlTypes.NpgsqlDbType.BigInt) { Value = long.MaxValue, Direction = System.Data.ParameterDirection.Output });
+            cmd.Parameters.Add(new NpgsqlParameter("DataRecordId2", NpgsqlTypes.NpgsqlDbType.Bigint) { Value = long.MaxValue, Direction = System.Data.ParameterDirection.Output });
 
-            //cmd.Parameters.Add(new NpgsqlParameter("ChildShard2", NpgsqlTypes.NpgsqlDbType.TinyInt) { Value = (byte)255, Direction = System.Data.ParameterDirection.Output });
-            //cmd.Parameters.Add(new NpgsqlParameter("ParentRecord2Id", NpgsqlTypes.NpgsqlDbType.SmallInt) { Value = (short)12345, Direction = System.Data.ParameterDirection.Output });
-            //cmd.Parameters.Add(new NpgsqlParameter("ChildRecord2Id", NpgsqlTypes.NpgsqlDbType.NVarChar, 255) { Value = "Test123", Direction = System.Data.ParameterDirection.Output });
+            cmd.Parameters.Add(new NpgsqlParameter("ChildShard2", NpgsqlTypes.NpgsqlDbType.Smallint) { Value = (short)255, Direction = System.Data.ParameterDirection.Output });
+            cmd.Parameters.Add(new NpgsqlParameter("ParentRecord2Id", NpgsqlTypes.NpgsqlDbType.Integer) { Value = 12345, Direction = System.Data.ParameterDirection.Output });
+            cmd.Parameters.Add(new NpgsqlParameter("ChildRecord2Id", NpgsqlTypes.NpgsqlDbType.Varchar, 255) { Value = "Test123", Direction = System.Data.ParameterDirection.Output });
 
-            var dbLogger2 = new Microsoft.Extensions.Logging.LoggerFactory();
+            var dbLogger2 = new LoggerFactory();
+            dbLogger2.AddConsole();
             var dbLogger = dbLogger2.CreateLogger("");
             var result = cmd.Parameters.ToModel<PgMapModel>((short)5, dbLogger);
             result.ArgentSeaTestDataId.Should().Be(10, "that was the output parameter value");
@@ -484,23 +485,23 @@ namespace ArgentSea.Pg.Test
             result.CleanOutStuff.Should().Be(new TimeSpan(3, 4, 5), "that was the output parameter value");
             result.GarbageCollectorNotificationStatus.Should().Be(GCNotificationStatus.Failed, "that was the output parameter value");
 
-            //result.RecordKey.Value.Origin.Should().Be('x', "that is the data origin value");
-            //result.RecordKey.Value.ShardId.Should().Be(6, "that was the output parameter value");
-            //result.RecordKey.Value.RecordId.Should().Be(4, "that was the output parameter value");
+            result.RecordKey.Value.Origin.Should().Be('x', "that is the data origin value");
+            result.RecordKey.Value.ShardId.Should().Be(6, "that was the output parameter value");
+            result.RecordKey.Value.RecordId.Should().Be(4, "that was the output parameter value");
 
-            //result.RecordChild.Key.Origin.Should().Be('y', "that is the data origin value");
-            //result.RecordChild.Key.ShardId.Should().Be(15, "that was the output parameter value");
-            //result.RecordChild.Key.RecordId.Should().Be(5, "that was the output parameter value");
-            //result.RecordChild.ChildId.Should().Be(6, "that was the output parameter value");
+            result.RecordChild.Key.Origin.Should().Be('y', "that is the data origin value");
+            result.RecordChild.Key.ShardId.Should().Be(15, "that was the output parameter value");
+            result.RecordChild.Key.RecordId.Should().Be(5, "that was the output parameter value");
+            result.RecordChild.ChildId.Should().Be(6, "that was the output parameter value");
 
-            //result.DataShard2.Origin.Should().Be('A', "that is the data origin value");
-            //result.DataShard2.ShardId.Should().Be(5, "that is the value of the current shard");
-            //result.DataShard2.RecordId.Should().Be(long.MaxValue, "that is the record id");
+            result.DataShard2.Origin.Should().Be('A', "that is the data origin value");
+            result.DataShard2.ShardId.Should().Be(5, "that is the value of the current shard");
+            result.DataShard2.RecordId.Should().Be(long.MaxValue, "that is the record id");
 
-            //result.ChildShard2.Value.Origin.Should().Be('B', "that is the data origin value");
-            //result.ChildShard2.Value.ShardId.Should().Be(255, "that is the value of the current shard");
-            //result.ChildShard2.Value.RecordId.Should().Be(12345, "that is the record id");
-            //result.ChildShard2.Value.ChildId.Should().Be("Test123", "that is the child id");
+            result.ChildShard2.Value.Origin.Should().Be('B', "that is the data origin value");
+            result.ChildShard2.Value.ShardId.Should().Be(255, "that is the value of the current shard");
+            result.ChildShard2.Value.RecordId.Should().Be(12345, "that is the record id");
+            result.ChildShard2.Value.ChildId.Should().Be("Test123", "that is the child id");
 
         }
         [Fact]
@@ -542,13 +543,14 @@ namespace ArgentSea.Pg.Test
             prms.Add(new NpgsqlParameter("KeyValues", NpgsqlTypes.NpgsqlDbType.Hstore) { Value = System.DBNull.Value, Direction = System.Data.ParameterDirection.Output });
             prms.Add(new NpgsqlParameter("CleanOut", NpgsqlTypes.NpgsqlDbType.Interval) { Value = new TimeSpan(5,6,7), Direction = System.Data.ParameterDirection.Output });
             prms.Add(new NpgsqlParameter("GCNotificationStatus", NpgsqlTypes.NpgsqlDbType.Char) { Value = System.DBNull.Value, Direction = System.Data.ParameterDirection.Output });
-            prms.Add(new NpgsqlParameter("DataShard", NpgsqlTypes.NpgsqlDbType.Smallint) { Value = System.DBNull.Value, Direction = System.Data.ParameterDirection.Output });
+
+            prms.Add(new NpgsqlParameter("DataShard", NpgsqlTypes.NpgsqlDbType.Smallint) { Value = (short)2, Direction = System.Data.ParameterDirection.Output });
             prms.Add(new NpgsqlParameter("DataRecordId", NpgsqlTypes.NpgsqlDbType.Integer) { Value = System.DBNull.Value, Direction = System.Data.ParameterDirection.Output });
-            prms.Add(new NpgsqlParameter("ChildShard", NpgsqlTypes.NpgsqlDbType.Smallint) { Value = System.DBNull.Value, Direction = System.Data.ParameterDirection.Output });
+            prms.Add(new NpgsqlParameter("ChildShard", NpgsqlTypes.NpgsqlDbType.Smallint) { Value = (short)100, Direction = System.Data.ParameterDirection.Output });
             prms.Add(new NpgsqlParameter("ParentRecordId", NpgsqlTypes.NpgsqlDbType.Integer) { Value = System.DBNull.Value, Direction = System.Data.ParameterDirection.Output });
             prms.Add(new NpgsqlParameter("ChildRecordId", NpgsqlTypes.NpgsqlDbType.Bigint) { Value = System.DBNull.Value, Direction = System.Data.ParameterDirection.Output });
             prms.Add(new NpgsqlParameter("DataRecordId2", NpgsqlTypes.NpgsqlDbType.Bigint) { Value = System.DBNull.Value, Direction = System.Data.ParameterDirection.Output });
-            prms.Add(new NpgsqlParameter("ChildShard2", NpgsqlTypes.NpgsqlDbType.Smallint) { Value = System.DBNull.Value, Direction = System.Data.ParameterDirection.Output });
+            prms.Add(new NpgsqlParameter("ChildShard2", NpgsqlTypes.NpgsqlDbType.Smallint) { Value = (short)1, Direction = System.Data.ParameterDirection.Output });
             prms.Add(new NpgsqlParameter("ParentRecord2Id", NpgsqlTypes.NpgsqlDbType.Integer) { Value = System.DBNull.Value, Direction = System.Data.ParameterDirection.Output });
             prms.Add(new NpgsqlParameter("ChildRecord2Id", NpgsqlTypes.NpgsqlDbType.Varchar, 255) { Value = System.DBNull.Value, Direction = System.Data.ParameterDirection.Output });
 
@@ -824,9 +826,9 @@ namespace ArgentSea.Pg.Test
                 CleanOutStuff = new TimeSpan(4,5,6),
                 GarbageCollectorNotificationStatus = GCNotificationStatus.NotApplicable,
                 RecordKey = new Nullable<ShardKey<int>>(new ShardKey<int>('x', (short)2, 1234)),
-                RecordChild = new ShardChild<int, long>('y', (short)3, 4567, -23456L),
+                RecordChild = new ShardKey<int, short>('y', (short)3, 4567, (short)-23456),
                 DataShard2 = new ShardKey<long>('A', (short)32, -1234L),
-                ChildShard2 = new ShardChild<int, string>('B', (short)3, -4567, "testing...")
+                ChildShard2 = new ShardKey<int, string>('B', (short)3, -4567, "testing...")
             };
 
             var rdr = Substitute.For<System.Data.Common.DbDataReader>();
@@ -878,7 +880,7 @@ namespace ArgentSea.Pg.Test
             rdr.GetFieldValue<int>(31).Returns(modelValues.RecordKey.Value.RecordId);
             rdr.GetFieldValue<short>(32).Returns(modelValues.RecordChild.ShardId);
             rdr.GetFieldValue<int>(33).Returns(modelValues.RecordChild.RecordId);
-            rdr.GetFieldValue<long>(34).Returns(modelValues.RecordChild.ChildId);
+            rdr.GetFieldValue<short>(34).Returns(modelValues.RecordChild.ChildId);
             rdr.GetFieldValue<long>(35).Returns(modelValues.DataShard2.RecordId);
             rdr.GetFieldValue<short>(36).Returns(modelValues.ChildShard2.Value.ShardId);
             rdr.GetFieldValue<int>(37).Returns(modelValues.ChildShard2.Value.RecordId);
@@ -1044,9 +1046,9 @@ namespace ArgentSea.Pg.Test
                 CleanOutStuff = TimeSpan.Zero,
                 GarbageCollectorNotificationStatus = GCNotificationStatus.Succeeded,
                 RecordKey = ShardKey<int>.Empty,
-                RecordChild = ShardChild<int, long>.Empty,
+                RecordChild = ShardKey<int, short>.Empty,
                 DataShard2 = ShardKey<long>.Empty,
-                ChildShard2 = ShardChild<int, string>.Empty
+                ChildShard2 = ShardKey<int, string>.Empty
             };
 
 
@@ -1095,13 +1097,13 @@ namespace ArgentSea.Pg.Test
             rdr.IsDBNull(27).Returns(true);
             rdr.IsDBNull(28).Returns(false);
             rdr.IsDBNull(29).Returns(true);
-            rdr.IsDBNull(30).Returns(true);
+             rdr.IsDBNull(30).Returns(true);
             rdr.IsDBNull(31).Returns(true);
-            rdr.IsDBNull(32).Returns(true);
+             rdr.IsDBNull(32).Returns(true);
             rdr.IsDBNull(33).Returns(true);
             rdr.IsDBNull(34).Returns(true);
             rdr.IsDBNull(35).Returns(true);
-            rdr.IsDBNull(36).Returns(true);
+             rdr.IsDBNull(36).Returns(true);
             rdr.IsDBNull(37).Returns(true);
             rdr.IsDBNull(38).Returns(true);
             rdr.GetName(0).Returns("ArgentSeaTestDataId");
@@ -1143,9 +1145,12 @@ namespace ArgentSea.Pg.Test
             rdr.GetName(36).Returns("ChildShard2");
             rdr.GetName(37).Returns("ParentRecord2Id");
             rdr.GetName(38).Returns("ChildRecord2Id");
+            //rdr.GetFieldValue<short>(30).Returns((short)1);
+            //rdr.GetFieldValue<short>(32).Returns((short)1);
+            //rdr.GetFieldValue<short>(36).Returns((short)1);
 
             var dbLogger = Substitute.For<Microsoft.Extensions.Logging.ILogger>();
-
+            
             var resultList = Mapper.ToList<PgMapModel>(rdr, 200, dbLogger);
 
             var result = resultList[0];
@@ -1180,7 +1185,7 @@ namespace ArgentSea.Pg.Test
             result.CleanOutStuff.Should().Be(modelValues.CleanOutStuff, "that is the source value");
             result.GarbageCollectorNotificationStatus.Should().BeNull("the reader value is DbNull");
             result.RecordKey.Should().BeNull("the input values are null");
-            result.RecordChild.Should().Be(ShardChild<int, long>.Empty, "the result should be empty");
+            result.RecordChild.Should().Be(ShardKey<int, short>.Empty, "the result should be empty");
             result.DataShard2.Should().Be(ShardKey<long>.Empty, "the result should be empty");
             result.ChildShard2.Should().BeNull("the input values are null");
         }

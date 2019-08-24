@@ -26,7 +26,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\ArgentSea.Shared\src\ArgentSea.csproj" />
     <ProjectReference Include="..\src\ArgentSea.Pg.csproj" />
   </ItemGroup>
 

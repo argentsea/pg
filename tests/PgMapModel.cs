@@ -106,27 +106,24 @@ namespace ArgentSea.Pg.Test
         [MapToPgChar("GCNotificationStatus", 16)]
         public GCNotificationStatus? GarbageCollectorNotificationStatus { get; set; }
 
-        [MapShardKey('x', "DataShard", "DataRecordId")]
-        [MapToPgSmallint("DataShard")]
+        [MapPgShardKey("DataShard", 'x', "DataRecordId")]
         [MapToPgInteger("DataRecordId")]
         public ShardKey<int>? RecordKey { get; set; } = ShardKey<int>.Empty;
 
-        [MapShardChild('y', "ChildShard", "ParentRecordId", "ChildRecordId")]
-        [MapToPgSmallint("ChildShard")]
+        [MapPgShardKey("ChildShard", 'y', "ParentRecordId", "ChildRecordId")]
         [MapToPgInteger("ParentRecordId")]
-        [MapToPgBigint("ChildRecordId")]
-        public ShardChild<int, long> RecordChild { get; set; } = ShardChild<int, long>.Empty;
+        [MapToPgSmallint("ChildRecordId")]
+        public ShardKey<int, short> RecordChild { get; set; } = ShardKey<int, short>.Empty;
 
 
-        [MapShardKey('A', "DataRecordId2")]
+        [MapPgShardKey('A', "DataRecordId2")]
         [MapToPgBigint("DataRecordId2")]
-        public ShardKey<long> DataShard2 { get; set; } = new ShardKey<long>('A', 123, 54321);
+        public ShardKey<long> DataShard2 { get; set; } = new ShardKey<long>('A', 123, 54321L);
 
-        [MapShardChild('B', "ChildShard2", "ParentRecord2Id", "ChildRecord2Id")]
-        [MapToPgSmallint("ChildShard2")]
-        [MapToPgInteger("ParentRecord2Id")]
+        [MapPgShardKey("ChildShard2", 'B', "ParentRecord2Id", "ChildRecord2Id")]
+         [MapToPgInteger("ParentRecord2Id")]
         [MapToPgVarchar("ChildRecord2Id", 255)]
-        public ShardChild<int, string>? ChildShard2 { get; set; } = null;
+        public ShardKey<int, string>? ChildShard2 { get; set; } = null;
 
 
 
