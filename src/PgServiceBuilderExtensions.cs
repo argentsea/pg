@@ -33,7 +33,7 @@ namespace Microsoft.Extensions.DependencyInjection
             services.Configure<PgDbConnectionOptions>(config);
             services.AddSingleton<PgDatabases>();
             services.Configure<PgShardConnectionOptions>(config);
-            services.AddSingleton<ShardSetsBase<PgShardConnectionOptions>, PgShardSets>();
+            services.AddSingleton<PgShardSets, PgShardSets>();
             return services;
 		}
 
