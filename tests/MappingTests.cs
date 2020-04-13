@@ -450,7 +450,7 @@ namespace ArgentSea.Pg.Test
             cmd.Parameters.Add(new NpgsqlParameter("ChildRecord2Id", NpgsqlTypes.NpgsqlDbType.Varchar, 255) { Value = "Test123", Direction = System.Data.ParameterDirection.Output });
 
             var dbLogger2 = new LoggerFactory();
-            dbLogger2.AddConsole();
+            //dbLogger2.AddConsole();
             var dbLogger = dbLogger2.CreateLogger("");
             var result = cmd.Parameters.ToModel<PgMapModel>((short)5, dbLogger);
             result.ArgentSeaTestDataId.Should().Be(10, "that was the output parameter value");

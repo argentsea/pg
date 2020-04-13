@@ -644,18 +644,18 @@ namespace ArgentSea.Pg
         /// <summary>
         /// Npgsql uses its own internal implementation of TLS/SSL. Turn this on to use .NET SslStream instead.
         /// </summary>
-        public bool? UseSslStream
-        {
-            get { return _useSslStream; }
-            set
-            {
-                if (_useSslStream != value)
-                {
-                    _useSslStream = value;
-                    RaisePropertyChanged();
-                }
-            }
-        }
+        //public bool? UseSslStream
+        //{
+        //    get { return _useSslStream; }
+        //    set
+        //    {
+        //        if (_useSslStream != value)
+        //        {
+        //            _useSslStream = value;
+        //            RaisePropertyChanged();
+        //        }
+        //    }
+        //}
 
         /// <summary>
         /// Determines the size of the internal buffer Npgsql uses when writing. Increasing may improve performance if transferring large values to the database.

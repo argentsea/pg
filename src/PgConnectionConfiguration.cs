@@ -189,10 +189,10 @@ namespace ArgentSea.Pg
             {
                 csb.UsePerfCounters = props.UsePerfCounters.Value;
             }
-            if (!(props.UseSslStream is null))
-            {
-                csb.UseSslStream = props.UseSslStream.Value;
-            }
+            //if (!(props.UseSslStream is null))
+            //{
+            //    csb.UseSslStream = props.UseSslStream.Value;
+            //}
             if (!(props.WriteBufferSize is null))
             {
                 csb.WriteBufferSize = props.WriteBufferSize.Value;
