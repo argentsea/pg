@@ -10,29 +10,39 @@ namespace ArgentSea.Pg
 
         private string _applicationName = null;
         private int? _autoPrepareMinUsages = null;
+        private int? _cancellationTimeout = null;
         private bool? _checkCertificateRevocation = null;
+        private string _clientCertificate = null;
+        private string _clientCertificateKey = null;
         private string _clientEncoding = null;
         private int? _commandTimeout = null;
         private int? _connectionIdleLifetime = null;
+        private int? _connectionLifetime = null;
         private int? _connectionPruningInterval = null;
         private bool? _convertInfinityDateTime = null;
         private string _database = null;
         private string _encoding = null;
         private bool? _enlist = null;
         private string _host = null;
+        private bool? _includeErrorDetails = null;
         private bool? _includeRealm = null;
         private int? _internalCommandTimeout = null;
         private int? _keepAlive = null;
         private string _kerberosServiceName = null;
+        private bool? _logParameters = null;
         private bool? _loadTableComposites = null;
         private int? _maxAutoPrepare = null;
         private int? _maxPoolSize = null;
         private int? _minPoolSize = null;
+        private bool? _multiplexing = true;
         private bool? _noResetOnClose = null;
+        private string _options = null;
+        private string _passfile = null;
         private bool? _persistSecurityInfo = null;
         private bool? _pooling = null;
         private int? _port = null;
         private int? _readBufferSize = null;
+        private string _rootCertificate = null;
         private string _searchPath = null;
         private ServerCompatibilityMode? _serverCompatibilityMode = null;
         private int? _socketReceiveBufferSize = null;
@@ -44,16 +54,19 @@ namespace ArgentSea.Pg
         private int? _timeout = null;
         private string _timezone = null;
         private bool? _trustServerCertificate = null;
-        private bool? _usePerfCounters = null;
-        private bool? _useSslStream = null;
+        //private bool? _usePerfCounters = null;
+        //private bool? _useSslStream = null;
+        private int? _writeCoalescingBufferThresholdBytes = null;
+        private int? _writeCoalescingDelayUs = null;
         private int? _writeBufferSize = null;
+
 
         /// <summary>
         /// The optional application name parameter to be sent to the backend during connection initiation.
         /// </summary>
         public string ApplicationName
         {
-            get { return _applicationName; }
+            get => _applicationName;
             set
             {
                 if (_applicationName != value)
@@ -69,7 +82,7 @@ namespace ArgentSea.Pg
         /// </summary>
         public int? AutoPrepareMinUsages
         {
-            get { return _autoPrepareMinUsages; }
+            get => _autoPrepareMinUsages;
             set
             {
                 if (_autoPrepareMinUsages != value)
@@ -81,11 +94,27 @@ namespace ArgentSea.Pg
         }
 
         /// <summary>
+        /// The time to wait (in milliseconds) while trying to read a response for a cancellation request for a timed out or cancclled query, before terminating the attempt and generating an error. Defaults to 2000 milliseconds.
+        /// </summary>
+        public int? CancellationTimeout
+        {
+            get => _cancellationTimeout;
+            set
+            {
+                if (_cancellationTimeout != value)
+                {
+                    _cancellationTimeout = value;
+                    RaisePropertyChanged();
+                }
+            }
+        }
+
+        /// <summary>
         /// Whether to check the certificate revocation list during authentication. False by default.
         /// </summary>
         public bool? CheckCertificateRevocation
         {
-            get { return _checkCertificateRevocation; }
+            get => _checkCertificateRevocation;
             set
             {
                 if (_checkCertificateRevocation != value)
@@ -97,11 +126,44 @@ namespace ArgentSea.Pg
         }
 
         /// <summary>
+        /// Location of a client certificate to be sent to the server.
+        /// </summary>
+        public string ClientCertificate
+        {
+            get => _clientCertificate;
+            set
+            {
+                if (_clientCertificate != value)
+                {
+                    _clientCertificate = value;
+                    RaisePropertyChanged();
+                }
+            }
+        }
+
+        /// <summary>
+        /// Key for the client certificate to be sent to the server.
+        /// </summary>
+        public string ClientCertificateKey
+        {
+            get => _clientCertificateKey;
+            set
+            {
+                if (_clientCertificateKey != value)
+                {
+                    _clientCertificateKey = value;
+                    RaisePropertyChanged();
+                }
+            }
+        }
+
+
+        /// <summary>
         /// Gets or sets the client_encoding parameter.
         /// </summary>
         public string ClientEncoding
         {
-            get { return _clientEncoding; }
+            get => _clientEncoding;
             set
             {
                 if (_clientEncoding != value)
@@ -117,7 +179,7 @@ namespace ArgentSea.Pg
         /// </summary>
         public int? CommandTimeout
         {
-            get { return _commandTimeout; }
+            get => _commandTimeout;
             set
             {
                 if (_commandTimeout != value)
@@ -133,7 +195,7 @@ namespace ArgentSea.Pg
         /// </summary>
         public int? ConnectionIdleLifetime
         {
-            get { return _connectionIdleLifetime; }
+            get => _connectionIdleLifetime;
             set
             {
                 if (_connectionIdleLifetime != value)
@@ -145,11 +207,28 @@ namespace ArgentSea.Pg
         }
 
         /// <summary>
+        /// The total maximum lifetime of connections (is seconds). Connections that have exceeded this value will be destroyed instead of returned from the pool. This is useful ic clustered configurations to force load balancing between a running server and a servber just brought online.
+        /// </summary>
+        public int? ConnectionLifetime
+        {
+            get => _connectionLifetime;
+            set
+            {
+                if (_connectionLifetime != value)
+                {
+                    _connectionLifetime = value;
+                    RaisePropertyChanged();
+                }
+            }
+        }
+
+
+        /// <summary>
         /// How many seconds the pool waits before attempting to prune idle connections that are beyond idle lifetime.
         /// </summary>
         public int? ConnectionPruningInterval
         {
-            get { return _connectionPruningInterval; }
+            get => _connectionPruningInterval;
             set
             {
                 if (_connectionPruningInterval != value)
@@ -165,7 +244,7 @@ namespace ArgentSea.Pg
         /// </summary>
         public bool? ConvertInfinityDateTime
         {
-            get { return _convertInfinityDateTime; }
+            get => _convertInfinityDateTime;
             set
             {
                 if (_convertInfinityDateTime != value)
@@ -181,7 +260,7 @@ namespace ArgentSea.Pg
         /// </summary>
         public string Database
         {
-            get { return _database; }
+            get => _database;
             set
             {
                 if (_database != value)
@@ -197,7 +276,7 @@ namespace ArgentSea.Pg
         /// </summary>
         public string Encoding
         {
-            get { return _encoding; }
+            get => _encoding;
             set
             {
                 if (_encoding != value)
@@ -213,7 +292,7 @@ namespace ArgentSea.Pg
         /// </summary>
         public bool? Enlist
         {
-            get { return _enlist; }
+            get => _enlist;
             set
             {
                 if (_enlist != value)
@@ -229,7 +308,7 @@ namespace ArgentSea.Pg
         /// </summary>
         public string Host
         {
-            get { return _host; }
+            get => _host;
             set
             {
                 if (_host != value)
@@ -241,11 +320,27 @@ namespace ArgentSea.Pg
         }
 
         /// <summary>
+        /// When enabled, PostgreSQL arror details are included on PostgreException.Detail and PostgreNotice.Detail. These can contain sensitive data.
+        /// </summary>
+        public bool? IncludeErrorDetails
+        {
+            get => _includeErrorDetails;
+            set
+            {
+                if (_includeErrorDetails != value)
+                {
+                    _includeErrorDetails = value;
+                    RaisePropertyChanged();
+                }
+            }
+        }
+
+        /// <summary>
         /// The Kerberos realm to be used for authentication
         /// </summary>
         public bool? IncludeRealm
         {
-            get { return _includeRealm; }
+            get => _includeRealm;
             set
             {
                 if (_includeRealm != value)
@@ -261,7 +356,7 @@ namespace ArgentSea.Pg
         /// </summary>
         public int? InternalCommandTimeout
         {
-            get { return _internalCommandTimeout; }
+            get => _internalCommandTimeout;
             set
             {
                 if (_internalCommandTimeout != value)
@@ -272,12 +367,13 @@ namespace ArgentSea.Pg
             }
         }
 
+
         /// <summary>
         /// The number of seconds of connection inactivity before Npgsql sends a keepalive query. Set to 0 (the default) to disable.
         /// </summary>
         public int? KeepAlive
         {
-            get { return _keepAlive; }
+            get => _keepAlive;
             set
             {
                 if (_keepAlive != value)
@@ -293,7 +389,7 @@ namespace ArgentSea.Pg
         /// </summary>
         public string KerberosServiceName
         {
-            get { return _kerberosServiceName; }
+            get => _kerberosServiceName;
             set
             {
                 if (_kerberosServiceName != value)
@@ -309,7 +405,7 @@ namespace ArgentSea.Pg
         /// </summary>
         public bool? LoadTableComposites
         {
-            get { return _loadTableComposites; }
+            get => _loadTableComposites;
             set
             {
                 if (_loadTableComposites != value)
@@ -321,11 +417,27 @@ namespace ArgentSea.Pg
         }
 
         /// <summary>
+        /// When enabled, parameters are logged when commands are executed. Defaults to false.
+        /// </summary>
+        public bool? LogParameters
+        {
+            get => _logParameters;
+            set
+            {
+                if (_logParameters != value)
+                {
+                    _logParameters = value;
+                    RaisePropertyChanged();
+                }
+            }
+        }
+
+        /// <summary>
         /// The maximum number SQL statements that can be automatically prepared at any given point. Beyond this number the least-recently-used statement will be recycled. Zero (the default) disables automatic preparation.
         /// </summary>
         public int? MaxAutoPrepare
         {
-            get { return _maxAutoPrepare; }
+            get => _maxAutoPrepare; 
             set
             {
                 if (_maxAutoPrepare != value)
@@ -341,7 +453,7 @@ namespace ArgentSea.Pg
         /// </summary>
         public int? MaxPoolSize
         {
-            get { return _maxPoolSize; }
+            get => _maxPoolSize;
             set
             {
                 if (_maxPoolSize != value)
@@ -357,7 +469,7 @@ namespace ArgentSea.Pg
         /// </summary>
         public int? MinPoolSize
         {
-            get { return _minPoolSize; }
+            get => _minPoolSize;
             set
             {
                 if(_minPoolSize != value)
@@ -369,11 +481,28 @@ namespace ArgentSea.Pg
         }
 
         /// <summary>
+        /// Enables multiplexing, which allows more efficient use of connections. Defaults to true.
+        /// </summary>
+        public bool? Multiplexing
+        {
+            get => _multiplexing;
+            set
+            {
+                if (_multiplexing != value)
+                {
+                    _multiplexing = value;
+                    RaisePropertyChanged();
+                }
+            }
+        }
+
+
+        /// <summary>
         /// If set to true, a pool connection's state won't be reset when it is closed (improves performance). Do not specify this unless you know what you're doing.
         /// </summary>
         public bool? NoResetOnClose
         {
-            get { return _noResetOnClose; }
+            get => _noResetOnClose;
             set
             {
                 if (_noResetOnClose != value)
@@ -385,11 +514,43 @@ namespace ArgentSea.Pg
         }
 
         /// <summary>
+        /// Set PostgreSQL configuration parameter default values for the connection.
+        /// </summary>
+        public string Options
+        {
+            get => _options;
+            set
+            {
+                if (_options != value)
+                {
+                    _options = value;
+                    RaisePropertyChanged();
+                }
+            }
+        }
+
+        /// <summary>
+        /// Path to a PostgreSQL password file (PGPASSFILE), from which the password would be taken.
+        /// </summary>
+        public string Passfile
+        {
+            get => _passfile;
+            set
+            {
+                if (_passfile != value)
+                {
+                    _passfile = value;
+                    RaisePropertyChanged();
+                }
+            }
+        }
+
+        /// <summary>
         /// Gets or sets a Boolean value that indicates if security-sensitive information, such as the password, is not returned as part of the connection if the connection is open or has ever been in an open state.
         /// </summary>
         public bool? PersistSecurityInfo
         {
-            get { return _persistSecurityInfo; }
+            get => _persistSecurityInfo;
             set
             {
                 if (_persistSecurityInfo != value)
@@ -405,7 +566,7 @@ namespace ArgentSea.Pg
         /// </summary>
         public bool? Pooling
         {
-            get { return _pooling; }
+            get => _pooling;
             set
             {
                 if (_pooling != value)
@@ -421,7 +582,7 @@ namespace ArgentSea.Pg
         /// </summary>
         public int? Port
         {
-            get { return _port; }
+            get => _port;
             set
             {
                 if (_port != value)
@@ -437,7 +598,7 @@ namespace ArgentSea.Pg
         /// </summary>
         public int? ReadBufferSize
         {
-            get { return _readBufferSize; }
+            get => _readBufferSize;
             set
             {
                 if (_readBufferSize != value)
@@ -449,11 +610,27 @@ namespace ArgentSea.Pg
         }
 
         /// <summary>
+        /// Location of a CA certificate used to validate the server certificate.
+        /// </summary>
+        public string RootCertificate
+        {
+            get => _rootCertificate;
+            set
+            {
+                if (_rootCertificate != value)
+                {
+                    _rootCertificate = value;
+                    RaisePropertyChanged();
+                }
+            }
+        }
+
+        /// <summary>
         /// Gets or sets the schema search path.
         /// </summary>
         public string SearchPath
         {
-            get { return _searchPath; }
+            get => _searchPath;
             set
             {
                 if (_searchPath != value)
@@ -469,7 +646,7 @@ namespace ArgentSea.Pg
         /// </summary>
         public ServerCompatibilityMode? ServerCompatibilityMode
         {
-            get { return _serverCompatibilityMode; }
+            get => _serverCompatibilityMode;
             set
             {
                 if (_serverCompatibilityMode != value)
@@ -485,7 +662,7 @@ namespace ArgentSea.Pg
         /// </summary>
         public int? SocketReceiveBufferSize
         {
-            get { return _socketReceiveBufferSize; }
+            get => _socketReceiveBufferSize;
             set
             {
                 if (_socketReceiveBufferSize != value)
@@ -501,7 +678,7 @@ namespace ArgentSea.Pg
         /// </summary>
         public int? SocketSendBufferSize
         {
-            get { return _socketSendBufferSize; }
+            get => _socketSendBufferSize;
             set
             {
                 if (_socketSendBufferSize != value)
@@ -517,7 +694,7 @@ namespace ArgentSea.Pg
         /// </summary>
         public SslMode? SslMode
         {
-            get { return _sslMode; }
+            get => _sslMode;
             set
             {
                 if (_sslMode != value)
@@ -534,7 +711,7 @@ namespace ArgentSea.Pg
         /// </summary>
         public bool? TcpKeepAlive
         {
-            get { return _tcpKeepAlive; }
+            get => _tcpKeepAlive;
             set
             {
                 if (_tcpKeepAlive != value)
@@ -550,7 +727,7 @@ namespace ArgentSea.Pg
         /// </summary>
         public int? TcpKeepAliveInterval
         {
-            get { return _tcpKeepAliveInterval; }
+            get => _tcpKeepAliveInterval;
             set
             {
                 if (_tcpKeepAliveInterval != value)
@@ -566,7 +743,7 @@ namespace ArgentSea.Pg
         /// </summary>
         public int? TcpKeepAliveTime
         {
-            get { return _tcpKeepAliveTime; }
+            get => _tcpKeepAliveTime;
             set
             {
                 if (_tcpKeepAliveTime != value)
@@ -582,7 +759,7 @@ namespace ArgentSea.Pg
         /// </summary>
         public int? Timeout
         {
-            get { return _timeout; }
+            get => _timeout;
             set
             {
                 if (_timeout != value)
@@ -598,7 +775,7 @@ namespace ArgentSea.Pg
         /// </summary>
         public string Timezone
         {
-            get { return _timezone; }
+            get => _timezone;
             set
             {
                 if (_timezone != value)
@@ -614,7 +791,7 @@ namespace ArgentSea.Pg
         /// </summary>
         public bool? TrustServerCertificate
         {
-            get { return _trustServerCertificate; }
+            get => _trustServerCertificate;
             set
             {
                 if (_trustServerCertificate != value)
@@ -628,25 +805,25 @@ namespace ArgentSea.Pg
         /// <summary>
         /// Writes connection performance information to performance counters.
         /// </summary>
-        public bool? UsePerfCounters
-        {
-            get { return _usePerfCounters; }
-            set
-            {
-                if (_usePerfCounters != value)
-                {
-                    _usePerfCounters = value;
-                    RaisePropertyChanged();
-                }
-            }
-        }
+        //public bool? UsePerfCounters
+        //{
+        //    get => _usePerfCounters;
+        //    set
+        //    {
+        //        if (_usePerfCounters != value)
+        //        {
+        //            _usePerfCounters = value;
+        //            RaisePropertyChanged();
+        //        }
+        //    }
+        //}
 
         /// <summary>
         /// Npgsql uses its own internal implementation of TLS/SSL. Turn this on to use .NET SslStream instead.
         /// </summary>
         //public bool? UseSslStream
         //{
-        //    get { return _useSslStream; }
+        //    get => _useSslStream;
         //    set
         //    {
         //        if (_useSslStream != value)
@@ -662,12 +839,44 @@ namespace ArgentSea.Pg
         /// </summary>
         public int? WriteBufferSize
         {
-            get { return _writeBufferSize; }
+            get => _writeBufferSize;
             set
             {
                 if (_writeBufferSize != value)
                 {
                     _writeBufferSize = value;
+                    RaisePropertyChanged();
+                }
+            }
+        }
+
+        /// <summary>
+        /// When multiplexing is enabled, determines the maximum number of outgoing bytes to buffer before flushing to the network.
+        /// </summary>
+        public int? WriteCoalescingBufferThresholdBytes
+        {
+            get => _writeCoalescingBufferThresholdBytes;
+            set
+            {
+                if (_writeCoalescingBufferThresholdBytes != value)
+                {
+                    _writeCoalescingBufferThresholdBytes = value;
+                    RaisePropertyChanged();
+                }
+            }
+        }
+
+        /// <summary>
+        /// When multiplexing is enabled, determines the maximum amount of time to wait for further commands before flushing to the network. In microseconds, 0 disables waiting altogether.
+        /// </summary>
+        public int? WriteCoalescingDelayUs
+        {
+            get => _writeCoalescingDelayUs;
+            set
+            {
+                if (_writeCoalescingDelayUs != value)
+                {
+                    _writeCoalescingDelayUs = value;
                     RaisePropertyChanged();
                 }
             }

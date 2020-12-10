@@ -57,9 +57,21 @@ namespace ArgentSea.Pg
             {
                 csb.AutoPrepareMinUsages = props.AutoPrepareMinUsages.Value;
             }
+            if (!(props.CancellationTimeout is null))
+            {
+                csb.CancellationTimeout = props.CancellationTimeout.Value;
+            }
             if (!(props.CheckCertificateRevocation is null))
             {
                 csb.CheckCertificateRevocation = props.CheckCertificateRevocation.Value;
+            }
+            if (!(props.ClientCertificate is null))
+            {
+                csb.ClientCertificate = props.ClientCertificate;
+            }
+            if (!(props.ClientCertificateKey is null))
+            {
+                csb.ClientCertificateKey = props.ClientCertificateKey;
             }
             if (!(props.ClientEncoding is null))
             {
@@ -71,7 +83,11 @@ namespace ArgentSea.Pg
             }
             if (!(props.ConnectionIdleLifetime is null))
             {
-                csb.CommandTimeout = props.ConnectionIdleLifetime.Value;
+                csb.ConnectionIdleLifetime = props.ConnectionIdleLifetime.Value;
+            }
+            if (!(props.ConnectionLifetime is null))
+            {
+                csb.ConnectionLifetime = props.ConnectionLifetime.Value;
             }
             if (!(props.ConnectionPruningInterval is null))
             {
@@ -97,6 +113,10 @@ namespace ArgentSea.Pg
             {
                 csb.Host = props.Host;
             }
+            if (!(props.IncludeErrorDetails is null))
+            {
+                csb.IncludeErrorDetails = props.IncludeErrorDetails.Value;
+            }
             if (!(props.IncludeRealm is null))
             {
                 csb.IncludeRealm = props.IncludeRealm.Value;
@@ -117,6 +137,10 @@ namespace ArgentSea.Pg
             {
                 csb.LoadTableComposites = props.LoadTableComposites.Value;
             }
+            if (!(props.LogParameters is null))
+            {
+                csb.LogParameters = props.LogParameters.Value;
+            }
             if (!(props.MaxAutoPrepare is null))
             {
                 csb.MaxAutoPrepare = props.MaxAutoPrepare.Value;
@@ -129,9 +153,21 @@ namespace ArgentSea.Pg
             {
                 csb.MinPoolSize = props.MinPoolSize.Value;
             }
+            if (!(props.Multiplexing is null))
+            {
+                csb.Multiplexing = props.Multiplexing.Value;
+            }
             if (!(props.NoResetOnClose is null))
             {
                 csb.NoResetOnClose = props.NoResetOnClose.Value;
+            }
+            if (!(props.Options is null))
+            {
+                csb.Options = props.Options;
+            }
+            if (!(props.Passfile is null))
+            {
+                csb.Passfile = props.Passfile;
             }
             if (!(props.PersistSecurityInfo is null))
             {
@@ -148,6 +184,10 @@ namespace ArgentSea.Pg
             if (!(props.ReadBufferSize is null))
             {
                 csb.ReadBufferSize = props.ReadBufferSize.Value;
+            }
+            if (!(props.RootCertificate is null))
+            {
+                csb.RootCertificate = props.RootCertificate;
             }
             if (!(props.SearchPath is null))
             {
@@ -185,10 +225,10 @@ namespace ArgentSea.Pg
             {
                 csb.TrustServerCertificate = props.TrustServerCertificate.Value;
             }
-            if (!(props.UsePerfCounters is null))
-            {
-                csb.UsePerfCounters = props.UsePerfCounters.Value;
-            }
+            //if (!(props.UsePerfCounters is null))
+            //{
+            //    csb.UsePerfCounters = props.UsePerfCounters.Value;
+            //}
             //if (!(props.UseSslStream is null))
             //{
             //    csb.UseSslStream = props.UseSslStream.Value;
@@ -196,6 +236,14 @@ namespace ArgentSea.Pg
             if (!(props.WriteBufferSize is null))
             {
                 csb.WriteBufferSize = props.WriteBufferSize.Value;
+            }
+            if (!(props.WriteCoalescingBufferThresholdBytes is null))
+            {
+                csb.WriteCoalescingBufferThresholdBytes = props.WriteCoalescingBufferThresholdBytes.Value;
+            }
+            if (!(props.WriteCoalescingDelayUs is null))
+            {
+                csb.WriteCoalescingDelayUs = props.WriteCoalescingDelayUs.Value;
             }
         }
 
