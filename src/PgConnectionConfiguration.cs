@@ -213,6 +213,14 @@ namespace ArgentSea.Pg
             {
                 csb.TcpKeepAlive = props.TcpKeepAlive.Value;
             }
+            if (!(props.TcpKeepAliveInterval is null))
+            {
+                csb.TcpKeepAliveInterval = props.TcpKeepAliveInterval.Value;
+            }
+            if (!(props.TcpKeepAliveTime is null))
+            {
+                csb.TcpKeepAliveTime = props.TcpKeepAliveTime.Value;
+            }
             if (!(props.Timeout is null))
             {
                 csb.Timeout = props.Timeout.Value;

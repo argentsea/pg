@@ -91,7 +91,10 @@ namespace ArgentSea.Pg
                     }
                 }
             }
-            ((NpgsqlCommand)cmd).Prepare();
+            if (!((NpgsqlConnection)cmd.Connection).ConnectionString.ToLowerInvariant().Contains("multiplexing=true"));
+            {
+                ((NpgsqlCommand)cmd).Prepare();
+            }
             for (var i = 0; i < cmd.Parameters.Count; i++)
             {
                 cmd.Parameters[i].Value = parameters[ordinals[i]].Value;

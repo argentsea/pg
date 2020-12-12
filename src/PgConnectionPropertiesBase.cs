@@ -34,7 +34,7 @@ namespace ArgentSea.Pg
         private int? _maxAutoPrepare = null;
         private int? _maxPoolSize = null;
         private int? _minPoolSize = null;
-        private bool? _multiplexing = true;
+        private bool? _multiplexing = null;
         private bool? _noResetOnClose = null;
         private string _options = null;
         private string _passfile = null;
@@ -481,7 +481,7 @@ namespace ArgentSea.Pg
         }
 
         /// <summary>
-        /// Enables multiplexing, which allows more efficient use of connections. Defaults to true.
+        /// Enables multiplexing, which allows more efficient use of connections. Defaults to false.
         /// </summary>
         public bool? Multiplexing
         {
