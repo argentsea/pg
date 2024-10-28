@@ -44,10 +44,10 @@ namespace ArgentSea.Pg
             {
                 csb.Username = properties.UserName;
             }
-            if (!(properties.WindowsAuth is null))
-            {
-                csb.IntegratedSecurity = properties.WindowsAuth.Value;
-            }
+            //if (!(properties.WindowsAuth is null))
+            //{
+            //    csb.IntegratedSecurity = properties.WindowsAuth.Value;
+            //}
             var props = (PgConnectionPropertiesBase)properties;
             if (!(props.ApplicationName is null))
             {
@@ -65,14 +65,14 @@ namespace ArgentSea.Pg
             {
                 csb.CheckCertificateRevocation = props.CheckCertificateRevocation.Value;
             }
-            if (!(props.ClientCertificate is null))
-            {
-                csb.ClientCertificate = props.ClientCertificate;
-            }
-            if (!(props.ClientCertificateKey is null))
-            {
-                csb.ClientCertificateKey = props.ClientCertificateKey;
-            }
+            //if (!(props.ClientCertificate is null))
+            //{
+            //    csb.ClientCertificate = props.ClientCertificate;
+            //}
+            //if (!(props.ClientCertificateKey is null))
+            //{
+            //    csb.ClientCertificateKey = props.ClientCertificateKey;
+            //}
             if (!(props.ClientEncoding is null))
             {
                 csb.ClientEncoding = props.ClientEncoding;
@@ -93,10 +93,10 @@ namespace ArgentSea.Pg
             {
                 csb.ConnectionPruningInterval = props.ConnectionPruningInterval.Value;
             }
-            if (!(props.ConvertInfinityDateTime is null))
-            {
-                csb.ConvertInfinityDateTime = props.ConvertInfinityDateTime.Value;
-            }
+            //if (!(props.ConvertInfinityDateTime is null))
+            //{
+            //    csb.ConvertInfinityDateTime = props.ConvertInfinityDateTime.Value;
+            //}
             if (!(props.Database is null))
             {
                 csb.Database = props.Database;
@@ -115,16 +115,16 @@ namespace ArgentSea.Pg
             }
             if (!(props.IncludeErrorDetails is null))
             {
-                csb.IncludeErrorDetails = props.IncludeErrorDetails.Value;
+                csb.IncludeErrorDetail = props.IncludeErrorDetails.Value;
             }
             if (!(props.IncludeRealm is null))
             {
                 csb.IncludeRealm = props.IncludeRealm.Value;
             }
-            if (!(props.InternalCommandTimeout is null))
-            {
-                csb.InternalCommandTimeout = props.InternalCommandTimeout.Value;
-            }
+            //if (!(props.InternalCommandTimeout is null))
+            //{
+            //    csb.InternalCommandTimeout = props.InternalCommandTimeout.Value;
+            //}
             if (!(props.KeepAlive is null))
             {
                 csb.KeepAlive = props.KeepAlive.Value;
@@ -229,10 +229,10 @@ namespace ArgentSea.Pg
             {
                 csb.Timezone = props.Timezone;
             }
-            if (!(props.TrustServerCertificate is null))
-            {
-                csb.TrustServerCertificate = props.TrustServerCertificate.Value;
-            }
+            //if (!(props.TrustServerCertificate is null))
+            //{
+            //    csb.TrustServerCertificate = props.TrustServerCertificate.Value;
+            //}
             //if (!(props.UsePerfCounters is null))
             //{
             //    csb.UsePerfCounters = props.UsePerfCounters.Value;
@@ -249,10 +249,10 @@ namespace ArgentSea.Pg
             {
                 csb.WriteCoalescingBufferThresholdBytes = props.WriteCoalescingBufferThresholdBytes.Value;
             }
-            if (!(props.WriteCoalescingDelayUs is null))
-            {
-                csb.WriteCoalescingDelayUs = props.WriteCoalescingDelayUs.Value;
-            }
+            //if (!(props.WriteCoalescingDelayUs is null))
+            //{
+            //    csb.WriteCoalescingDelayUs = props.WriteCoalescingDelayUs.Value;
+            //}
         }
 
         public string GetConnectionString(ILogger logger)
