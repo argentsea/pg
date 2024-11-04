@@ -1,7 +1,7 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFramework>netstandard2.1</TargetFramework>
+    <TargetFramework>net8.0</TargetFramework>
     <AssemblyName>ArgentSea.Pg</AssemblyName>
     <RootNamespace>ArgentSea.Pg</RootNamespace>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
@@ -16,10 +16,13 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="ArgentSea" Version="1.0.0" />
     <PackageReference Include="Microsoft.Extensions.Configuration" Version="8.0.0" />
-    <PackageReference Include="Microsoft.Extensions.Logging" Version="8.0.0" />
-    <PackageReference Include="Npgsql" Version="8.0.3" />
+    <PackageReference Include="Microsoft.Extensions.Logging" Version="8.0.1" />
+    <PackageReference Include="Npgsql" Version="8.0.5" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\ArgentSea.Shared\src\ArgentSea.csproj" />
   </ItemGroup>
 
 </Project>

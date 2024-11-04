@@ -364,7 +364,7 @@ namespace ArgentSea.Pg
         }
 
 
-        private class CopyModelStep<TModel, TResult> : BatchStep<TResult>where TModel : class, new()
+        private class CopyModelStep<TModel, TResult> : BatchStep<TResult> where TModel : class, new()
         {
             private readonly IList<TModel> _models;
             private readonly string _tableName;
