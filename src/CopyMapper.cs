@@ -146,7 +146,7 @@ namespace ArgentSea.Pg
                 _shardIdDefinition = shardIdDefinition;
                 _recordIdDefinition = recordIdDefinition;
             }
-            protected override async Task<TResult> Execute(short shardId, DbConnection connection, DbTransaction transaction, string connectionName, IDataProviderServiceFactory services, ILogger logger, CancellationToken cancellation)
+            protected override async Task<TResult> ExecuteAsync(short shardId, DbConnection connection, DbTransaction transaction, string connectionName, IDataProviderServiceFactory services, ILogger logger, CancellationToken cancellation)
             {
                 CopyMapper.ValidatePgTableName(_tableName);
                 cancellation.ThrowIfCancellationRequested();
@@ -201,7 +201,7 @@ namespace ArgentSea.Pg
                 _recordIdDefinition = recordIdDefinition;
                 _childIdDefinition = childIdDefinition;
             }
-            protected override async Task<TResult> Execute(short shardId, DbConnection connection, DbTransaction transaction, string connectionName, IDataProviderServiceFactory services, ILogger logger, CancellationToken cancellation)
+            protected override async Task<TResult> ExecuteAsync(short shardId, DbConnection connection, DbTransaction transaction, string connectionName, IDataProviderServiceFactory services, ILogger logger, CancellationToken cancellation)
             {
                 ValidatePgTableName(_tableName);
                 cancellation.ThrowIfCancellationRequested();
@@ -259,7 +259,7 @@ namespace ArgentSea.Pg
                 _childIdDefinition = childIdDefinition;
                 _grandChildIdDefinition = grandChildIdDefinition;
             }
-            protected override async Task<TResult> Execute(short shardId, DbConnection connection, DbTransaction transaction, string connectionName, IDataProviderServiceFactory services, ILogger logger, CancellationToken cancellation)
+            protected override async Task<TResult> ExecuteAsync(short shardId, DbConnection connection, DbTransaction transaction, string connectionName, IDataProviderServiceFactory services, ILogger logger, CancellationToken cancellation)
             {
                 ValidatePgTableName(_tableName);
                 cancellation.ThrowIfCancellationRequested();
@@ -321,7 +321,7 @@ namespace ArgentSea.Pg
                 _grandChildIdDefinition = grandChildIdDefinition;
                 _greatGrandChildIdDefinition = greatGrandChildIdDefinition;
             }
-            protected override async Task<TResult> Execute(short shardId, DbConnection connection, DbTransaction transaction, string connectionName, IDataProviderServiceFactory services, ILogger logger, CancellationToken cancellation)
+            protected override async Task<TResult> ExecuteAsync(short shardId, DbConnection connection, DbTransaction transaction, string connectionName, IDataProviderServiceFactory services, ILogger logger, CancellationToken cancellation)
             {
                 ValidatePgTableName(_tableName);
                 cancellation.ThrowIfCancellationRequested();
@@ -373,7 +373,7 @@ namespace ArgentSea.Pg
                 _models = models;
                 _tableName = tableName;
             }
-            protected override async Task<TResult> Execute(short shardId, DbConnection connection, DbTransaction transaction, string connectionName, IDataProviderServiceFactory services, ILogger logger, CancellationToken cancellation)
+            protected override async Task<TResult> ExecuteAsync(short shardId, DbConnection connection, DbTransaction transaction, string connectionName, IDataProviderServiceFactory services, ILogger logger, CancellationToken cancellation)
             {
                 ValidatePgTableName(_tableName);
                 var tModel = typeof(TModel);
