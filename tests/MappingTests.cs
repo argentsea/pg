@@ -49,10 +49,10 @@ namespace ArgentSea.Pg.Test
               KeyValues = new Dictionary<string, string>() { { "one", "1" }, { "two", "2" } },
               CleanOutStuff = new TimeSpan(48, 0, 0),
                 GarbageCollectorNotificationStatus = GCNotificationStatus.NotApplicable,
-                RecordKey = new ShardKey<int>('x', (short)2, 1234),
-                RecordChild = new ShardKey<int, short>('y', (short)3, 4567, (short)-23456),
-                DataShard2 = new ShardKey<long>('z', (short)22, 123432L),
-                ChildShard2 = new ShardKey<int, string>('!', (short)255, 255, "testing123")
+                RecordKey = new ShardKey<int>((short)2, 1234),
+                RecordChild = new ShardKey<int, short>((short)3, 4567, (short)-23456),
+                DataShard2 = new ShardKey<long>((short)22, 123432L),
+                ChildShard2 = new ShardKey<int, string>((short)255, 255, "testing123")
             };
             var dbLogger = Substitute.For<Microsoft.Extensions.Logging.ILogger>();
             var prms = new ParameterCollection();
@@ -128,8 +128,8 @@ namespace ArgentSea.Pg.Test
             ((NpgsqlParameter)prms["DataRecordId"]).Value.Should().Be(smv.RecordKey.Value.RecordId, "that is the assigned value");
             ((NpgsqlParameter)prms["ParentRecordId"]).Value.Should().Be(smv.RecordChild.RecordId, "that is the assigned value");
             ((NpgsqlParameter)prms["ChildRecordId"]).Value.Should().Be(smv.RecordChild.ChildId, "that is the assigned value");
-            ((NpgsqlParameter)prms["ChildShard2"]).Value.Should().Be(smv.ChildShard2.Value.Key.ShardId, "that is the assigned value");
-            ((NpgsqlParameter)prms["ParentRecord2Id"]).Value.Should().Be(smv.ChildShard2.Value.Key.RecordId, "that is the assigned value");
+            ((NpgsqlParameter)prms["ChildShard2"]).Value.Should().Be(smv.ChildShard2.Value.ShardId, "that is the assigned value");
+            ((NpgsqlParameter)prms["ParentRecord2Id"]).Value.Should().Be(smv.ChildShard2.Value.RecordId, "that is the assigned value");
             ((NpgsqlParameter)prms["ChildRecord2Id"]).Value.Should().Be(smv.ChildShard2.Value.ChildId, "that is the assigned value");
         }
         [Fact]
@@ -485,20 +485,16 @@ namespace ArgentSea.Pg.Test
             result.CleanOutStuff.Should().Be(new TimeSpan(3, 4, 5), "that was the output parameter value");
             result.GarbageCollectorNotificationStatus.Should().Be(GCNotificationStatus.Failed, "that was the output parameter value");
 
-            result.RecordKey.Value.Origin.Should().Be('x', "that is the data origin value");
             result.RecordKey.Value.ShardId.Should().Be(6, "that was the output parameter value");
             result.RecordKey.Value.RecordId.Should().Be(4, "that was the output parameter value");
 
-            result.RecordChild.Key.Origin.Should().Be('y', "that is the data origin value");
-            result.RecordChild.Key.ShardId.Should().Be(15, "that was the output parameter value");
-            result.RecordChild.Key.RecordId.Should().Be(5, "that was the output parameter value");
+            result.RecordChild.ShardId.Should().Be(15, "that was the output parameter value");
+            result.RecordChild.RecordId.Should().Be(5, "that was the output parameter value");
             result.RecordChild.ChildId.Should().Be(6, "that was the output parameter value");
 
-            result.DataShard2.Origin.Should().Be('A', "that is the data origin value");
             result.DataShard2.ShardId.Should().Be(5, "that is the value of the current shard");
             result.DataShard2.RecordId.Should().Be(long.MaxValue, "that is the record id");
 
-            result.ChildShard2.Value.Origin.Should().Be('B', "that is the data origin value");
             result.ChildShard2.Value.ShardId.Should().Be(255, "that is the value of the current shard");
             result.ChildShard2.Value.RecordId.Should().Be(12345, "that is the record id");
             result.ChildShard2.Value.ChildId.Should().Be("Test123", "that is the child id");
@@ -634,7 +630,7 @@ namespace ArgentSea.Pg.Test
         //        RecordKey = new ShardKey<short, int>(new DataOrigin('?'), (short)254, int.MaxValue),
         //        RecordChild = new ShardChild<short, int, long>(new DataOrigin('!'), (short)0, 35, long.MinValue),
         //        DataShard2 = new ShardKey<short, long>(new DataOrigin('*'), (short)0, 123L),
-        //        ChildShard2 = new Nullable<ShardChild<short, int, string>>(new ShardChild<short, int, string>(new DataOrigin('@'), (short)200, (int)1234, "testing..."))
+        //        ChildShard2 = new Nullable<ShardChild<short, int, string>>(new ShardChild<short, int, string>((short)200, (int)1234, "testing..."))
         //    };
         //    var dbLogger = Substitute.For<Microsoft.Extensions.Logging.ILogger>();
 
@@ -825,10 +821,10 @@ namespace ArgentSea.Pg.Test
                 KeyValues = new Dictionary<string, string>() { { "one", "1" }, { "two", "2" } },
                 CleanOutStuff = new TimeSpan(4,5,6),
                 GarbageCollectorNotificationStatus = GCNotificationStatus.NotApplicable,
-                RecordKey = new Nullable<ShardKey<int>>(new ShardKey<int>('x', (short)2, 1234)),
-                RecordChild = new ShardKey<int, short>('y', (short)3, 4567, (short)-23456),
-                DataShard2 = new ShardKey<long>('A', (short)32, -1234L),
-                ChildShard2 = new ShardKey<int, string>('B', (short)3, -4567, "testing...")
+                RecordKey = new Nullable<ShardKey<int>>(new ShardKey<int>((short)2, 1234)),
+                RecordChild = new ShardKey<int, short>((short)3, 4567, (short)-23456),
+                DataShard2 = new ShardKey<long>((short)32, -1234L),
+                ChildShard2 = new ShardKey<int, string>((short)3, -4567, "testing...")
             };
 
             var rdr = Substitute.For<System.Data.Common.DbDataReader>();
